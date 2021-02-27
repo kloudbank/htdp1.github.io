@@ -1,0 +1,19 @@
+{
+  "name": "htdp1-github-pages",
+  "version": "0.0.1",
+  "description": "htdp1 github pages",
+  "main": "index.js",
+  "authors": {
+    "name": "noisonnoiton",
+    "email": "noisonnoiton@gmail.com"
+  },
+  "repository": "https://github.com/htdp1/htdp1.github.io.git/",
+  "scripts": {
+    "dev": "vuepress dev src --port=6400",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  }
+}
