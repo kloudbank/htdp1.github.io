@@ -42,8 +42,8 @@ module.exports = {
         link: '/config/'
       },
       {
-        text: 'Test',
-        link: '/test/'
+        text: 'AWS',
+        link: '/aws/'
       }
     ],
     sidebar: {
@@ -57,13 +57,21 @@ module.exports = {
           ]
         }
       ],
-      '/test/': [
+      '/aws/': [
         {
-          title: 'Test',
+          title: 'AWS',
           collapsable: false,
           children: [
             '',
-            'aws',
+          ]
+        },
+        {
+          title: 'Resource',
+          collapsable: false,
+          children: [
+            'eks',
+            'alb',
+            'ebs-csi',
           ]
         }
       ],
