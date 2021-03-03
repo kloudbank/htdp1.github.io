@@ -2,32 +2,32 @@
   
 @startuml
 "client"
-node "EKS (ns: session-dev/prd)" as EKS {
+node "EKS (ns: session-dev/prd)" as eks {
   (ingress)
-  node "mariadb" {
+  node "Redis" as redis {
+    database "session"
+    database "cache"
+  }
+  node "MariaDB" as mariadb {
     database "salaries"
     database "departments"
     database "employees"
   }
-  node "redis" {
-    database "session"
-    database "cache"
-  }
-  node "REST API" as REST {
+  node "API" as api {
     [salary-node] as salary
     [dept-spring] as dept
     [emp-spring] as emp
   }
 }
-ingress --> emp
-ingress --> dept
-ingress --> salary
-client -> ingress
+client -right-> ingress
+ingress -right-> emp
+ingress -right-> dept
+ingress -right-> salary
 emp <--> employees
 dept <--> departments
 salary <--> salaries
 emp <--> session
 cache <--> dept
-salary - emp
-emp - dept
+salary -up- dept
+dept -up- emp
 @enduml
