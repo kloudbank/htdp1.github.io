@@ -71,7 +71,6 @@ module.exports = {
           children: [
             'eks',
             'alb',
-            'ebs-csi',
           ]
         }
       ],
