@@ -1,20 +1,10 @@
 const { description } = require('../../../package')
 
 module.exports = {
-  /**
-   * Ref：https://v1.vuepress.vuejs.org/config/#title
-   */
+
   title: 'HTDP1',
-  /**
-   * Ref：https://v1.vuepress.vuejs.org/config/#description
-   */
   description: 'htdp1 github pages',
 
-  /**
-   * Extra tags to be injected to the page HTML `<head>`
-   *
-   * ref：https://v1.vuepress.vuejs.org/config/#head
-   */
   head: [
     ['meta', { name: 'theme-color', content: '#3eaf7c' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
@@ -44,6 +34,10 @@ module.exports = {
       {
         text: 'AWS',
         link: '/aws/'
+      },
+      {
+        text: 'Sprint#1',
+        link: '/sp1/'
       }
     ],
     sidebar: {
@@ -74,6 +68,16 @@ module.exports = {
           ]
         }
       ],
+      '/sp1/': [
+        {
+          title: 'Sprint#1',
+          collapsable: false,
+          children: [
+            '',
+            'session',
+          ]
+        },
+      ]
     }
   },
 
@@ -84,5 +88,13 @@ module.exports = {
     '@vuepress/plugin-back-to-top',
     '@vuepress/plugin-medium-zoom',
     '@dovyp/vuepress-plugin-clipboard-copy',
-  ]
+  ],
+
+  markdown: {
+    extendMarkdown: md => {
+      md.set({ breaks: true })
+      md.use(require('markdown-it-plantuml'))
+    }
+  }
+
 }
