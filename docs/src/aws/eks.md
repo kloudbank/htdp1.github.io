@@ -1,11 +1,11 @@
 # Amazon EKS Cluster
 
-## Architecture 구성도
+## AWS Resource 구성도
 ![](../../images/eks-vpc-stack.png)
 
-## Create EKS Cluster using CloudFormation stack
+## Create EKS Cluster
 
-### 1. Create vpc stack
+### 1. Create VPC stack using Cloud Formation stack
 ```
 aws cloudformation create-stack \
   --stack-name <stack name> \
@@ -176,7 +176,14 @@ aws iam attach-role-policy \
 In the Navigation Panel, Configuration > Compute  
 <https://ap-northeast-2.console.aws.amazon.com/eks/home?region=ap-northeast-2#/clusters/htdp1-cluster>
 
-### 11. Metric Server Deploy
+
+
+## Metric Server
+
+Amazon EKS Cluster에는 기본적으로 Metric Server가 배포되어 있지 않아서 추가 배포가 필요함  
+<https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/metrics-server.html>
+
+### Metric Server Deploy
 ```
 $ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 
@@ -188,9 +195,14 @@ ebs-csi-controller             2/2     2            2           2d17h
 metrics-server                 1/1     1            0           17s
 ```
 
-### 12. EBS Container Storage Interface Deploy
-- CSI Driver Deploy Manual.   
-: oidc key 입력 시, domain region 설정 주의.  
+## EBS CSI Driver
+
+### EBS Container Storage Interface
+- Amazon EBS Volume의 수명 주기 관리를 허용하도록 하는 Interface
+- Persistent Volume 에 Amazon EBS 를 활용하기 위하여 배포
+
+### CSI Driver Deploy Manual
+- oidc key 입력 시, domain region 설정 주의.  
 <https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/ebs-csi.html>
 - Github Repository 참조  
 <https://github.com/kubernetes-sigs/aws-ebs-csi-driver>
