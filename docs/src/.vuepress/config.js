@@ -24,14 +24,6 @@ module.exports = {
     lastUpdated: false,
     nav: [
       {
-        text: 'Guide',
-        link: '/guide/',
-      },
-      {
-        text: 'Config',
-        link: '/config/'
-      },
-      {
         text: 'AWS',
         link: '/aws/'
       },
@@ -41,16 +33,6 @@ module.exports = {
       }
     ],
     sidebar: {
-      '/guide/': [
-        {
-          title: 'Guide',
-          collapsable: false,
-          children: [
-            '',
-            'using-vue',
-          ]
-        }
-      ],
       '/aws/': [
         {
           title: 'AWS',

@@ -1,4 +1,4 @@
-# ELB
+# Amazon ELB
 
 ## Application Load Balancer
 
