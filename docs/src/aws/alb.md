@@ -3,7 +3,7 @@
 ## Application Load Balancer
 
 - AWS opensource blog
-> https://aws.amazon.com/ko/blogs/opensource/kubernetes-ingress-aws-alb-ingress-controller/
+> <https://aws.amazon.com/ko/blogs/opensource/kubernetes-ingress-aws-alb-ingress-controller/>
 
 <img src="https://d2908q01vomqb2.cloudfront.net/ca3512f4dfa95a03169c5a670a4c91a19b3077b4/2018/11/20/image1-1.png" width="800px" height="550px" title="px(픽셀) 크기 설정" alt="RubberDuck"></img><br/>
 
