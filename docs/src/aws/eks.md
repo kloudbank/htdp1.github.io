@@ -206,3 +206,49 @@ metrics-server                 1/1     1            0           17s
 <https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/ebs-csi.html>
 - Github Repository 참조  
 <https://github.com/kubernetes-sigs/aws-ebs-csi-driver>
+
+
+## Kubernetes Dashboard
+
+### Kubernetes Dashboard Deploy
+- Deploy Manual
+<https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/dashboard-tutorial.html>
+- github repository
+<https://github.com/kubernetes/dashboard>
+
+### 접속 방법
+
+#### 1. eks-admin service account에 대한 인증 token 조회
+```
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep eks-admin | awk '{print $1}')
+```
+- result
+```
+Name:         eks-admin-token-tbcpj
+Namespace:    kube-system
+Labels:       <none>
+Annotations:  kubernetes.io/service-account.name: eks-admin
+              kubernetes.io/service-account.uid: 9d98ae6a-9697-42a3-a1af-2a7eda64e68a
+
+Type:  kubernetes.io/service-account-token
+
+Data
+====
+ca.crt:     1025 bytes
+namespace:  11 bytes
+token: <authentication_token>
+```
+
+#### 2. Start Proxy
+```
+kubectl proxy
+```
+
+#### 3. Access the dashboard endpoint
+<http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#!/login>
+
+#### 4. Token 입력 및 Login
+<authentication_token> 을 복사하여, token에 입력하여 접속
+
+| <small>NOTE : *Dashboard 에 지표가 표시되기까지 몇 분이 걸릴 수 있습니다.*</small>
+---

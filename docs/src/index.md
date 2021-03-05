@@ -3,7 +3,7 @@ home: true
 heroImage: 
 tagline: htdp1 github pages
 actionText: Init →
-actionLink: /guide/
+actionLink: /aws/
 features:
 - title: Feature 1 Title
   details: Feature 1 Description
