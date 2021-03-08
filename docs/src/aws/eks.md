@@ -252,3 +252,41 @@ kubectl proxy
 
 | <small>NOTE : *Dashboard 에 지표가 표시되기까지 몇 분이 걸릴 수 있습니다.*</small>
 ---
+
+
+
+## Prometheus + Grafana
+
+### Prometheus Deploy
+- Helm으로 Prometheus를 EKS Cluster에 배포
+<https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/prometheus.html>
+
+- Helm으로 Grafana를 EKS Cluster에 배포
+<https://awskrug.github.io/eks-workshop/monitoring/deploy-grafana/>
+
+```
+$ kubectl get po -n prometheus
+
+NAME                                             READY   STATUS    RESTARTS   AGE
+prometheus-alertmanager-6b8d9d55c4-76295         2/2     Running   0          7h55m
+prometheus-kube-state-metrics-6bfcd6f648-hlzn5   1/1     Running   0          7h55m
+prometheus-node-exporter-fj9mh                   1/1     Running   0          7h55m
+prometheus-node-exporter-nmjcv                   1/1     Running   0          7h55m
+prometheus-node-exporter-w9gjz                   1/1     Running   0          7h55m
+prometheus-node-exporter-zg6sq                   1/1     Running   0          73m
+prometheus-pushgateway-dcc654486-czmm7           1/1     Running   0          7h55m
+prometheus-server-6f5f6f4859-pc7cw               2/2     Running   0          7h55m
+
+
+$ kubectl get po -n grafana
+
+NAME                      READY   STATUS    RESTARTS   AGE
+grafana-b8b886687-9zvh8   1/1     Running   0          7h29m
+```
+
+- Grafana Dashboard 구성 json 참조
+  - EKS Node Monitoring
+  <https://github.com/htdp1/session-k8s/blob/main/dev/monitoring/grafana/Grafana_EKS_Node_DashBoard.json>
+  - EKS Pod Monitoring
+  <https://github.com/htdp1/session-k8s/blob/main/dev/monitoring/grafana/EKS_Pod_DashBoard.json>
+
