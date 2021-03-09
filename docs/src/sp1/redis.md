@@ -1,4 +1,4 @@
-# Redis 성능 Test
+# Redis 성능 측정 Test
 
 ## Prerequisite
 - EKS에 nGrider Controller Deploy
@@ -46,6 +46,8 @@ Redis       | 0.3 / 0.5 | 512Gi
 
 - nGrinder Management Console에서 Test Result 조회 가능
 <http://k8s-sessiond-ngrinder-aa75db0c27-1345478526.ap-northeast-2.elb.amazonaws.com/>
+
+![](../../images/ngrinder-test-result.png)
 
 ### Cache용 Redis SET Test
 
