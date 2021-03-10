@@ -1,4 +1,4 @@
-# Redis 성능 측정 Test
+# Redis 성능 측정
 
 ## Prerequisite
 - EKS에 nGrider Controller Deploy
@@ -36,7 +36,54 @@ LPOP: 3165.36 requests per second
 ```
 
 ## nGrinder
+
 ### Environment
+
+- Test Architecture  
+
+@startuml
+"Tester" as client
+node "EKS" as eks {
+  node "NS: session-dev" as dev {
+    node "Database" as db {
+      database "mariadb"
+      database "redis-cache" as cache
+      database "redis-aof" as aof
+      database "redis-always" as always
+    }
+    node "Spring API" as api {
+      [dept-mariadb] as dept1
+      [dept-redis] as dept
+      [dept-redis-aof] as deptaof
+      [dept-redis-always] as deptalways
+    }
+    node "nGrinder" as ngrinder {
+      [contoller] as control
+      [agent1] as agent1
+      [agent2] as agent2
+    }
+  }
+  node "NS: Prometheus" as prom {
+
+  }
+  node "NS: Grafana" as graf {
+
+  }
+}
+client -right-> control
+control -down-> agent1
+control -down-> agent2
+agent1 --> api : GET/POST
+agent2 --> api : GET/POST
+dept1 -down-> mariadb
+dept -> cache
+deptaof -> aof
+deptalways -> always
+dev -up- prom
+prom -left-> graf
+client <- graf
+@enduml
+
 - TPS 3000 이상의 성능이 나오는 적정 환경에서 수행
 - nGrinder Agent 2ea
 
@@ -51,9 +98,6 @@ Redis       | 0.3 / 0.5 | 0.5Gi
 <http://k8s-sessiond-ngrinder-aa75db0c27-1345478526.ap-northeast-2.elb.amazonaws.com/>
 
 ![](../../images/ngrinder-test-result.png)
-
-
-
 
 ### Test Result
 
