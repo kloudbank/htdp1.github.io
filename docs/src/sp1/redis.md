@@ -37,6 +37,7 @@ LPOP: 3165.36 requests per second
 
 ## nGrinder Test Result
 - TPS 3000 이상의 성능이 나오는 적정 환경에서 수행
+- nGrinder Agent 2ea
 
 Container   | CPU       | Memory
 ------------|-----------|-----------
@@ -51,10 +52,6 @@ Redis       | 0.3 / 0.5 | 512Gi
 
 ### Cache용 Redis SET Test
 
-#### redis-cache 의 EBS Volume iops 400 / 다른 redis는 iops 3000 였음,, 
-
-- iops 400
-
 vUser   | Threshold | Replicas  | TPS | Err.   | Comment
 --------|-----------|-----------|-----|--------|-------------
 1000    | 2min   | 1 | **3200** | 0.0% | 
@@ -63,17 +60,6 @@ vUser   | Threshold | Replicas  | TPS | Err.   | Comment
 4000    | 2min   | 1 | 2500 | 1.3% | 
 3000    | 2min   | 2 | 2300 | 0.1% | 성능 저하 구간에서 replicas=2<br/>pod 여러 개일 경우, 부하 초기에 분산 지연
 3000    | 5min   | 2 | **3350** | 0.0% | TPS 분포도 안정될 때까지 측정시, TPS 증가
-
-- iops 3000 (수행 예정)
-
-vUser   | Threshold | Replicas  | TPS | Err.   | Comment
---------|-----------|-----------|-----|--------|-------------
-1000    | 2min   | 1 |  | % | 
-2000    | 2min   | 1 |  | % | 
-3000    | 2min   | 1 |  | % | 성능 저하 구간으로 판단
-4000    | 2min   | 1 |  | % | 
-6000    | 2min   | 1 |  | % | 
-3000    | 5min   | 2 |  | % | 
 
 ### AOF Redis SET Test (fsync: everysec)
 
