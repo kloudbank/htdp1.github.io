@@ -110,7 +110,6 @@ vUser   | rows    | Threshold | Replicas  | TPS |   Err.    | Comment
 
 Condition |            | TPS<br><small>(max cpu)</small> |  |   |   |  
 ----------|----        |---------------------------------|--|---|---|
-
 **vUser** | **repl.**  |  **mariadb**   |   **redis**       | **redis AOF<br>everysec** | **redis AOF<br>always**
 1000      | 1          |   1550 (980m)  |  **3170 (150m)**  |   2410 (150m)             |     2300 (70m)          
 2000      | 1          |   1530 (980m)  |  **3270 (160m)**  |   2310 (130m)             |     2200 (100m)          
