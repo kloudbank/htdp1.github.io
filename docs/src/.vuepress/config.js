@@ -58,7 +58,8 @@ module.exports = {
             '',
             'arch',
             'redis',
-          ]
+          ],
+          sidebarDepth: 2
         },
       ]
     }

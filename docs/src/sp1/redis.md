@@ -9,7 +9,7 @@
 - Prometheus, Grafana 를 통한 EKS Cluster Monitoring
 <http://k8s-grafana-grafana-6380e9e544-711314603.ap-northeast-2.elb.amazonaws.com/?orgId=1>
 
-## Redis-Benchmark Test Result
+## Redis-Benchmark
 
 - aof:no
 ```
@@ -35,7 +35,8 @@ LPUSH: 3165.06 requests per second
 LPOP: 3165.36 requests per second
 ```
 
-## nGrinder Test Result
+## nGrinder
+### Environment
 - TPS 3000 이상의 성능이 나오는 적정 환경에서 수행
 - nGrinder Agent 2ea
 
@@ -54,7 +55,9 @@ Redis       | 0.3 / 0.5 | 0.5Gi
 
 
 
-### 1. GET Method Call Result (mariadb vs redis cache(rdb/aof/fsync mode)
+### Test Result
+
+#### 1. GET Method Call Result (mariadb vs redis cache(rdb/aof/fsync mode)
 
 Condition        |   |    | TPS<br><small>(max cpu)</small> |  |   |   |  
 -----------------|---|----|---------------------------------|--|---|---|
@@ -65,7 +68,7 @@ Condition        |   |    | TPS<br><small>(max cpu)</small> |  |   |   |
 3000      | 10       | 2          |    3270 (480m)   |    3310 (90m)  |   3230  (120m)            |     3300 (80m)         
 1000      | 1000     | 1          |    180  (110m)   |    1620 (130m) |   1560  (80m)             |     1580 (80m)         
 
-#### 1-1. Mariadb Select Test
+##### 1-1. Mariadb Select Test
 
 vUser   | rows    | Threshold | Replicas  | TPS |   Err.    | Comment
 --------|---------|-----------|-----------|-----|--------   |-------------
@@ -75,7 +78,7 @@ vUser   | rows    | Threshold | Replicas  | TPS |   Err.    | Comment
 3000    | 10      | 5min      | 2         | 3270     | 0.0% | pod 증설, *2210 -> 3270*
 1000    | 1000    | 2min      | 1         | **180**  | 0.0% | rows 증가, *2600 -> 180*
 
-#### 1-2. Redis GET Test
+##### 1-2. Redis GET Test
 
 vUser   | rows    | Threshold | Replicas  | TPS |   Err.    | Comment
 --------|---------|-----------|-----------|-----|--------   |-------------
@@ -85,7 +88,7 @@ vUser   | rows    | Threshold | Replicas  | TPS |   Err.    | Comment
 3000    | 10      | 5min      | 2         | 3310     | 0.0% | pod 증설, *2310 -> 3320*
 1000    | 1000    | 2min      | 1         | **1620** | 0.0% | rows 증가, *3630 -> 1620*
 
-#### 1-3. AOF Redis GET Test (fsync: everysec)
+##### 1-3. AOF Redis GET Test (fsync: everysec)
 
 vUser   | rows    | Threshold | Replicas  | TPS |   Err.    | Comment
 --------|---------|-----------|-----------|-----|--------   |-------------
@@ -95,7 +98,7 @@ vUser   | rows    | Threshold | Replicas  | TPS |   Err.    | Comment
 3000    | 10      | 5min      | 2         | 3230     | 0.0% | pod 증설, *2440 -> 3230*
 1000    | 1000    | 2min      | 1         | **1560** | 0.0% | rows 증가, *3600 -> 1560*
 
-#### 1-4. AOF Redis GET Test (fsync: always)
+##### 1-4. AOF Redis GET Test (fsync: always)
 
 vUser   | rows    | Threshold | Replicas  | TPS |   Err.    | Comment
 --------|---------|-----------|-----------|-----|--------   |-------------
@@ -106,7 +109,7 @@ vUser   | rows    | Threshold | Replicas  | TPS |   Err.    | Comment
 1000    | 1000    | 2min      | 1         | **1580** | 0.0% | rows 증가, *3650 -> 1580*
 
 
-### 2. POST Method Call Test
+#### 2. POST Method Call Test
 
 Condition |            | TPS<br><small>(max cpu)</small> |  |   |   |  
 ----------|----        |---------------------------------|--|---|---|
@@ -117,7 +120,7 @@ Condition |            | TPS<br><small>(max cpu)</small> |  |   |   |
 3000      | 2          |   1940 (970m)  |  **3350 (220m)**  |   3260 (270m)             |     3140 (180m)          
 
 
-#### 2-1. Mariadb Insert Test
+##### 2-1. Mariadb Insert Test
 
 vUser   | Threshold | Replicas  | TPS | Err.   | Comment
 --------|-----------|-----------|-----|--------|-------------
@@ -127,7 +130,7 @@ vUser   | Threshold | Replicas  | TPS | Err.   | Comment
 4000    | 2min      | 1         | 1350     | 1.2% | 
 3000    | 5min      | 2         | **1940** | 0.1% | Pod 증설, *1370 -> 1940* 
 
-#### 2-2. Redis SET Test
+##### 2-2. Redis SET Test
 
 vUser   | Threshold | Replicas  | TPS | Err.   | Comment
 --------|-----------|-----------|-----|--------|-------------
@@ -138,7 +141,7 @@ vUser   | Threshold | Replicas  | TPS | Err.   | Comment
 3000    | 2min      | 2         | 2300     | 0.1% | 성능 저하 구간에서 replicas=2<br/>pod 여러 개일 경우, 부하 초기에 분산 지연
 3000    | 5min      | 2         | **3350** | 0.0% | Pod 증설, *2840 -> 3350*
 
-#### 2-3. AOF Redis SET Test (fsync: everysec)
+##### 2-3. AOF Redis SET Test (fsync: everysec)
 
 vUser   | Threshold | Replicas  | TPS | Err.   | Comment
 --------|-----------|-----------|-----|--------|------------
@@ -149,7 +152,7 @@ vUser   | Threshold | Replicas  | TPS | Err.   | Comment
 6000    | 2min      | 1         | 2700     | 2.6% | Error 발생 시, TPS 측정이 다소 부정확한 것으로 보임
 3000    | 5min      | 2         | **3260** | 0.0% | Pod 증설, *2100 -> 3260*
 
-#### 2-4. AOF Redis SET Test (fsync: always)
+##### 2-4. AOF Redis SET Test (fsync: always)
 
 vUser   | Threshold | Replicas  | TPS | Err.   | Comment
 --------|-----------|-----------|-----|--------|------------
