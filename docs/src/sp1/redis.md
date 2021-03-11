@@ -99,9 +99,10 @@ Redis       | 0.3 / 0.5 | 0.5Gi
 
 ![](../../images/ngrinder-test-result.png)
 
-### Test Result
+### Redis GET
+- MariaDB departments 테이블 cache result를 가져오는 Spring Boot API 호출 (기본 10rows)
 
-#### 1. GET Method Call Result (mariadb vs redis cache(rdb/aof/fsync mode)
+#### GET Method Call Result
 
 Condition        |   |    | TPS<br><small>(max cpu)</small> |  |   |   |  
 -----------------|---|----|---------------------------------|--|---|---|
@@ -112,7 +113,7 @@ Condition        |   |    | TPS<br><small>(max cpu)</small> |  |   |   |
 3000      | 10       | 2          |    3270 (480m)   |    3310 (90m)  |   3230  (120m)            |     3300 (80m)         
 1000      | 1000     | 1          |    180  (110m)   |    1620 (130m) |   1560  (80m)             |     1580 (80m)         
 
-##### 1-1. Mariadb Select Test
+##### 1. Mariadb Select Test
 
 vUser   | rows    | Threshold | Replicas  | TPS |   Err.    | Comment
 --------|---------|-----------|-----------|-----|--------   |-------------
@@ -122,7 +123,7 @@ vUser   | rows    | Threshold | Replicas  | TPS |   Err.    | Comment
 3000    | 10      | 5min      | 2         | 3270     | 0.0% | pod 증설, *2210 -> 3270*
 1000    | 1000    | 2min      | 1         | **180**  | 0.0% | rows 증가, *2600 -> 180*
 
-##### 1-2. Redis GET Test
+##### 2. Redis GET Test
 
 vUser   | rows    | Threshold | Replicas  | TPS |   Err.    | Comment
 --------|---------|-----------|-----------|-----|--------   |-------------
@@ -132,7 +133,7 @@ vUser   | rows    | Threshold | Replicas  | TPS |   Err.    | Comment
 3000    | 10      | 5min      | 2         | 3310     | 0.0% | pod 증설, *2310 -> 3320*
 1000    | 1000    | 2min      | 1         | **1620** | 0.0% | rows 증가, *3630 -> 1620*
 
-##### 1-3. AOF Redis GET Test (fsync: everysec)
+##### 3. AOF Redis GET Test (fsync: everysec)
 
 vUser   | rows    | Threshold | Replicas  | TPS |   Err.    | Comment
 --------|---------|-----------|-----------|-----|--------   |-------------
@@ -142,7 +143,7 @@ vUser   | rows    | Threshold | Replicas  | TPS |   Err.    | Comment
 3000    | 10      | 5min      | 2         | 3230     | 0.0% | pod 증설, *2440 -> 3230*
 1000    | 1000    | 2min      | 1         | **1560** | 0.0% | rows 증가, *3600 -> 1560*
 
-##### 1-4. AOF Redis GET Test (fsync: always)
+##### 4. AOF Redis GET Test (fsync: always)
 
 vUser   | rows    | Threshold | Replicas  | TPS |   Err.    | Comment
 --------|---------|-----------|-----------|-----|--------   |-------------
@@ -152,8 +153,10 @@ vUser   | rows    | Threshold | Replicas  | TPS |   Err.    | Comment
 3000    | 10      | 5min      | 2         | 3300     | 0.0% | pod 증설, *2370 -> 3300*
 1000    | 1000    | 2min      | 1         | **1580** | 0.0% | rows 증가, *3650 -> 1580*
 
+### Redis SET
+- MariaDB departments 테이블의 1 row와 동일한 규격의 Data를 Redis에 SET하는 API를 호출
 
-#### 2. POST Method Call Test
+#### POST Method Call Result
 
 Condition |            | TPS<br><small>(max cpu)</small> |  |   |   |  
 ----------|----        |---------------------------------|--|---|---|
@@ -164,7 +167,7 @@ Condition |            | TPS<br><small>(max cpu)</small> |  |   |   |
 3000      | 2          |   1940 (970m)  |  **3350 (220m)**  |   3260 (270m)             |     3140 (180m)          
 
 
-##### 2-1. Mariadb Insert Test
+##### 1. Mariadb Insert Test
 
 vUser   | Threshold | Replicas  | TPS | Err.   | Comment
 --------|-----------|-----------|-----|--------|-------------
@@ -174,7 +177,7 @@ vUser   | Threshold | Replicas  | TPS | Err.   | Comment
 4000    | 2min      | 1         | 1350     | 1.2% | 
 3000    | 5min      | 2         | **1940** | 0.1% | Pod 증설, *1370 -> 1940* 
 
-##### 2-2. Redis SET Test
+##### 2. Redis SET Test
 
 vUser   | Threshold | Replicas  | TPS | Err.   | Comment
 --------|-----------|-----------|-----|--------|-------------
@@ -185,7 +188,7 @@ vUser   | Threshold | Replicas  | TPS | Err.   | Comment
 3000    | 2min      | 2         | 2300     | 0.1% | 성능 저하 구간에서 replicas=2<br/>pod 여러 개일 경우, 부하 초기에 분산 지연
 3000    | 5min      | 2         | **3350** | 0.0% | Pod 증설, *2840 -> 3350*
 
-##### 2-3. AOF Redis SET Test (fsync: everysec)
+##### 3. AOF Redis SET Test (fsync: everysec)
 
 vUser   | Threshold | Replicas  | TPS | Err.   | Comment
 --------|-----------|-----------|-----|--------|------------
@@ -196,7 +199,7 @@ vUser   | Threshold | Replicas  | TPS | Err.   | Comment
 6000    | 2min      | 1         | 2700     | 2.6% | Error 발생 시, TPS 측정이 다소 부정확한 것으로 보임
 3000    | 5min      | 2         | **3260** | 0.0% | Pod 증설, *2100 -> 3260*
 
-##### 2-4. AOF Redis SET Test (fsync: always)
+##### 4. AOF Redis SET Test (fsync: always)
 
 vUser   | Threshold | Replicas  | TPS | Err.   | Comment
 --------|-----------|-----------|-----|--------|------------
@@ -206,3 +209,36 @@ vUser   | Threshold | Replicas  | TPS | Err.   | Comment
 4000    | 2min      | 1         | 2300     | 1.4% | Error 발생 시, TPS 측정이 다소 부정확한 것으로 보임
 6000    | 2min      | 2         | 2300     | 9.9% | Error 발생 시, TPS 측정이 다소 부정확한 것으로 보임
 3000    | 5min      | 2         | **3140** | 0.0% | Pod 증설, *1900 -> 3140*
+
+
+### AOF everysec vs always
+
+- Redis Persistence 설명 참고
+<http://redisgate.kr/redis/configuration/persistence.php>
+- 위의 benchmark 및 nGrinder 부하 테스트 결과,
+  Redis Instance의 Resource가 안정적으로 유지되는 상태에서는, 데이터 저장 시에도 성능에서는 큰 차이를 보이지 않음
+  - <u>*저장 시의 성능 차이를 확인하기 위하여, 극단적인 부하 테스트 수행*</u>
+
+#### 부하 테스트 결과
+
+- Environment
+  - cpu 100% 사용되도록 Resource 최소화
+  - 기존 SET Data 1row의 Size 100 증가
+  - 데이터 저장을 위해 많은 메모리를 사용할 수 있도록 증가
+
+Container   | appendfsync | CPU       | Memory
+------------|-------------|-----------|-----------
+redis-cache-aof   | everysec    | 0.1 / 0.1   | 4Gi
+redis-cache-always   | always      | 0.1 / 0.1   | 4Gi
+
+- Memory Usage
+  - everysec 으로 설정된 redis가 약 두배 가량의 memory를 더 점유함  
+![](../../images/redis-memory-201103111642.png)
+
+- AOF Redis SET Test
+
+vUser   | Threshold | Replicas  | TPS | Memory(max) | Err.   | Comment
+--------|-----------|-----------|-----|-------------|--------|------------
+1000    | 10min      | 1         | **999** | 1747Mi | 0.0%   |
+1000    | 10min      | 1         | 618     | 1028Mi | 2.0%   |Error 다수 발생<br>(7,228 / 359,730)
+
