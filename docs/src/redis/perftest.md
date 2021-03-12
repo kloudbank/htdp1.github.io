@@ -221,7 +221,7 @@ vUser   | Threshold | Replicas  | TPS | Err.   | Comment
   Redis Instance의 Resource가 안정적으로 유지되는 상태에서는, 데이터 저장 시에도 성능에서는 큰 차이를 보이지 않음
   - <u>*저장 시의 성능 차이를 확인하기 위하여, 극단적인 부하 테스트 수행*</u>
 
-#### 부하 테스트 결과
+#### 부하 테스트
 
 - Environment
   - cpu 100% 사용되도록 Resource 최소화
@@ -243,7 +243,51 @@ redis-cache-always   | always      | 0.1 / 0.1   | 4Gi
 vUser   | Threshold | Replicas  | TPS | Memory(max) | Err.   | Comment
 --------|-----------|-----------|-----|-------------|--------|------------
 1000    | 10min      | 1         | **999** | 1747Mi | 0.0%   |
-1000    | 10min      | 1         | 618     | 1028Mi | 2.0%   |Error 다수 발생<br>(7,228 / 359,730)
+1000    | 10min      | 1         | 618     | 1028Mi | 2.0%   | Error 다수 발생<br>(7,228 / 359,730)
 
-### 가용성 테스트
+- Bench Mark vs 적정 환경 테스트 vs 부하 테스트 결과 비교
+  - Network을 통하지 않은 Redis Benchmark Test 에서는 everysec 의 write 성능이 우수
+  - Spring Boot API 등 Container간 Network을 통한 성능 측정에서는 큰 차이가 없음을 확인
 
+Persitence  | appendfsync | TPS (B/M) | TPS (적정) | TPS (부하)
+------------|-------------|-----------|-----------|-----------
+Redis AOF   | everysec    | **33579** | 2400      | 999
+Redis AOF   | always      | 9087      | 2300      | 618
+
+
+
+### 추가 테스트
+
+- nGrinder 성능 측정 중, Redis Instance Kill
+
+#### Test Result
+- TPS 안정분포되는 1:40초에 Redis kill 후, Pod Self Healing 강제
+- Kill 시점, Spring Boot "java.io.IOException: Connection reset by peer" 발생
+  - ***적정 성능 측정 시에는, 특이사항 없음***
+
+Container | fsync      | vUser   | Threshold | Replicas  | TPS  | Err
+----------|------------|---------|-----------|-----------|------|-------|
+Redis     |  off       | 1000    | 3min      | 1         | 2700 | 0.1%  |
+Redis     |  everysec  | 1000    | 3min      | 1         | 2700 | 0.1%  |
+Redis     |  always    | 1000    | 3min      | 1         | 2600 | 0.1%  |
+
+- Redis appendonly off, conatiner cpu usage 참고
+: 10초 이내에 self healing instance 생성되어 데이터 처리
+![](../../images/redis-cache-kill-cpu.png)
+
+- Redis appendonly off, TPS 참고
+: 10초 이내에 안정적인 TPS 수준으로 회복
+![](../../images/redis-cache-kill-tps.png)
+
+
+##### Backup> EBS Volume Mount 실패했을 경우, Self-Healing 지연되는 경우
+- 현재 EBS gp3 type volume의 경우, Multi Attach가 불가능하여, deploy node가 변경되는 경우 곧바로 Volume Attach가 되지 않는 경우 발생
+
+```
+Events:
+  Type     Reason                  Age   From                     Message
+  ----     ------                  ----  ----                     -------
+  Normal   Scheduled               21s   default-scheduler        Successfully assigned session-dev/redis-cache-always-7d6db7c847-hjh7j to ip-192-168-47-169.ap-northeast-2.compute.internal
+  Warning  FailedAttachVolume      22s   attachdetach-controller  Multi-Attach error for volume "pvc-ddcb90bc-4346-4985-8662-c8ae2b9991ab" Volume is already used by pod(s) redis-cache-always-7d6db7c847-9l54t
+  Normal   SuccessfulAttachVolume  6s    attachdetach-controller  AttachVolume.Attach succeeded for volume "pvc-ddcb90bc-4346-4985-8662-c8ae2b9991ab"
+```
