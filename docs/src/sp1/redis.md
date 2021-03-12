@@ -86,13 +86,14 @@ client <- graf
 
 - TPS 3000 이상의 성능이 나오는 적정 환경에서 수행
 - nGrinder Agent 2ea
+- EBS Volume iops 3000
 
-Container   | CPU       | Memory
-------------|-----------|-----------
-Spring Boot | 0.5 / 4   | 4Gi
-nGrinder    | 0.5 / 2   | 4Gi
-MariaDB     | 0.5 / 1.0 | 1Gi
-Redis       | 0.3 / 0.5 | 0.5Gi
+Container   | CPU       | Memory   |
+------------|-----------|----------| 
+Spring Boot | 0.5 / 4   | 4Gi      |
+nGrinder    | 0.5 / 2   | 4Gi      |
+MariaDB     | 0.5 / 1.0 | 1Gi      |
+Redis       | 0.3 / 0.5 | 0.5Gi    | 
 
 - nGrinder Management Console에서 Test Result 조회 가능
 <http://k8s-sessiond-ngrinder-aa75db0c27-1345478526.ap-northeast-2.elb.amazonaws.com/>
@@ -225,6 +226,7 @@ vUser   | Threshold | Replicas  | TPS | Err.   | Comment
   - cpu 100% 사용되도록 Resource 최소화
   - 기존 SET Data 1row의 Size 100 증가
   - 데이터 저장을 위해 많은 메모리를 사용할 수 있도록 증가
+  - ***EBS Volume iops 3000 -> 100***
 
 Container   | appendfsync | CPU       | Memory
 ------------|-------------|-----------|-----------
