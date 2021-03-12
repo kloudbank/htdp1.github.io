@@ -28,6 +28,10 @@ module.exports = {
         link: '/aws/'
       },
       {
+        text: 'Redis',
+        link: '/redis/'
+      },
+      {
         text: 'Sprint#1',
         link: '/sp1/'
       }
@@ -50,6 +54,18 @@ module.exports = {
           ]
         }
       ],
+      '/redis/': [
+        {
+          title: 'Redis',
+          collapsable: false,
+          children: [
+            '',
+            'dev',
+            'perftest',
+          ],
+          sidebarDepth: 2
+        },
+      ],
       '/sp1/': [
         {
           title: 'Sprint#1',
@@ -57,7 +73,6 @@ module.exports = {
           children: [
             '',
             'arch',
-            'redis',
           ],
           sidebarDepth: 2
         },

@@ -1,9 +1,9 @@
 # Redis 성능 측정
 
 ## Prerequisite
-- EKS에 nGrider Controller Deploy
+- Deploy nGrider Controller on EKS
 <https://github.com/htdp1/session-k8s/tree/main/dev/ngrinder/controller>
-- EKS에 nGrider Agent Deploy
+- Deploy nGrider Agent on EKS
 <https://github.com/htdp1/session-k8s/tree/main/dev/ngrinder/agent>
 
 - Prometheus, Grafana 를 통한 EKS Cluster Monitoring
@@ -12,28 +12,29 @@
 ## Redis-Benchmark
 
 - aof:no
-```
-SET: 4561.00 requests per second
-GET: 4462.89 requests per second
-LPUSH: 4665.70 requests per second
-LPOP: 4375.98 requests per second
+```       
+SET: 27932.96 requests per second, p50=0.783 msec                   
+GET: 27948.57 requests per second, p50=0.775 msec                   
+LPUSH: 27987.69 requests per second, p50=0.775 msec                    
+LPOP: 28538.81 requests per second, p50=0.775 msec                   
 ```
 
 - aof:yes, aofsync:everysec
 ```
-SET: 3772.16 requests per second
-GET: 3939.80 requests per secondd
-LPUSH: 4171.19 requests per second
-LPOP: 5430.65 requests per second
+SET: 33579.59 requests per second, p50=0.375 msec                   
+GET: 31289.11 requests per second, p50=0.399 msec                                     
+LPUSH: 33355.57 requests per second, p50=0.375 msec
+LPOP: 33590.86 requests per second, p50=0.375 msec
 ```
 
 - aof:yes, aofsync:always
+```       
+SET: 9087.60 requests per second, p50=5.655 msec                  
+GET: 31908.10 requests per second, p50=0.391 msec                   
+LPUSH: 8882.57 requests per second, p50=5.759 msec                  
+LPOP: 9192.87 requests per second, p50=5.599 msec                  
 ```
-SET: 2927.74 requests per second
-GET: 4188.31 requests per second
-LPUSH: 3165.06 requests per second
-LPOP: 3165.36 requests per second
-```
+
 
 ## nGrinder
 
@@ -243,4 +244,6 @@ vUser   | Threshold | Replicas  | TPS | Memory(max) | Err.   | Comment
 --------|-----------|-----------|-----|-------------|--------|------------
 1000    | 10min      | 1         | **999** | 1747Mi | 0.0%   |
 1000    | 10min      | 1         | 618     | 1028Mi | 2.0%   |Error 다수 발생<br>(7,228 / 359,730)
+
+### 가용성 테스트
 
