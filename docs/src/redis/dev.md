@@ -1,5 +1,6 @@
-# spring-boot redis cache 개발
-spring-boot-data-rest, spring-boot-data-jpa 를 이용하여 DB table 에 대한 CRUD 기능을 개발하고, 
+# spring-boot redis cache
+spring-boot-data-rest, spring-boot-data-jpa 를 이용하여 
+DB table 에 대한 CRUD 기능을 개발하고, 
 spring-boot-starter-data-redis 를 사용하여 redis cache 를 적용하는 방법을 설명한다.
 
 - Sample App. Arch. (dept-spring)
@@ -26,8 +27,17 @@ cache <--> dept
 - Sample App. Repository
 <https://github.com/htdp1/dept-spring>
 
-## spring-boot-data-rest 를 이용한 DB table CRUD 기능
-기본으로 spring-boot web project 를 생성하고 아래 절차대로 작업을 진행합니다.
+## 개발환경 준비
+### redis 설치
+-
+### mariadb 설치
+-
+### vs code 개발환경
+- vs code 에서 spring-boot 개발 환경을 구축한다.
+- spring-boot stater project 를 생성한다.
+
+## spring-boot-data-rest 를 이용한 DB table CRUD 개발
+아래 절차대로 작업을 진행합니다.
 - maven dependency 추가
 - application.yml 설정
 - model class 생성
@@ -67,7 +77,7 @@ cache <--> dept
     server:
       port: 8080
       servlet:
-        context-path: /dept-spring 
+        context-path: /dept-spring
 
     spring:
       config:
@@ -76,6 +86,16 @@ cache <--> dept
       data:
         rest:
           basePath: /api
+      jpa:
+        properties:
+          hibernate:
+            format_sql: true
+    
+    logging:
+      level:
+        '[com.htdp1.deptspring]': debug
+        '[org.hibernate.SQL]': debug
+        '[org.hibernate.type.descriptor.sql.BasicBinder]': trace
     ```
 
 ### model class 생성
@@ -162,7 +182,7 @@ cache <--> dept
     }
     ```
 
-## spring-boot redis 설정
+## spring-boot redis 적용 개발
 아래 작업을 진행합니다.
 - maven dependency 추가
 - application.yml redis 설정
@@ -252,9 +272,10 @@ cache <--> dept
 
 ### repository class 에 cache 적용
 - cache 를 적용할 interface 를 @Override 한다.
-- cacheNames : cache key name
-- key : cache key
-- cacheManager : CacheConfig.java 의 @Bean(name = "cacheManager") 과 동일하게 설정한다.
+- interface 에 @Cacheable 을 추가한다. 
+    - cacheNames : cache key name
+    - key : cache key
+    - cacheManager : CacheConfig.java 의 @Bean(name = "cacheManager") 과 동일하게 설정한다.
 - repository.DepartmentRepository.java
     ```java
     @RepositoryRestResource
@@ -262,5 +283,18 @@ cache <--> dept
         @Override
         @Cacheable(cacheNames = "departments", key = "'findAll'", cacheManager = "cacheManager")
         Iterable<Department> findAll();
+
+        @Cacheable(cacheNames = "departments", key = "#deptNo", cacheManager = "cacheManager")
+	    Optional<Department> findById(String deptNo);
     }
+    ```
+
+### redis 에서 데이터 확인
+- redis-cli 를 이용하여 redis 에 접속한다.
+- redis 에 저장된 데이터를 확인한다.
+- 
+    ```
+    127.0.0.1:7001> keys *
+    1) "htdp1:dept-spring:cache:departments::findAll"
+    2) "htdp1:dept-spring:cache:departments::d009"
     ```
