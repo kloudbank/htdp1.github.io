@@ -25,7 +25,7 @@ cache <--> dept
 @enduml
 
 ## 개발환경 준비
-- <https://htdp1.github.io/redis/dev.html>
+- <https://htdp1.github.io/guide/env.html>
 
 ## Sample App. Repository 
 - <https://github.com/htdp1/dept-spring>
