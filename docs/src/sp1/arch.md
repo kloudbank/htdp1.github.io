@@ -4,16 +4,16 @@
 "client"
 node "EKS (ns: session-dev/prd)" as eks {
   (ingress)
-  node "Redis" as redis {
+  rectangle "Redis" as redis {
     database "session"
     database "cache"
   }
-  node "MariaDB" as mariadb {
+  rectangle "MariaDB" as mariadb {
     database "salaries"
     database "departments"
     database "employees"
   }
-  node "API" as api {
+  rectangle "API" as api {
     [salary-node] as salary
     [dept-spring] as dept
     [emp-spring] as emp

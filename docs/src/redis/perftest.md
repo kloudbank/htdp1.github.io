@@ -71,7 +71,7 @@ node "EKS" as eks {
 
   }
 }
-client -right-> control
+client <-right-> control
 control -down-> agent1
 control -down-> agent2
 agent1 -> api : GET/POST
