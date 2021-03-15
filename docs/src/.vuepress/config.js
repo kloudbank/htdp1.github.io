@@ -24,6 +24,10 @@ module.exports = {
     lastUpdated: false,
     nav: [
       {
+        text: 'Guide',
+        link: '/guide/'
+      },
+      {
         text: 'AWS',
         link: '/aws/'
       },
@@ -51,6 +55,25 @@ module.exports = {
           children: [
             'eks',
             'alb',
+          ]
+        }
+      ],
+      '/guide/': [
+        {
+          title: 'Guide',
+          collapsable: false,
+          children: [
+            '',
+            'env',
+            'doc',
+          ],
+          sidebarDepth: 2
+        },
+        {
+          title: 'Resource',
+          collapsable: false,
+          children: [
+            'resource',
           ]
         }
       ],
