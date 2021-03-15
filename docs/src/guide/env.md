@@ -44,3 +44,7 @@ kubectl kustomize <kustomization_directory>
 ```
 kubectl apply -k <kustomization_directory>
 ```
+
+#### 3. AWS 및 EKS Config
+- AWS 구성 가이드 참고
+<https://htdp1.github.io/aws/#aws-configure>
