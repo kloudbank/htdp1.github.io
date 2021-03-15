@@ -6,10 +6,19 @@
 - Deploy nGrider Agent on EKS
 <https://github.com/htdp1/session-k8s/tree/main/dev/ngrinder/agent>
 
+```bash
+$ git clone https://github.com/htdp1/session-k8s.git
+
+$ cd session-k8s
+$ kubectl apply -k ./dev/ngrinder/controller
+$ kubectl apply -k ./dev/ngrinder/agent
+```
+
 - Prometheus, Grafana 를 통한 EKS Cluster Monitoring
 <http://k8s-grafana-grafana-6380e9e544-711314603.ap-northeast-2.elb.amazonaws.com/?orgId=1>
 
 ## Redis-Benchmark
+Redis 자체적으로 제공하는 RedisCluster 및 Sentinel 장비에 대한 성능 측정 도구
 
 - aof:no
 ```       
@@ -37,6 +46,8 @@ LPOP: 9192.87 requests per second, p50=5.599 msec
 
 
 ## nGrinder
+Naver에서 개발하였으며, 스크립트 생성 / 테스트 실행 / 모니터링 및 결과 보고서 생성기를 동시에 실행할 수 있는 스트레스 테스트 도구임
+<http://naver.github.io/ngrinder/>
 
 ### Environment
 
