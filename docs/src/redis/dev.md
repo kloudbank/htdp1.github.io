@@ -298,3 +298,25 @@ cache <--> dept
     1) "htdp1:dept-spring:cache:departments::findAll"
     2) "htdp1:dept-spring:cache:departments::d009"
     ```
+
+### Data CUD 에 대한 cache 처리 방법
+- jpa 에서 create, update 는 save interface 를 사용함
+- save interface 에 @CachePut annotation 으로 cache create/update 를 처리함
+- findAll cache 의 내용을 create/update 처리는 전체 삭제 후 다시 DB에서 쿼리하도록 처리함
+- deleteById 의 경우 개별 cache 와 findAll cache 를 같이 삭제 처리함
+- 
+    ```java
+    @RepositoryRestResource
+    public interface DepartmentRepository extends CrudRepository<Department, String> {
+        @CachePut(cacheNames = "departments", key = "#department.deptNo", cacheManager = "cacheManager")
+        @CacheEvict(cacheNames = "departments", key = "'findAll'", cacheManager = "cacheManager")
+        <S extends Department> S save(Department department);
+
+        @Caching(evict = { 
+                @CacheEvict(cacheNames = "departments", key = "'findAll'", cacheManager = "cacheManager"),
+                @CacheEvict(cacheNames = "departments", key = "#deptNo", cacheManager = "cacheManager") 
+                }
+        )
+        void deleteById(String deptNo);
+    }
+    ```
