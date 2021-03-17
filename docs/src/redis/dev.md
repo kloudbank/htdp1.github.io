@@ -1,7 +1,5 @@
-# spring-boot redis cache
-spring-boot-data-rest, spring-boot-data-jpa 를 이용하여 
-DB table 에 대한 CRUD 기능을 개발하고, 
-spring-boot-starter-data-redis 를 사용하여 redis cache 를 적용하는 방법을 설명한다.
+# spring-boot redis cache 개발
+spring-boot-data-rest, spring-boot-data-jpa 를 이용하여 DB table 에 대한 CRUD 기능을 개발하고, spring-boot-starter-data-redis 를 사용하여 redis cache 를 적용하는 방법을 설명한다.
 
 - Sample App. Arch. (dept-spring)
 @startuml
