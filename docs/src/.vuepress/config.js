@@ -41,23 +41,6 @@ module.exports = {
       }
     ],
     sidebar: {
-      '/aws/': [
-        {
-          title: 'AWS',
-          collapsable: false,
-          children: [
-            '',
-          ]
-        },
-        {
-          title: 'Resource',
-          collapsable: false,
-          children: [
-            'eks',
-            'alb',
-          ]
-        }
-      ],
       '/guide/': [
         {
           title: 'Guide',
@@ -74,6 +57,25 @@ module.exports = {
           collapsable: false,
           children: [
             'resource',
+          ]
+        }
+      ],
+      '/aws/': [
+        {
+          title: 'AWS',
+          collapsable: false,
+          children: [
+            '',
+          ]
+        },
+        {
+          title: 'Resource',
+          collapsable: false,
+          children: [
+            'eks',
+            'alb',
+            'ebs',
+            'efs',
           ]
         }
       ],

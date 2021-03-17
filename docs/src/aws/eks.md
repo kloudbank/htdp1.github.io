@@ -195,18 +195,6 @@ ebs-csi-controller             2/2     2            2           2d17h
 metrics-server                 1/1     1            0           17s
 ```
 
-## EBS CSI Driver
-
-### EBS Container Storage Interface
-- Amazon EBS Volume의 수명 주기 관리를 허용하도록 하는 Interface
-- Persistent Volume 에 Amazon EBS 를 활용하기 위하여 배포
-
-### CSI Driver Deploy Manual
-- oidc key 입력 시, domain region 설정 주의.  
-<https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/ebs-csi.html>
-- Github Repository 참조  
-<https://github.com/kubernetes-sigs/aws-ebs-csi-driver>
-
 
 ## Kubernetes Dashboard
 
