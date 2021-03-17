@@ -19,15 +19,15 @@ npm run dev
 ```
 #### 2. github page 배포
 - local에서 markdown 편집 후 **main** branch에 push
-- git hub workflow 자동 실행
-- main branch checkout
-- npm build
-- **gh-pages** branch에 build 내역 push
-- **gh-pages** branch에 push된 static resource가 hosting 됨
-  <https://htdp1.github.io/>
+- git hub workflow 자동 실행되어, github page로 배포됨
+  - main branch checkout
+  - npm build
+  - **gh-pages** branch에 build 내역 push
+  - **gh-pages** branch에 push된 static resource가 hosting 됨
+<https://htdp1.github.io/>
 
-- <u>*workflow 실행 script 참고*</u>
-<https://github.com/htdp1/htdp1.github.io/blob/main/.github/workflows/main.yml>
+  - <u>*workflow 실행 script 참고*</u>
+  <https://github.com/htdp1/htdp1.github.io/blob/main/.github/workflows/main.yml>
 ```yml
 # This is a basic workflow to help you get started with Actions
 name: Page Build
