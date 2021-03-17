@@ -15,11 +15,12 @@
 <https://code.visualstudio.com/docs/java/java-tutorial>
 
 #### 3. Spring Boot 개발 환경
-- VS Code **Spring Boot Extension Pack** 설치하여, 아래 extension이 일괄 적용
+- VS Code **Spring Boot Extension Pack** 설치하여, 아래 extension 일괄 적용
   - Spring Boot Tools
   - Spring Initializr
   - Spring Boot Dashboard
 <https://code.visualstudio.com/docs/java/java-spring-boot>
+
 
 ## Container 개발 환경
 

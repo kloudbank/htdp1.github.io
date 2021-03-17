@@ -12,8 +12,7 @@
 
 - CSI Driver Deploy Manual
 <https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/efs-csi.html>
-| <small>NOTE : *oidc key 입력 시, domain region 설정 주의.*</small>
----
+
 
 - 배포 내역
 ```
