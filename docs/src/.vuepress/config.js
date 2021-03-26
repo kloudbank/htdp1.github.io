@@ -74,6 +74,7 @@ module.exports = {
           children: [
             'eks',
             'alb',
+            'nlb',
             'ebs',
             'efs',
           ]

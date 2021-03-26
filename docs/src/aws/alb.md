@@ -1,11 +1,11 @@
-# Amazon ELB
+# Amazon ALB
 
 ## Application Load Balancer
 
 - AWS opensource blog
 > <https://aws.amazon.com/ko/blogs/opensource/kubernetes-ingress-aws-alb-ingress-controller/>
 
-<img src="https://d2908q01vomqb2.cloudfront.net/ca3512f4dfa95a03169c5a670a4c91a19b3077b4/2018/11/20/image1-1.png" width="800px" height="550px" title="px(픽셀) 크기 설정" alt="RubberDuck"></img><br/>
+<img src="https://d2908q01vomqb2.cloudfront.net/ca3512f4dfa95a03169c5a670a4c91a19b3077b4/2018/11/20/image1-1.png" width="800px" height="550px" title="px(픽셀) 크기 설정" alt="alb"></img><br/>
 
 ### Ingress 생성
 #### 위 다이어그램에서 번호가 매겨진 파란색 원의 단계를 따릅니다.
