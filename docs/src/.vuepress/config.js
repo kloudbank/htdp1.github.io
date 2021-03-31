@@ -88,6 +88,7 @@ module.exports = {
             '',
             'dev',
             'perftest',
+            'hatest',
           ],
           sidebarDepth: 2
         },

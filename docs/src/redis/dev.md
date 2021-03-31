@@ -53,7 +53,7 @@ redis cache 를 적용하기 전에 먼저 JAP 를 이용하여 DB Table CRUD �
 - repository class 생성
 - spring-boot 실행 후 API 확인
 
-### mariadb DB Table DDL 생성
+#### mariadb DB Table DDL 생성
 - 개별 사용중인 mariadb 에 아래 테이블을 생성한다.
     ```sql
     CREATE TABLE `departments` (
@@ -74,7 +74,7 @@ redis cache 를 적용하기 전에 먼저 JAP 를 이용하여 DB Table CRUD �
     INSERT INTO departments (dept_no, dept_name) VALUES('d007', 'Sales');
     ```
 
-### maven dependency 추가
+#### maven dependency 추가
 - pom.xml
     ```xml
     <dependency>
@@ -91,7 +91,7 @@ redis cache 를 적용하기 전에 먼저 JAP 를 이용하여 DB Table CRUD �
     </dependency>
     ```
 
-### application.yml 설정
+#### application.yml 설정
 - application-mariadb.yml 추가
     - 개별 사용중인 mariadb 정보로 사용할 것
     ```yaml
@@ -128,7 +128,7 @@ redis cache 를 적용하기 전에 먼저 JAP 를 이용하여 DB Table CRUD �
         '[org.hibernate.type.descriptor.sql.BasicBinder]': trace    # jpa sql param logging
     ```
 
-### model class 생성
+#### model class 생성
 - model.Department.java
     - table name, field name 에 맞춰서 아래 format 으로 작성합니다.
     ```java
@@ -150,7 +150,7 @@ redis cache 를 적용하기 전에 먼저 JAP 를 이용하여 DB Table CRUD �
     }
     ```
 
-### repository class 생성
+#### repository class 생성
 - repository.DepartmentRepository.java
     - @RepositoryRestResource annotation 추가
     - CrudRepository 상속만으로 CRUD 기능이 자동으로 생성된다.
@@ -160,7 +160,7 @@ redis cache 를 적용하기 전에 먼저 JAP 를 이용하여 DB Table CRUD �
     }
     ```
 
-### spring-boot 실행 후 API 확인
+#### spring-boot 실행 후 API 확인
 - http://localhost:8080/dept-spring/api/
     ```json
     {
@@ -222,7 +222,7 @@ DB Table CRUD 기능에 redis cache 기능을 추가한다.
 - redis configuration class 생성
 - repository class 에 cache 적용
 
-### maven dependency 추가
+#### maven dependency 추가
 - pom.xml
     ```xml
     <dependency>
@@ -231,7 +231,7 @@ DB Table CRUD 기능에 redis cache 기능을 추가한다.
     </dependency>
     ```
 
-### application.yml redis 설정
+#### application.yml redis 설정
 - application-redis.yml 파일 생성
     ```yaml
     spring: 
@@ -252,7 +252,7 @@ DB Table CRUD 기능에 redis cache 기능을 추가한다.
         - application-redis.yml
     ```
 
-### redis configuration class 생성
+#### redis configuration class 생성
 - config.CacheConfig.java
     - application.yml 에서 redis 설정 정보를 가져온다.
     - RedisConnectionFactory 로 redis connection 을 생성한다.
@@ -303,7 +303,7 @@ DB Table CRUD 기능에 redis cache 기능을 추가한다.
     }
     ```
 
-### JPA repository class 에 cache 적용
+#### JPA repository class 에 cache 적용
 - repository.DepartmentRepository.java
     - cache 를 적용할 interface 를 추가한다.
     - interface 는 CrudRepository class 에서 가져오면 됨.
@@ -322,7 +322,7 @@ DB Table CRUD 기능에 redis cache 기능을 추가한다.
     }
     ```
 
-### spring-boot 실행 후 API 확인
+#### spring-boot 실행 후 API 확인
 - http://localhost:8080/dept-spring/api/
     ```json
     {
@@ -390,7 +390,7 @@ DB Table CRUD 기능에 redis cache 기능을 추가한다.
     }
     ```
 
-### redis 에서 데이터 확인
+#### redis 에서 데이터 확인
 - redis-cli 를 이용하여 redis 에 접속한다.
     - host, port 정보는 사용중인 redis 정보로 할 것
     ```
@@ -403,7 +403,7 @@ DB Table CRUD 기능에 redis cache 기능을 추가한다.
     2) "htdp1:dept-spring:cache:departments::d009"
     ```
 
-### JPA Data CUD 에 대한 cache 처리 방법
+#### JPA Data CUD 에 대한 cache 처리 방법
 - repository.DepartmentRepository.java
     - jpa 에서 create, update 는 save interface 를 사용함
     - save interface 에 @CachePut annotation 으로 cache create/update 를 처리함
