@@ -45,6 +45,7 @@ Dynomite 의 궁극적인 목표는 본질적으로 해당 기능을 제공하�
 #### 구성 Architecture
 
 Kubernetes 환경에서 제공되는 Redis Standalone 서비스의 고 가용성 확보를 위한 구성 방안
+: Dynomite Sidecar 를 통한 datacenter replication
 
 - Redis Standalone + Dynomite Sidecar Deployment
   - 각 Redis Deployment 를 component로 묶어서 공통으로 request 를 처리할 수 있는 service 생성
@@ -140,7 +141,7 @@ redis002 -down- nfs
 ...
 ```
 
-- Dynomite target server 및 seed 구성 내역
+- Dynomite target server 및 seed 구성 내역 (dynomite.yaml)
 
 ```yaml
 dyn_o_mite:
@@ -161,9 +162,68 @@ dyn_o_mite:
 ```
 
 ### Envoy Redis Proxy
+
 #### Introduction
+
+Envoy는 대규모의 현대적인 서비스 지향 아키텍처를 위해 설계된 L7 Proxy 및 Communication bus 이며, Service Mesh 를 구성하는 데에 활용. 많은 기능 중에서 Redis Proxy 의 request mirroring 을 통한 replication 및 고 가용성 확보 방안을 검토.
+
+Envoy는 Redis Proxy 로 동작하여 cluster의 인스턴스간에 명령을 분할 할 수 있다. 이 모드에서 Envoy의 목표는 일관성보다는 가용성과 파티션 허용성을 유지하는 것이다. 또한, 액세스 패턴, 제거 또는 격리 요구 사항에 따라 서로 다른 워크로드에서 서로 다른 upstream cluster 로 routing 명령을 지원함.
+
+> Envoy Redis Proxy Overview 참조
+<https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_protocols/redis.html>
+
 #### Architecture Overview
+
+- Request Flow
+
+  - Envoy Redis Proxy 에서 내부 구조는 크게 Listener / Cluster 로 구분할 수 있음.
+  - Listener 에서 Request 를 요청 받기 위한 socket address 를 정의하며, 이를 통해 request 를 수신
+  - Listner 내부에 filter 를 정의하여, request 의 routing policy 를 설정
+  - 위의 routing target 은, Envoy 에서 정의한 clusters 중의 하나로 혹은 그 이상으로 설정 가능
+  - Redis Proxy 의 경우, cluster 에 target 이 되는 redis server / cluster 를 정의할 수 있음
+
+-  HTTP router filter 예시
+<img src="https://www.envoyproxy.io/docs/envoy/latest/_images/lor-architecture.svg" width="800px" height="450px" title="envoy-arch" alt="envoy-arch"></img>
+
+> Envoy Life of Request 참조
+<https://www.envoyproxy.io/docs/envoy/latest/intro/life_of_a_request#>
+
+
 #### 구성 Architecture
+
+Kubernetes 환경에서 제공되는 Redis Standalone 서비스의 고 가용성 확보를 위한 구성 방안
+: Envoy Redis Proxy Sidecar 를 통한 request mirroring
+
+@startuml
+"Client" as client
+node "EKS" as eks {
+  [common-service] as commserv
+  node "Redis HA" as db {
+    rectangle "redis-002" as db002 {
+      database "redis" as redis002
+      (envoy) as car002
+    }
+    rectangle "redis-001" as db001 {
+      database "redis" as redis001
+      (envoy) as car001
+    }
+  }
+}
+node "EFS" as efs {
+  storage "NFS Storage" as nfs
+}
+client -> commserv
+commserv -down-> car001
+commserv -down-> car002
+car001 -down-> redis001
+car002 -down-> redis002
+car001 --> redis002
+car002 --> redis001
+redis001 -down- nfs
+redis002 -down- nfs
+@enduml
+
+
 #### 구성 내역
 
 
