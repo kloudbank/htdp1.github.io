@@ -5,7 +5,7 @@
 - AWS opensource blog
 > <https://aws.amazon.com/ko/blogs/opensource/network-load-balancer-nginx-ingress-controller-eks/>
 
-<img src="https://quip-amazon.com/blob/bGA9AAmviCK/RxIsFh8j-vQYBvmZWBNpOw?a=gc7lDKxZ4JUQcZcn1Ojr4h0axnP0cmkLy1LWdZ3fuDga" width="550px" height="580px" title="px(픽셀) 크기 설정" alt="nlb"></img><br/>
+<img src="https://quip-amazon.com/blob/bGA9AAmviCK/RxIsFh8j-vQYBvmZWBNpOw?a=gc7lDKxZ4JUQcZcn1Ojr4h0axnP0cmkLy1LWdZ3fuDga" width="550px" height="580px" title="nlb" alt="nlb"></img><br/>
 
 ### NGINX Ingress Controller
 #### ALB Ingress Controller 대신, NGINX Ingress Controller 기반의 Amazon NLB 사용
