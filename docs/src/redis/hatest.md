@@ -51,9 +51,9 @@ Kubernetes 환경에서 제공되는 Redis Standalone 서비스의 고 가용성
   - 각 Redis Deployment 를 component로 묶어서 공통으로 request 를 처리할 수 있는 service 생성
   - Client 는 common service 에 request.
   - common service 에서 각 dynomite pod 에 Load Balancing.
-  - dynomite pod 에서 write 작업 요청 시, target redis 에 write 를 수행하고, dynomite seed 에 설정된 pod 으로 proxy.
+  - dynomite pod 에 write 작업 요청 시, target redis 에 write 를 수행하고, dynomite seed 에 설정된 pod 으로 proxy.
   - proxy 요청을 받은 dynomite 또한, 자신의 target redis 에 write 를 수행
-  - <u>*dynomite 에서 target redis 에 request 할 때, 각 redis 별로 생성된 k8s service 를 통하여 호출 (아래 그림에서는 각 service 생략)*</u>
+  | <u>*dynomite 에서 target redis 에 request 할 때, 각 redis 별로 생성된 k8s service 를 통하여 호출 (아래 그림에서는 각 service 생략)*</u>
 
 @startuml
 "Client" as client
@@ -74,10 +74,10 @@ node "EFS" as efs {
   storage "NFS Storage" as nfs
 }
 client -> commserv
-commserv -down-> car001
-commserv -down-> car002
-car001 -down-> redis001
-car002 -down-> redis002
+commserv -down-> car001:p8102
+commserv -down-> car002:p8102
+car001 -down-> redis001:p6379
+car002 -down-> redis002:p6379
 car001 <-> car002
 redis001 -down- nfs
 redis002 -down- nfs
@@ -91,7 +91,7 @@ redis002 -down- nfs
 ...
 
     spec:
-      #hostNetwork: true
+      # Redis Standalone
       containers:
       - name: redis-dyno-001
         image: redis:latest
@@ -113,6 +113,7 @@ redis002 -down- nfs
           mountPath: /data
         - name: redis-config
           mountPath: /redis-master
+      # Dynomite Sidecar
       - name: dynomite
         image: dynomitedb/dynomite
         imagePullPolicy: IfNotPresent
@@ -120,10 +121,13 @@ redis002 -down- nfs
           runAsUser: 999
           runAsGroup: 999
         ports:
+          # Dynomite Listener
           - containerPort: 8101
             name: dyno
+          # Dynomite Client
           - containerPort: 8102
             name: dyno-client
+          # Dynomite Stats/admin
           - containerPort: 22222
             name: dyno-admin
         args: ["dynomite", "-c", "/etc/dynomitedb/conf/dynomite.yaml"]
@@ -194,6 +198,14 @@ Envoy는 Redis Proxy 로 동작하여 cluster의 인스턴스간에 명령을 �
 Kubernetes 환경에서 제공되는 Redis Standalone 서비스의 고 가용성 확보를 위한 구성 방안
 : Envoy Redis Proxy Sidecar 를 통한 request mirroring
 
+- Redis Standalone + Envoy Sidecar Deployment
+  - 각 Redis Deployment 를 component로 묶어서 공통으로 request 를 처리할 수 있는 service 생성
+  - Client 는 common service 에 request.
+  - common service 에서 각 envoy pod 에 Load Balancing.
+  - envoy pod 에 write 작업 요청 시, route 설정된 redis 에 write.
+  - envoy 의 cluster 에 정의된 다른 redis 에 request mirroring 하여 wirte.
+  | <u>*envoy 에서 redis 에 write 및 request mirroring 시, 각 redis 별로 생성된 k8s service 를 통하여 호출 (아래 그림에서는 각 service 생략)*</u>
+
 @startuml
 "Client" as client
 node "EKS" as eks {
@@ -213,10 +225,10 @@ node "EFS" as efs {
   storage "NFS Storage" as nfs
 }
 client -> commserv
-commserv -down-> car001
-commserv -down-> car002
-car001 -down-> redis001
-car002 -down-> redis002
+commserv -down-> car001:p6380
+commserv -down-> car002:p6380
+car001 -down-> redis001:p6379
+car002 -down-> redis002:p6379
 car001 --> redis002
 car002 --> redis001
 redis001 -down- nfs
@@ -226,43 +238,309 @@ redis002 -down- nfs
 
 #### 구성 내역
 
+- Redis Standalone + Envoy Sidecar Deployment
 
-## Proxy Mirroring
-### Architecture
-### Envoy Redis Proxy
-#### request mirroring
-#### cluster 단위 활용
-### 기타 활용
-#### prefix 활용 및 sharding
+```yaml
+...
+
+    spec:
+      # Redis Standalone
+      containers:
+      - name: redis-envoy-001
+        image: redis:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 6379
+        command: 
+          - redis-server
+          - "/redis-master/redis.conf"
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 300m
+            memory: 256Mi
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /data
+        - name: redis-config
+          mountPath: /redis-master
+      # Envoy Sidecar
+      - name: envoy
+        image: envoyproxy/envoy-dev:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+          # Envoy Proxy
+          - containerPort: 6380
+            name: envoy
+          # Envoy Admin
+          - containerPort: 8001
+            name: admin
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 300m
+            memory: 256Mi
+        volumeMounts:
+        - name: envoy-config
+          mountPath: /etc/envoy
+
+...
+```
+
+- Envoy Listener/Filter 및 Cluster 구성 내역 (envoy.yaml)
+
+```yaml
+
+# Admin 설정
+admin:
+  access_log_path: "/dev/null"
+  address:
+    socket_address:
+      address: 0.0.0.0
+      port_value: 8001
+static_resources:
+  # Listener Port address 설정
+  listeners:
+  - name: redis_listener
+    address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 6380
+    filter_chains:
+    - filters:
+      # Proxy Filter type 정의
+      - name: envoy.filters.network.redis_proxy
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.redis_proxy.v3.RedisProxy
+          prefix_routes:
+            # route target cluster 정의
+            routes:
+            - cluster: redis-envoy-001
+              prefix: ""
+              # request mirroring target cluster 정의
+              request_mirror_policy:
+                - cluster: redis-envoy-002
+                  exclude_read_commands: true
+          stat_prefix: egress_redis
+          settings:
+            op_timeout: 5s
+            enable_redirection: true
+  # target cluster 에 redis standalone service list 정의
+  clusters:
+  - name: redis-envoy-001
+    connect_timeout: 0.25s
+    type: STRICT_DNS
+    lb_policy: MAGLEV
+    load_assignment:
+      cluster_name: redis-envoy-001
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: redis-envoy-001
+                port_value: 6379
+  - name: redis-envoy-002
+    connect_timeout: 0.25s
+    type: STRICT_DNS
+    lb_policy: MAGLEV
+    load_assignment:
+      cluster_name: redis-envoy-002
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: redis-envoy-002
+                port_value: 6379
+
+```
+
+### Unsupported Command
+
+Proxy 를 통한 Redis 접속 시, 서버에 안정적으로 해시 할 수 있는 command 만 지원하며, AUTH 및 PING은 예외. 지원되는 다른 모든 command 에는 key 가 parameter 로 전달되어야 하며, 지원되는 command 실패 시나리오를 제외하고는 원래 Redis 명령과 기능적으로 동일.  
+
+예를 들면, hello / info / keys 와 같은 command 는 지원되지 않으며, flushall 과 같은 parameter 없이 동작하는 delete All command 를 지원하지 않음.
+| <u>*Dynomite 의 경우에는 keys command 는 지원됨*</u>
+
+```
+~ redis-cli -p 6380
+127.0.0.1:6380> keys *
+(error) unsupported command 'keys'
+127.0.0.1:6380> hello 3
+(error) unsupported command 'hello'
+127.0.0.1:6380> info dir
+unsupported command 'info'
+127.0.0.1:6380> flushall
+(error) invalid request
+
+...
+```
+
+> Envoy Redis Proxy Supported Command 참조
+<https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_protocols/redis.html#supported-commands>
+
+## Proxy Request Mirroring
+
+Envoy Redis Proxy 의 경우, datacenter replication 을 통한 consistency 유지 보다는, partiniong / sharding 등의 data 분산 처리에 더 적합할 것으로 보임
+
+### Redis Read Replicas
+
+- prefix 를 통한 data 분산 및 read replicas 제공 방안
+
+@startuml
+"Admin" as admin
+"Client" as client
+node "EKS" as eks {
+  [Envoy] as envoy
+  database "Redis Master" as redismaster
+  node "Redis Replicas" as replicas {
+    database "Departments" as redis002
+    database "Employees" as redis001
+  }
+}
+node "EBS" as ebs {
+  storage "Storage" as storemaster
+  storage "Storage" as store002
+  storage "Storage" as store001
+}
+client -> replicas: read
+admin -down-> envoy: write
+envoy -> redismaster
+envoy -down-> redis002: prefix:departments
+envoy -down-> redis001: prefix:employees
+redismaster - storemaster
+redis002 -down- store002
+redis001 -down- store001
+@enduml
+
+- 구성 내역
+```yaml
+...
+
+static_resources:
+  listeners:
+  - name: redis_listener
+    address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 6380
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.redis_proxy
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.redis_proxy.v3.RedisProxy
+          prefix_routes:
+            routes:
+            # prefix 별 request mirroring
+            - cluster: redis-master
+              prefix: "departments"
+              request_mirror_policy:
+                - cluster: redis-departments
+                  exclude_read_commands: true
+            - cluster: redis-master
+              prefix: "employees"
+              request_mirror_policy:
+                - cluster: redis-employees
+                  exclude_read_commands: true
+          stat_prefix: egress_redis
+          settings:
+            op_timeout: 5s
+            enable_redirection: true
+  clusters:
+  - name: redis-master
+    connect_timeout: 0.25s
+    type: STRICT_DNS
+    lb_policy: MAGLEV
+    load_assignment:
+      cluster_name: redis-master
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: redis-master
+                port_value: 6379
+  - name: redis-departments
+    connect_timeout: 0.25s
+    type: STRICT_DNS
+    lb_policy: MAGLEV
+    load_assignment:
+      cluster_name: redis-departments
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: redis-departments
+                port_value: 6379
+  - name: redis-employees
+    connect_timeout: 0.25s
+    type: STRICT_DNS
+    lb_policy: MAGLEV
+    load_assignment:
+      cluster_name: redis-employees
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: redis-employees
+                port_value: 6379
+
+...
+```
+
+### 기타
+
+MongoDB / Postgres 등의 Proxy 또한 지원한다.
 
 
-## 성능 테스트
+## 성능 측정
+
+Redis 의 기본 성능과 Proxy 를 통한 성능 비교.
+
 ### Redis Benchmark
-### Application 연동 Test
 
+#### Environment
 
-root@redis-cache-c5b8bb44d-5pkfr:/data# redis-benchmark -q -t get,set,lpush,lpop
-SET: 22036.14 requests per second, p50=0.311 msec
-GET: 20815.99 requests per second, p50=0.319 msec
-LPUSH: 19646.37 requests per second, p50=0.335 msec
-LPOP: 20842.02 requests per second, p50=0.319 msec
+Category    | Value       
+------------|----------- 
+CPU         | 0.3 / 0.5   
+Memory      | 0.5Gi
+Storage     | Amazon EBS (General Purpose)
 
-root@redis-cache-001-58c7bfdd9b-brtnm:/redis-6.2.1# redis-benchmark -p 6380 -q -t get,set,lpop,lpush
-SET: 9100.01 requests per second, p50=0.767 msec
-GET: 11132.14 requests per second, p50=0.727 msec
-LPUSH: 9426.85 requests per second, p50=0.823 msec
-LPOP: 9912.77 requests per second, p50=0.839 msec
-
-
-root@redis-cache-001-768b5bfb77-lvrjx:/data# redis-benchmark -q -t get,set,lpop,lpush
+- Redis Benchmark
+```
+redis $ redis-benchmark -q -t get,set,lpop,lpush
 SET: 20815.99 requests per second, p50=0.311 msec
 GET: 20370.75 requests per second, p50=0.327 msec
 LPUSH: 21781.75 requests per second, p50=0.303 msec
 LPOP: 21810.25 requests per second, p50=0.295 msec
+```
 
-
-dynomite@redis-cache-001-768b5bfb77-lvrjx:/$ redis-benchmark -p 8102 -q -t get,set,lpop,lpush
+- Dynomite Benchmark
+```
+dynomite $ redis-benchmark -p 8102 -q -t get,set,lpop,lpush
 SET: 14830.19 requests per second, p50=0.887 msec
 GET: 19623.23 requests per second, p50=0.583 msec
 LPUSH: 14898.69 requests per second, p50=0.879 msec
 LPOP: 14909.80 requests per second, p50=0.879 msec
+```
+
+- Envoy Redis Proxy Benchmark
+```
+envoy $ redis-benchmark -p 6380 -q -t get,set,lpop,lpush
+SET: 9100.01 requests per second, p50=0.767 msec
+GET: 11132.14 requests per second, p50=0.727 msec
+LPUSH: 9426.85 requests per second, p50=0.823 msec
+LPOP: 9912.77 requests per second, p50=0.839 msec
+```
+
+
+### Application 연동 Test
+
