@@ -505,14 +505,22 @@ MongoDB / Postgres 등의 Proxy 또한 지원한다.
 Redis 의 기본 성능과 Proxy 를 통한 성능 비교.
 
 ### Redis Benchmark
+Redis 자체적으로 제공하는 RedisCluster 및 Sentinel 장비에 대한 성능 측정 도구
 
 #### Environment
+- AOF persistence 에서 측정
+- Storage 의 경우, ReadWriteMany 가 가능  NFS 기반 Storage Service 를 활용
 
 Category    | Value       
-------------|----------- 
-CPU         | 0.3 / 0.5   
-Memory      | 0.5Gi
+------------|-------------- 
+Redis CPU         | 0.3 / 0.5   
+Reids Memory      | 0.5Gi
 Storage     | Amazon EBS (General Purpose)
+Redis Persistence | AOF (everysec)
+
+#### Result
+Proxy 를 통하여 benchmark test 수행한 결과, 기존 성능에 비해 50% 정도 감소된 성능으로 측정됨.  
+대체적으로 10000 tps 이상 처리가 가능한 것으로 보여, Application 에서 활용할 때에는 2000~3000 tps 정도를 처리하는 데에는 문제가 없을 것으로 보임.
 
 - Redis Benchmark
 ```
@@ -542,5 +550,49 @@ LPOP: 9912.77 requests per second, p50=0.839 msec
 ```
 
 
-### Application 연동 Test
+### Application 부하 Test
+
+#### Environment
+
+- TPS 1000 이상의 성능이 나오는 적정 환경에서 수행
+- nGrinder Agent 2ea
+
+Category    | Value       
+------------|----------- 
+Spring CPU  | 0.5 / 2
+Spring Memory | 2048Mi
+Redis CPU         | 0.3 / 0.5   
+Reids Memory      | 0.5Gi
+Storage     | Amazon EBS (General Purpose)
+Redis Persistence | AOF (everysec)
+Ramp-Up     | Enable
+
+#### Result
+동일한 부하 상황에서, 1000tps 정도의 처리는 Sidecar Proxy 를 통하여 정상적으로 처리 가능할 것으로 보임.  
+
+Dynomite vs Envoy 를 비교했을 때, data sync 결과는 모두 특이사항이 없으며, 테스트 결과에서는 dynomite 의 replication 방식이 조금 우수한 것으로 보이나, 크게 차이는 없을 것으로 예상됨.
+
+- Redis Write Only
+
+ vUser   | Threshold | TPS  | Count | Sync  | Comment
+---------|-----------|------|-------|-------|----------
+ 1000    | 2min      | 1063 | 115000 | -     |
+ 2000    | 2min      | 1089 | 117000 | -     |
+ 3000    | 2min      | 784  | 81000  | -     | Application 성능 저하 구간 (cpu 최대)
+
+- Dynomite Sidecar Replication
+
+ vUser   | Threshold | TPS  | Count | Sync  | Comment
+---------|-----------|------|-------|-------|----------
+ 1000    | 2min      | 1038 | 114000 | 100%  |
+ 2000    | 2min      | 865  | 92000 | 100%  |
+ 3000    | 2min      | 1138 | 120000 | 100%  | Application 성능 저하 구간 (cpu 최대)
+
+ - Envoy Proxy Request Mirroring
+
+ vUser   | Threshold | TPS  | Count | Sync  | Comment
+---------|-----------|------|-------|-------|----------
+ 1000    | 2min      | 1054 | 114000 | 100%  |
+ 2000    | 2min      | 650  | 69000 | 100%  |
+ 3000    | 2min      | 677  | 71000 | 100%  | Application 성능 저하 구간 (cpu 최대)
 

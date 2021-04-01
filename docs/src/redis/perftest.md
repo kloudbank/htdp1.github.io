@@ -274,7 +274,7 @@ Redis AOF   | always      | 9087      | 2300      | 618
 #### Test Result
 - TPS 안정분포되는 1:40초에 Redis kill 후, Pod Self Healing 강제
 - Kill 시점, Spring Boot "java.io.IOException: Connection reset by peer" 발생
-  - ***적정 성능 측정 시에는, 특이사항 없음***
+  | ***적정 성능 측정 시에는, 특이사항 없음***
 
 Container | fsync      | vUser   | Threshold | Replicas  | TPS  | Err
 ----------|------------|---------|-----------|-----------|------|-------|
