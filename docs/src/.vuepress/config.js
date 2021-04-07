@@ -36,6 +36,10 @@ module.exports = {
         link: '/redis/'
       },
       {
+        text: 'Jupyter',
+        link: '/jupyter/'
+      },
+      {
         text: 'Sprint#1',
         link: '/sp1/'
       }
@@ -89,6 +93,18 @@ module.exports = {
             'dev',
             'perftest',
             'hatest',
+          ],
+          sidebarDepth: 2
+        },
+      ],
+      '/jupyter/': [
+        {
+          title: 'Jupyter',
+          collapsable: false,
+          children: [
+            '',
+            'server',
+            'remote',
           ],
           sidebarDepth: 2
         },
