@@ -323,3 +323,32 @@ Jupyter Lab 은 Project Jupyter 를 위한 차세대 웹 기반 사용자 인터
 
 ## Jupyter Hub Idle Culler
 
+Jupyter Hub 는 jupyterhub-idle-culler 서비스를 활용하여, 유휴 또는 장기 실행 Jupyter Notebook Server 를 식별하고 종료함.  
+Jupyter Hub API token 인증을 통하여, Python Standalone script 로 실행하여 jupyterhub-idle-culler 실행도 가능.
+
+```sh
+export JUPYTERHUB_API_TOKEN=$(jupyterhub token)
+python3 -m jupyterhub-idle-culler [--timeout=900] [--url=http://localhost:8081/hub/api]
+```
+
+> Jupyter Hub Idel Culler Github Repository 참조
+<https://github.com/jupyterhub/jupyterhub-idle-culler>
+
+
+#### 주요 특징
+- timeout 설정 시간 동안, 활동이 없는 사용자 pod 자동 삭제 가능.
+- Jupyter Hub browser 실행 상태로 두면 pod 를 자동으로 삭제하지 않음.
+- 다시 시작하면 변수 등 환경정보 손실, pip install 로 설치된 패키지 손실, 전역 설치 패키지 손실
+
+#### Culling Test Result
+- cull: timeout: 120, every: 10 (seconds)
+```yaml
+cull:
+  enabled: true
+  timeout: 120
+  every: 10
+```
+- notebook 화면을 띄운 상태에서는 pod 가 유지됨
+- notebook 화면에 포커스가 없어도 pod 가 유지됨
+- notebook 화면을 닫아서 완전히 벗어나야 pod 가 kill 됨
+
