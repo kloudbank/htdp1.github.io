@@ -16,4 +16,8 @@
   - Jupyter Lab 호환성
   - Idle Culler
 
+- 작업 내역
+> htdp1/jupyter-k8s repository
+<https://github.com/htdp1/jupyter-k8s>
+
 <Comment />
