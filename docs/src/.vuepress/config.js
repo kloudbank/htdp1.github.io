@@ -105,6 +105,7 @@ module.exports = {
             '',
             'server',
             'remote',
+            'hub',
           ],
           sidebarDepth: 2
         },
