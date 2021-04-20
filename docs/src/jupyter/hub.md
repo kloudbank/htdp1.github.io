@@ -35,6 +35,9 @@ Jupyter Hub for kubernetes Project 는 Cloud / On-premise 의 기존 k8s 환경�
 > Jupyter Hub for kubernetes Docs 참조
 <https://zero-to-jupyterhub.readthedocs.io/en/stable/index.html>
 
+> Jupyter Hub KubeSpawner Docs 참조
+<https://jupyterhub-kubespawner.readthedocs.io/en/latest/spawner.html>
+
 
 ## Setup Jupyter Hub
 
@@ -46,7 +49,13 @@ Jupyter Hub for kubernetes Project 는 Cloud / On-premise 의 기존 k8s 환경�
 > Install Jupyter Hub 참조
 <https://zero-to-jupyterhub.readthedocs.io/en/stable/jupyterhub/installation.html>
 
-- helm upgrade script
+- helm upgrade
+  - hub, proxy pod Restart. (strategy type: Recreate, 1분 내로 restart 됨)
+  - 신규 사용자 로그인 불가
+  - 기존 사용자 로그인 불가
+  - 기존 사용자 신규 notebook 파일 생성 불가
+  - <u>*기존 사용자 개발중인 notebook 파일에서 개발 작업은 가능*</u>
+
 ```sh
 helm upgrade --cleanup-on-fail \
 --install $RELEASE jupyterhub/jupyterhub \
@@ -169,6 +178,8 @@ Official Image 가 아닌, 사용자가 직접 정의한 Dockerfile 및 command 
   - ubuntu base image 기반으로, python3 설치 및 jupyter notebook / lab 이 설치되어 있다고 가정.
   - <u>*Dockerfile 혹은, k8s cmd script 에서 jupyterhub package 설치 추가.*</u>
 
+  - Dockerfile
+
 ```Dockerfile
 FROM ubuntu:18.04
 
@@ -180,20 +191,23 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 RUN ln -s /usr/bin/pip3 /usr/bin/pip
 
 RUN python -m pip install --upgrade pip
-RUN python -m pip install jupyter -U && pip install jupyterlab
-RUN jupyter notebook --generate-config --allow-root -y
+RUN python -m pip install notebook -U && pip install jupyterlab
 
-# container 에 jupyterhub package install 추가 필요
-RUN python -m pip install jupyterhub
+RUN jupyter notebook --generate-config --allow-root -y
 
 COPY run.sh /usr/local/bin/
 
 EXPOSE 8888
 
 WORKDIR /root
-
-CMD [ "/bin/sh", "-c", "jupyter notebook --allow-root --ip=0.0.0.0 --NotebookApp.token='' --notebook-dir=/root"]
-
+```
+  
+  - command run.sh
+  
+```sh
+python -m pip install jupyterhub
+jupyter notebook --allow-root --ip=0.0.0.0 --NotebookApp.token='' --notebook-dir=/root
+sleep infinity
 ```
 
 2. 기존에 root 권한으로 Notebook 실행 시
@@ -239,9 +253,73 @@ CMD [ "/bin/sh", "-c", "jupyter notebook --allow-root --ip=0.0.0.0 --NotebookApp
 
 ### Docker Commit Image 구동
 
+- 작업 순서
+  1. Custom Image 로 Kubernetes 에 배포된 Notebook 개발 환경 생성
+  2. Container 가 구동 중인 Worker Node 에 접속
+  3. 해당 Container ID 를 찾아서 docker commit
+  4. docker registry 에 push 하여, Migration Image 완성
+
 > Kubernetes 에 구동 되는 Pod 의 Docker commit 참조
 <https://stackoverflow.com/questions/49481849/is-there-a-way-to-download-the-container-image-from-a-pod-in-kuberentes-environm>
 
 
-### Jupyter Lab 호환성
+#### ENTRYPOINT 초기화
+- Jupyter Hub 는 Notebook Server Pod 생성 시, 아래의 args 에 정의된 명령어를 실행하여 생성하며, 기본적으로 ip 허용 / port 지정 옵션만 추가되어 있음.
+```yaml
+    Args:
+      jupyterhub-singleuser
+      --ip=0.0.0.0
+      --port=8888
+```
+   - 기존에 k8s deployment 에, command 에 초기 실행 script 가 정의되어 있을 경우, 해당 script 가 실행되어 jupyterhub-singleuser notebook server 생성이 불가능.
+  ```yaml
+      containers:
+      - image: htdp1/jupyter-notebook-custom:latest
+        name: jupyter-notebook-custom
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8888
+        # 초기 실행 script
+        command: ["/bin/sh", "-c", "run.sh"]
+  ```
+  - <u>*Docker Commit 시, ENTRYPOINT 초기화 하거나, run.sh 에서 jupyterhub-singleuser 를 실행하도록 script 수정 필요*</u>
+  ```
+  $ docker commit --change='ENTRYPOINT [""]' <container-id> jupyter-notebook-custom
+  ```
+
+### Jupyter Lab 호환
+
+#### Jupyter Lab
+
+Jupyter Lab 은 Project Jupyter 를 위한 차세대 웹 기반 사용자 인터페이스이다. Jupyter Lab을 활용하여, 유연하고 통합되며 확장 가능한 방식으로 Jupyter Notebook , Text Editor, Terminal 등을 활용할 수 있다.
+
+> Jupyter Lab Docs 참조
+<https://jupyterlab.readthedocs.io/en/latest/index.html>
+
+#### 호환성
+
+- Jupyter Hub 에서 Lab 구동
+  - 기본적으로 Jupyter Notebook Official Image 에 jupyterlab package 가 설치되어 있으므로, 해당 base image 기반으로 구동시 Notebook 과 Lab 의 인터페이스를 모두 사용 가능.
+  - Custom Notebook Image 에도 jupyterlab package 를 설치하여 구동하면, Jupyter Lab 인터페이스 사용 가능.
+  - URL context 로 인터페이스 변경
+    - domain:port/tree
+    - domain:port/lab
+  - spanwner_override 를 활용하여, profile 별 default_url 을 변경하여 초기 실행 인터페이스 별도 설정 가능.
+  - Migration 시 확인할 항목은 Jupyter Notebook 과 동일함.
+
+```yaml
+    - display_name: "Bonjour Lab"
+      description: "Bonjour tensorflow."
+      kubespawner_override:
+        cpu_limit: 1
+        cpu_guarantee: 0.1
+        # Jupyter Lab 을 초기 실행 화면으로,,,
+        default_url: /lab
+        mem_limit: 4G
+        mem_guarantee: 512M
+        image: htdp1/jupyter-notebook:bonjour
+```
+
+
+## Jupyter Hub Idle Culler
 
