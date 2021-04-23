@@ -15,6 +15,7 @@
   - Migration to Jupyter Hub
   - Jupyter Lab 호환성
   - Idle Culler
+  - Authentication Test
 
 - 작업 내역
 > htdp1/jupyter-k8s repository
