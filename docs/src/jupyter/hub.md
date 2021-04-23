@@ -42,7 +42,7 @@ Jupyter Hub for kubernetes Project 는 Cloud / On-premise 의 기존 k8s 환경�
 ## Setup Jupyter Hub
 
 - helm install 및 upgrade 를 통하여, Jupyter Hub for kubernetes 관리
-- 설치 환경
+- Environment
   - k8s v1.19.7
   - helm v3.5.2
   - jupyter hub v0.11.1
@@ -351,4 +351,199 @@ cull:
 - notebook 화면을 띄운 상태에서는 pod 가 유지됨
 - notebook 화면에 포커스가 없어도 pod 가 유지됨
 - notebook 화면을 닫아서 완전히 벗어나야 pod 가 kill 됨
+
+
+## Authentication
+
+### Basic Authenticator
+
+Jupyter Hub 기본 Authenticator 를 활용하여, 사용자 추가/삭제 및 admin, whitelist user 관리할 수 있다.  
+
+Jupyter Hub에는 특별한 권한을 가진 Admin 개념이 존재한다. 다른 사용자의 server 를 start/stop 하는 권한이 있으며, 선택적으로 사용자의 Notebook Server 에 access 할 수 있다. Control Panel 에 admin 버튼 이 표시되며, 이러한 모든 작업을 수행 할 수 있는 Admin Panel 에 접근할 수 있다.
+
+| <u>*User 정보 관리, admin / whitelist 관리 외에, user 별 password 설정 혹은 기타 인증 설정은 불가*</u>
+
+- Jupyter Hub Admin Panel  
+
+![](../../images/jupyter-hub-admin-panel.png)
+
+#### Authenticator Use Case
+
+- None (설정 없음)
+  - 임의의 id 입력해도 login 가능 하며, 해당 id 로 hub user 생성됨.
+- admin user 설정 시
+  - admin_users 에 등록된 id 로 login 할 때만, Admin Panel 접근 가능
+  - admin 은 user 추가/수정/삭제, user server 접속/시작/중지 가능
+  - 일반 user 는 임의의 id 입력하여 login 가능
+- whitelist user 설정 시
+  - allowed_users 에 등록된 id 만 login 가능
+  - admin 은 Admin Panel 에서 "Add Users" 기능을 이용하여, whitelist user 추가 가능
+- Data Repository
+  - Jupyter Hub 별 mount 한 volume 에 data 가 저장되며, helm chart 를 uninstall 할 때 삭제됨.
+  - sqlite 로 data 관리하는 것이 default 설정임.
+- Rest API
+  - Jupyter Hub 별로, user/server 정보 관리를 위한 API 제공
+  - Jupyter Hub 에서 발행한 API token 기반으로 API call 가능
+  <https://jupyterhub.readthedocs.io/en/latest/_static/rest-api/index.html>
+
+- User Config Example
+```yaml
+hub:
+  config:
+    Authenticator:
+      admin_users:
+        - admin
+        - user1
+        - user2
+      allowed_users:
+        - user3
+        - user4
+```
+
+
+### DummyAuthenticator
+
+Jupyter Hub 에서 제공하는 DummyAuthenticator 로, hub 에 대한 전역 password 설정 가능
+
+- DummyAuthenticator password config
+```yaml
+hub:
+  config:
+    Authenticator:
+      admin_users:
+        - admin
+        - user1
+        - user2
+      allowed_users:
+        - user3
+        - user4
+    DummyAuthenticator:
+      password: <password>
+    JupyterHub:
+      authenticator_class: "dummy"
+```
+
+### OAuthenticator
+
+JupyterHub의 oauthenticator 는 사용자가 GitHub, Google 및 CILogon과 같은 third-party OAuth2 identity provider 를 통해 인증할 수 있도록 지원함. OAuth2 Client ID 와 Secret 이 필요함.
+
+> Jupyter Hub oauthenticator Docs 참조
+<https://oauthenticator.readthedocs.io/en/stable/getting-started.html>
+
+
+#### GenericOAuthenticator class 를 활용한, KeyCloak Server 인증 Test
+*Key Cloak 의 경우, OpenID / SAML2.0 모두를 지원하며, sso login 연계 혹은 oauth2 인증 방식의 third-pary 인증 서버 연계 등에 유용하게 사용 가능할 것으로 보임.*
+
+> KeyCloak 공식 문서 참조
+<https://www.keycloak.org/docs/latest/getting_started/index.html#securing-a-sample-application>
+
+- Environment
+  - k8s v1.19.7
+  - helm v3.5.2
+  - jupyter hub v0.11.1
+  - keycloak v12.0.4
+
+- Test Architecture
+
+@startuml
+skinparam component {
+}
+"Client" as client
+rectangle "GitHub" as github {
+  (Identity Provider Login) as gitlogin
+}
+node "EKS" as eks {
+  rectangle "Jupyter Hub" as jhub {
+    (GenericOAuthenticator) as hubauth
+  }
+  rectangle "KeyCloak" as keycloak {
+    (KeyCloak Login) as keylogin
+  }
+}
+top to bottom direction
+keycloak <.down.> github #line:blue;line.dashed;text:blue : Auth Token Exchange
+client -> jhub: /hub/login
+hubauth -down-> keylogin: Redirect to KeyCloak Login
+keylogin -down-> gitlogin
+gitlogin -up-> client: Authentication Allowed
+@enduml
+
+
+- 작업 순서
+  1. helm chart 활용하여 KeyCloak server 를 kubernetes cluster 에 배포
+  > codecentric/keycloak github 참조
+  <https://github.com/codecentric/helm-charts/tree/master/charts/keycloak>
+  - 배포 내역
+```
+$ kubectl get all -n keycloak
+
+NAME                        READY   STATUS    RESTARTS
+pod/keycloak-0              1/1     Running   0       
+pod/keycloak-postgresql-0   1/1     Running   0       
+
+NAME                                   TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)
+service/keycloak-headless              ClusterIP      None            <none>         80/TCP
+service/keycloak-http                  LoadBalancer   10.100.5.198    <external-ip>  80:30339/TCP,8443:32239/TCP,9990:30459/TCP
+service/keycloak-postgresql            ClusterIP      10.100.250.11   <none>         5432/TCP
+service/keycloak-postgresql-headless   ClusterIP      None            <none>         5432/TCP
+
+NAME                                   READY
+statefulset.apps/keycloak              1/1  
+statefulset.apps/keycloak-postgresql   1/1  
+```
+
+  2. Jupyter Hub 전용 KeyCloak Realm / Client 구성  
+  ![](../../images/keycloak-client-jupyterhub.png)  
+
+  3. Github Organization Oauth Apps 에, keycloak app. 추가  
+  ![](../../images/github-oauthapp-keycloak.png)  
+
+  4. 위에서 생성한 Client ID/secret 을 활용하여, KeyCloak Identity Provider 에 GitHub 추가  
+  ![](../../images/keycloak-provider-github.png)  
+
+  5. Github Organization Oauth Apps, keycloak app. 에 Authorization Callback URL Update  
+  ![](../../images/github-oauth-callback.png)  
+
+  6. Jupyter Hub config.yaml 에 GenericOAuthenticator 설정  
+    : <u>*KeyCloak openid connect*</u>
+
+```yaml
+hub:
+  config:
+    Authenticator:
+      auto_login: true
+    GenericOAuthenticator:
+      admin_users:
+        - admin
+      client_id: <keycloak-client-id>
+      client_secret: <keycloak-client-secret>
+      # jupyter hub oauth callback
+      oauth_callback_url: https://<jupyterhub-domain>/hub/oauth_callback
+      # 이하 keycloak auth / token / userdata URL
+      authorize_url: http://<keycloak-domain>/auth/realms/htdp1/protocol/openid-connect/auth
+      token_url: http://<keycloak-domain>/auth/realms/htdp1/protocol/openid-connect/token
+      userdata_url: http://<keycloak-domain>/auth/realms/htdp1/protocol/openid-connect/userinfo
+      login_service: keycloak
+      username_key: preferred_username
+      userdata_params:
+        state: state
+    JupyterHub:
+      authenticator_class: generic-oauth
+
+```
+
+#### Test Result Summary
+
+- Jupyter Hub Login 시, KeyCloak Login 으로 redirect
+  - keycloak user 로 login 가능
+  - identity provider 인 GitHub 로 login 가능
+![](../../images/keycloak-jhub-login.png)
+
+- KeyCloak 에 Identity Provider 로 등록된 GitHub 를 통한 Login
+  - GitHub Client key 를 생성한 Organization 에 속한 User 만 인가됨.
+![](../../images/github-keycloak-login.png)
+
+- 특이 사항
+  : Jupyter Hub Logout 기능을 사용할 경우, Jupyter Hub session 만 삭제됨.
+  | <u>*Jupyter Hub Logout 시, KeyCloak 혹은 인증된 Identity Provider (SSO / GitHub etc.) session 까지 삭제하는 것은 Optional 영역*</u>일 것으로 보이며, Jupyter Hub Logout 을 통하여 인증된 모든 session 을 삭제할 경우, 추가 개발이 필요.
 
