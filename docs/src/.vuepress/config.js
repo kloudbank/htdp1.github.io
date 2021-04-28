@@ -106,6 +106,7 @@ module.exports = {
             'server',
             'remote',
             'hub',
+            'proxy',
           ],
           sidebarDepth: 2
         },
