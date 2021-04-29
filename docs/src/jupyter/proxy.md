@@ -46,11 +46,33 @@ proxy <.down.> webapp #line:blue;line.dashed;text:blue : req / res
 
 ## Code Server by Jupyter Proxy
 
-### Notebook ServerProxy Config
+Jupyter Server Proxy 를 활용한 Code Server 실행
+
+### Jupyter + Code Server
+
+- Jupyter + Code Server Docker Image
+<https://github.com/htdp1/jupyter-k8s/blob/main/dev/jupyter-notebook/code-server/Dockerfile>
+- Notebook Config Customize
+<https://github.com/htdp1/jupyter-k8s/blob/main/dev/jupyter-notebook/code-server/.jupyter/jupyter_notebook_config.py>
+
 ### Migration with Jupyter Server Proxy
+
+- Code Server Docker Commit Image + Jupyter
+<https://github.com/htdp1/jupyter-k8s/tree/main/dev/jupyter-notebook/code-server/mig>
+
 
 ## R Studio by Jupyter Proxy
 
-### jupyter-rsesssion-proxy
+Jupyter RSession Proxy 를 활용한 R Studio 실행
+
+### Jupyter + R Studio
+
+- Jupyter + R Studio Docker Image
+<https://github.com/htdp1/jupyter-k8s/blob/main/dev/jupyter-notebook/rstudio/Dockerfile>
+
+> jupyter-rsession-proxy github 
+<https://github.com/jupyterhub/jupyter-rsession-proxy>
+
 ### Migration with Jupyter Server Proxy
+TBD
 
