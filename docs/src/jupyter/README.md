@@ -1,4 +1,4 @@
-# Introduction
+# Overview
 
 - Issue
   - 기존 Jupyter Notebook 방식은 GPU Resource 를 단독으로 점유하여, Utilization 이 낮음
@@ -17,8 +17,17 @@
   - Idle Culler
   - Authentication Test
 
+- Jupyter Server Proxy
+  - proxy with jupyter hub
+  - Code Server jupyter server proxy config
+  - jupyter-r-session-proxy
+  - kaggle notebook server proxy config
+
+
 - 작업 내역
 > htdp1/jupyter-k8s repository
 <https://github.com/htdp1/jupyter-k8s>
 
 <Comment />
+
+

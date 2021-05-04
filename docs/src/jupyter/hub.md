@@ -1,5 +1,7 @@
 # Jupyter Hub
 
+## Introduction
+
 Jupyter Hub 는 multi user 에게 Jupyter Notebook 을 제공하는 좋은 방안이다. 또한, 단일 사용자 Jupyter Notebook 의 다수의 인스턴스를 생성 및 관리할 수 있으며, Proxy 처리까지 담당하는 Multi-User Hub 이다.
 
 - 크게 4개의 subsystem 으로 구성.
@@ -39,7 +41,7 @@ Jupyter Hub for kubernetes Project 는 Cloud / On-premise 의 기존 k8s 환경�
 <https://jupyterhub-kubespawner.readthedocs.io/en/latest/spawner.html>
 
 
-## Setup Jupyter Hub
+## Setup
 
 - helm install 및 upgrade 를 통하여, Jupyter Hub for kubernetes 관리
 - Environment
@@ -246,7 +248,9 @@ sleep infinity
 ```
 
 
-## Migration to Jupyter Hub
+## Customization
+
+Migration 시 필요한 Customization 확인.  
 
 기존에 사용하던 Notebook 혹은 Lab 개발 Container 환경을, Jupyter Hub 에서 동일하게 사용하기 위해 확인할 항목.  
 기존의 Container 환경은 Docker commit 을 통하여 Image 를 생성하고, 이를 Jupyter Hub 에서 구동한다고 가정.
@@ -321,7 +325,7 @@ Jupyter Lab 은 Project Jupyter 를 위한 차세대 웹 기반 사용자 인터
 ```
 
 
-## Jupyter Hub Idle Culler
+## Idle Culler
 
 Jupyter Hub 는 jupyterhub-idle-culler 서비스를 활용하여, 유휴 또는 장기 실행 Jupyter Notebook Server 를 식별하고 종료함.  
 Jupyter Hub API token 인증을 통하여, Python Standalone script 로 실행하여 jupyterhub-idle-culler 실행도 가능.

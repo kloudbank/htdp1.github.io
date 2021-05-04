@@ -1,6 +1,6 @@
 # Amazon EKS Cluster
 
-## AWS Resource 구성도
+## Overview
 ![](../../images/eks-public-private-subnet-view.png)
 
 ## Create EKS Cluster

@@ -104,7 +104,7 @@ module.exports = {
           children: [
             '',
             'server',
-            'remote',
+            // 'remote',
             'hub',
             'proxy',
           ],
