@@ -286,9 +286,6 @@ RUN apt-get update && \
 
 ENV PATH=$PATH:/usr/lib/rstudio-server/bin
 
-RUN echo "http_proxy=http://hub.htdp1.kubepia.net/" >> /usr/lib/R/etc/Renviron.site
-RUN echo "https_proxy=https://hub.htdp1.kubepia.net/" >> /usr/lib/R/etc/Renviron.site
-
 ```
 
 
@@ -372,7 +369,6 @@ Jupyter Hub config.yaml 에 profile 추가 및 kubespawner 설정
 ### Kaggle by Jupyter Proxy
 
 #### Create Base Image
-
 #### jupyter server proxy config
 #### Jupyter Hub Config 설정
 - 접속 화면
