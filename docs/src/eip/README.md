@@ -1,6 +1,6 @@
 # Overview
 
-- EIP(Enterprise Ingregration Pattern) & Apache Camel 
-- Legacy REST API Interface with Apache Camel
+- Apache Camel 과 EIP(Enterprise Ingregration Pattern) 이해
+- EWP Legacy Interface 개발을 위한 Apache Camel 사용
 
 <Comment />

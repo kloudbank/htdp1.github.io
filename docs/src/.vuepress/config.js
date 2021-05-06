@@ -108,6 +108,7 @@ module.exports = {
           children: [
             '',
             'camel',
+            'ewp',
           ],
           sidebarDepth: 2
         },
