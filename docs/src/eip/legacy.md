@@ -15,13 +15,13 @@ Legacy system 의 open api 를 활용하여 개발할 경우 대부분의 개발
 ## Springboot 와 Apache Camel 을 이용한 개발 절차
 Apcahe Camel 은 Springboot 을 위해 별도의 라이브러리를 제공할 정도로 친화적입니다. Apache Camel 만으로도 충분히 개발이 가능하지만 개발에 익숙한 springboot 를 이용하여 개발하는 과정을 설명합니다.
 
-### springboot 프로젝트를 생성합니다.
+### springboot 프로젝트 생성
 - vs code 에 Spring Boot Extension Pack 을 install 합니다.
 - vs code > View > Command Palette 메뉴를 선택합니다.
 - 입력창에 spring 을 입력한 후 Spring Initializer : Create a Maven Project 를 선택합니다.
 - 이후 단계별 wizard 를 통해 springboot project 를 생성합니다.
 
-### pom.xml 에 필요한 라이브러리를 추가합니다.
+### pom.xml 에 필요한 라이브러리 추가
 ``` xml
 <dependency>
     <groupId>org.apache.camel.springboot</groupId>
@@ -89,7 +89,7 @@ public class RestRoute extends RouteBuilder {
     > curl -X GET http://localhost:8080/sample/
     > curl -X POST http://localhost:8080/sample/ -d "{}"
 
-### java 로 개발된 코드를 xml 로 구성할 수 있습니다.
+### java 로 개발된 코드를 xml 로 구성
 - resources 폴더에 아래 파일을 생성합니다.
 - SpringRouteContext.xml
     ``` xml
