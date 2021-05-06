@@ -36,6 +36,10 @@ module.exports = {
         link: '/redis/'
       },
       {
+        text: 'EIP',
+        link: '/eip/'
+      },
+      {
         text: 'Jupyter',
         link: '/jupyter/'
       },
@@ -93,6 +97,17 @@ module.exports = {
             'dev',
             'perftest',
             'hatest',
+          ],
+          sidebarDepth: 2
+        },
+      ],
+      '/eip/': [
+        {
+          title: 'EIP',
+          collapsable: false,
+          children: [
+            '',
+            'camel',
           ],
           sidebarDepth: 2
         },
