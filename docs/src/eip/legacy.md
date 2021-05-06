@@ -1,4 +1,5 @@
 # Legacy Interface 개발
+## Overview
 대부분의 데이터를 Legacy system 이 갖고 있는 데이터를 조회하기를 원합니다. 보통 Legacy data 를 Database 연계를 통해서 내부 시스템으로 Data 를 복제하여 사용하거나 Legacy system 의 open api 가 제공된다면 권한을 획득하여 open api 를 활용하여 직접 데이터를 조회할 수 있습니다.
 
 Legacy system 의 open api 를 활용하여 개발할 경우 대부분의 개발은 target api 를 정의하고 target api 에서 필요로 하는 payload 를 생성하고 target api 를 호출해서 api 에서 return 하는 object 를 ui 에서 필요한 json 객체로 변환하여 리턴하는 역할을 하게 됩니다. 
