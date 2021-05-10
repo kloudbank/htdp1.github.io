@@ -386,7 +386,7 @@ unsupported command 'info'
 
 ## Proxy Request Mirroring
 
-Envoy Redis Proxy 의 경우, datacenter replication 을 통한 consistency 유지 보다는, partiniong / sharding 등의 data 분산 처리에 더 적합할 것으로 보임
+Envoy Redis Proxy 의 경우, datacenter replication 을 통한 consistency 유지 보다는, partioning / sharding 등의 data 분산 처리에 더 적합할 것으로 보임
 
 ### Redis Read Replicas
 
