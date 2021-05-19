@@ -365,11 +365,3 @@ Jupyter Hub config.yaml 에 profile 추가 및 kubespawner 설정
 - 접속 화면
 ![](../../images/jupyter-rstudio.png)
 
-
-### Kaggle by Jupyter Proxy
-
-#### Create Base Image
-#### jupyter server proxy config
-#### Jupyter Hub Config 설정
-- 접속 화면
-
