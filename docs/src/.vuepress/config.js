@@ -1,4 +1,4 @@
-const { description } = require('../../../package')
+// const { description } = require('../../../package')
 
 module.exports = {
 
@@ -28,25 +28,21 @@ module.exports = {
         link: '/guide/'
       },
       {
-        text: 'AWS',
-        link: '/aws/'
+        text: 'Cloud',
+        link: '/cloud/'
       },
       {
-        text: 'Redis',
-        link: '/redis/'
+        text: 'Ref. Arch.',
+        link: '/refarch/'
       },
       {
-        text: 'EIP',
-        link: '/eip/'
+        text: 'Framework',
+        link: '/framework/'
       },
       {
-        text: 'Jupyter',
-        link: '/jupyter/'
+        text: 'Data Science',
+        link: '/datascience/'
       },
-      {
-        text: 'Sprint#1',
-        link: '/sp1/'
-      }
     ],
     sidebar: {
       '/guide/': [
@@ -68,7 +64,7 @@ module.exports = {
           ]
         }
       ],
-      '/aws/': [
+      '/cloud/': [
         {
           title: 'AWS',
           collapsable: false,
@@ -88,56 +84,52 @@ module.exports = {
           ]
         }
       ],
-      '/redis/': [
+      '/refarch/': [
         {
           title: 'Redis',
           collapsable: false,
           children: [
             '',
-            'dev',
             'perftest',
             'hatest',
           ],
           sidebarDepth: 2
         },
-      ],
-      '/eip/': [
         {
           title: 'EIP',
           collapsable: false,
           children: [
-            '',
             'camel',
             'legacy',
           ],
           sidebarDepth: 2
         },
       ],
-      '/jupyter/': [
-        {
-          title: 'Jupyter',
-          collapsable: false,
-          children: [
-            '',
-            'server',
-            // 'remote',
-            'hub',
-            'proxy',
-          ],
-          sidebarDepth: 2
-        },
-      ],
-      '/sp1/': [
+      '/framework/': [
         {
           title: 'Sprint#1',
           collapsable: false,
           children: [
             '',
             'arch',
+            'dev',
           ],
           sidebarDepth: 2
         },
-      ]
+      ],
+      '/datascience/': [
+        {
+          title: 'Jupyter',
+          collapsable: false,
+          children: [
+            '',
+            'server',
+            'hub',
+            'proxy',
+          ],
+          sidebarDepth: 2
+        },
+      ],
     }
   },
 
