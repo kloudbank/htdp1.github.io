@@ -158,7 +158,7 @@ module.exports = {
           children: [
             'inferenceintro',
             'inferencetriton',
-            // 'inferencekfserving',
+            'inferencekfserving',
           ],
           sidebarDepth: 2
         },

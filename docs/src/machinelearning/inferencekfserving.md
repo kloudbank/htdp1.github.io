@@ -2,195 +2,84 @@
 
 ## Introduction
 
-Triton Inference Server는 CPU와 GPU 모두에 최적화된 Cloud / Edge Inference Solution 을 제공한다. Triton은 HTTP/REST 및 GRPC 프로토콜을 지원하여 원격 클라이언트가 서버에서 관리하는 모든 모델에 대한 Inferencing 을 요청할 수 있도록 한다
+KFServing 은 Machine Learning Model Serving 을 위한 Kubernetes CRD 를 제공한다. Tensorflow, XGBoost, ScikitLearn, PyTorch, ONNX 와 같은 일반적인 M/L Framework 을 위한 고성능의 높은 추상화 인터페이스를 제공하여, production Model 을 Serving 한다.
 
-- Features
-  - Multiple deep-learning framework 지원
-  - Concurrent Model Execution
-  - Dynamic Batching
-  - *<b><u>KFServing Protocol</u></b>*
+- Features (<https://github.com/kubeflow/kfserving/blob/master/docs/samples/README.md>)
+  - Scale to and from Zero
+  - Request based Autoscaling on CPU/GPU
+  - Revision Management
+  - Optimized Container
+  - Batching
+  - Request/Response logging
+  - Scalable Multi Model Serving
+  - Traffic management
+  - Security with AuthN/AuthZ
+  - Distributed Tracing
+  - Out-of-the-box metrics
+  - Ingress/Egress control
 
-위와 같은 다양한 기능이 제공되며,  
-Triton 기능 점검이 아닌, Kubernetes 환경에서의 Triton Inference Server 구성 및 테스트를 진행함.
-Model Serving 관련 KFServing 구성 및 InferenceService 테스트를 진행함.
+***
+| <small>위와 같은 다양한 serverless feature 가 제공되는 이유는 kubernetes cluster 내에 이미 배포되어 있는 Istio, Knative 등에서 제공하는 custom resrouce 를 활용하기 때문이다.</small>
+<small>또한, KFServing 이 embedded 된 형태로 제공되는 <b>Kubeflow</b> 를 Kubernetes 에 배포하여, 완전 관리형의 MLOps Framework 의 형태로 활용할 수도 있다.</small>
+***
+
+<img src="https://github.com/kubeflow/kfserving/raw/master/docs/diagrams/kfserving.png" title="kfserving" alt="kfserving"></img>
+
+> KFServig Github Repository 참조
+<https://github.com/kubeflow/kfserving>
+> KFServing v1beta1 RFC 참조
+<https://docs.google.com/document/d/1ktiO7gWohq19C_rixXH0T_D91TjkrQELlQjlkvSefVc/edit#heading=h.e1sgar1o8xoy>
+
 
 ## Architecture
 
-Kubernetes 환경에서는 deployment 를 통한 pod 으로 단순하게 구성되지만, 내부적으로는 아래와 같은 구조를 갖고 있다.
+- Architecture Overview  
+  - Data Plane
+  : Traffic 의 전송 목적, single model 에 대한 traffic 전송 예시
+  - Control Plane
+  : Data Plane 까지의 Traffic 을 제어하는 영역
 
-- Model Repository
-  - Triton Inferencing 에 사용할 수 있는 파일 시스템 기반의 저장소이며, Volume Mount 및 Object Storage 활용 가능.
-  - Triton Server 실행 시, --model-store option 으로 directory 를 지정.
-
-- Client Request Scheduling / Routing
-  - Inferencing 요청은 HTTP/REST, GRPC 호출 혹은, C API 직접 호출을 통하여 가능.
-  - 내부적으로 Model 별 Scheduler 로 Routing.
-  - Model Repository 에서 load 한 model 각각의 스케줄링 및 처리 알고리즘이 구현됨.
-
-- Framework Backends
-  - Inferencing 요청 Model 유형에 해당하는 Framework Backend 로 전달됨.
-  - Inference 수행 및 Output Return.
-
-- Monitoring
-  - Kubernetes 에 통합 가능한 Readiness, Liveness, 처리량 및 대기 시간 등의 metric 활용 가능
-
-- Triton High-Level Architecture
-<img src="https://github.com/triton-inference-server/server/raw/main/docs/images/arch.jpg" title="triton-arch" alt="triton-arch"></img>
-
-> Triton Inference Server Github Repository
-<https://github.com/triton-inference-server/server>
-> Triton Inference Server Architecture 참조
-<https://github.com/triton-inference-server/server/blob/main/docs/architecture.md>
+> KFServing Architecture Overview
+<https://github.com/kubeflow/kfserving/blob/master/docs/README.md>
+> MLOps Community KFServing Slideshare 참조
+<https://www.slideshare.net/theofpa/serving-models-using-kfserving>
 
 
-## Kubernetes Deploy
+### Data Plane
 
-AWS EKS 환경에 deploy 하기 위한 Helm Chart 를 제공. 공식 가이드는 tiller 구성을 포함하고 있으나, 해당 구성 없이 helm v3 활용하여 설치하였음.  
-기본적으로 deployment 로 pod 이 생성되며, replicas 관리를 통해서 HA 구성을 하도록 가이드하고 있음.
+Predictor Container 를 활용하여, inference server 를 구성하여 기본적인 model serving 이 가능하며, Explainer / Transformer 는 optional 한 component 이다.
 
-- 작업 순서
-  1. Amazon EKS Cluster 생성
-  2. Amazon S3 Model Repository 구성
-  3. triton-inference-server helm chart 배포
-  4. Monitoring 을 위한 prometheus-operator helm chart 배포
-  5. triton-inference-server sdk client 구성 및 inferencing 테스트
+- Single model 에 대한 request 처리 예시  
 
-> Triton Inference Server AWS Deploy Guide
-<https://github.com/htdp1/mlops-k8s/tree/main/triton-inference-server/deploy/aws>
-> Triton Quick Start Guide
-<https://github.com/triton-inference-server/server/blob/main/docs/quickstart.md>
+<img src="https://github.com/kubeflow/kfserving/raw/master/docs/diagrams/dataplane.jpg" ></img>
 
-### tritonserver helm chart 배포
-  - S3 에 Access 하기 위한 AWS Access Key 를 values.yaml 에 mapping
-  - imageName, modelRepositoryPath, cpu 등 수정
-  - LoadBalancer 로 Service 생성하여, Amazon Classic Load Balancer 생성
+- Concepts
+  - Endpoint : InferenceServer는 "default"과 "canary"의 두 endpoint 로 나뉨. canary 는 optional 이며 InferenceService 의 상세 설정을 통해 rollout 전략을 변경할 수 있음. 기본적으로는 default endpoint 에서 처리함.
 
-```yaml
-replicaCount: 1
+  - <b>Predictor : InferenceService의 필수 구성 요소. Network endpoint 에서 사용할 수 있도록 하는 단순한 model 이자 model server.</b>
 
-service:
-  type: LoadBalancer
+  - <small>Explainer : Explainer 는 prediction 외에도 model explanation 을 제공하는 optional 한 Data Plane 활성화 가능. 자체적으로 정의하는 Container 로 구성 가능. 일반적으로 KFServing은 Alibi 와 같은 out-of-the-box Explainer 를 제공.</small>
 
-image:
-  imageName: nvcr.io/nvidia/tritonserver:21.04-py3
-  pullPolicy: IfNotPresent
-  modelRepositoryPath: s3://htdp1-triton-inference-server-repository/model_repository
-  # numGpus: 1
-  numCpus: 1
+  - <small>Transformer : Transformer 를 사용하여, 사용자가 prediction / explanation workflow 의 사전/사후 처리 가능. 자체적으로 정의하는 Container 로 구성 가능. 일반적으로 KFServing은 Feast 와 같은 out-of-the-box Transformer 를 제공.</small>
 
-secret: 
-  ...
+- Data Plane API (v2)
+  - v1 API 가 v2 로 통합되는 과정에 있으며, v1 에서는 위 그림처럼 explain/predict 의 API 를 따로 제공하였으나, v2 에서는 predict 로 통합되는 것으로 보임.
+  - HTTP/REST, GRPC 지원
 
-```
-
-- result
-
-```sh
-$ kubectl get all -n triton
-NAME                                                 READY   STATUS    RESTARTS   AGE
-pod/htdp1-triton-inference-server-6b969d654c-n6xkn   1/1     Running   0          39m
-
-NAME                                            TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)                                         AGE
-service/htdp1-triton-inference-server           LoadBalancer   10.100.209.89    <External-IP>   8000:31422/TCP,8001:31024/TCP,8002:30129/TCP   3h24m
-service/htdp1-triton-inference-server-metrics   ClusterIP      10.100.179.240   <none>          8080/TCP   3h24m
-
-NAME                                            READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/htdp1-triton-inference-server   1/1     1            1           3h24m
-
-NAME                                                       DESIRED   CURRENT   READY   AGE
-replicaset.apps/htdp1-triton-inference-server-6b969d654c   1         1         1       3h24m
-```
-
-- logs
-```sh
-
-# Framework Backend
-I0526 03:39:25.498911 1 server.cc:543]
-+-------------+-----------------------------------------------------------------+--------+
-| Backend     | Path                                                            | Config |
-+-------------+-----------------------------------------------------------------+--------+
-| tensorrt    | <built-in>                                                      | {}     |
-| pytorch     | /opt/tritonserver/backends/pytorch/libtriton_pytorch.so         | {}     |
-| tensorflow  | /opt/tritonserver/backends/tensorflow1/libtriton_tensorflow1.so | {}     |
-| onnxruntime | /opt/tritonserver/backends/onnxruntime/libtriton_onnxruntime.so | {}     |
-| openvino    | /opt/tritonserver/backends/openvino/libtriton_openvino.so       | {}     |
-+-------------+-----------------------------------------------------------------+--------+
-
-# Model Repository 에 있는 Model Loading
-I0526 03:39:25.498991 1 server.cc:586]
-+----------------------+---------+--------+
-| Model                | Version | Status |
-+----------------------+---------+--------+
-| densenet_onnx        | 1       | READY  |
-| inception_graphdef   | 1       | READY  |
-| simple               | 1       | READY  |
-| simple_dyna_sequence | 1       | READY  |
-| simple_identity      | 1       | READY  |
-| simple_int8          | 1       | READY  |
-| simple_sequence      | 1       | READY  |
-| simple_string        | 1       | READY  |
-+----------------------+---------+--------+
-
-...
-
-# 기본 Service Port (HTTP, GRPC, Metric)
-I0526 03:39:25.500218 1 grpc_server.cc:4028] Started GRPCInferenceService at 0.0.0.0:8001
-I0526 03:39:25.500467 1 http_server.cc:2761] Started HTTPService at 0.0.0.0:8000
-I0526 03:39:25.541702 1 http_server.cc:2780] Started Metrics Service at 0.0.0.0:8002
-
-...
-
-```
-
-### Inference Request Monitoring
-
-stable/prometheus 를 배포하여, inference request Monitoring.  
-배포 시, *prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues=false* 지정해야, prometheus 가 inferece server metric 을 추적할 수 있다.
-
-- triton server 에서 제공하는 Grafana Dashboard
-  - Inference Request 에 대한 처리 metric 이 모델마다 각각 추적됨. (repository model 8개)
-  - Scheduling 을 위한 Queue 도 각각 생성됨.  
-
-![](../../images/triton-grafana-dashboard.png)
-
-> grafana dashboard.json 참조
-<https://github.com/triton-inference-server/server/blob/main/deploy/aws/dashboard.json>
+> v2 api docs 참조
+<https://github.com/kubeflow/kfserving/tree/master/docs/predict-api/v2>
 
 
-### SDK Client Test
+### Control Plane
 
-Triton Inference Server 에 경우, 특정한 directory 구조 및 file 을 갖고 있어야 model 을 실행할 수 있다. sample 로 제공되는 model 을 활용하여, Amazon S3 에 Model Repository 를 구성하고, EKS 에 배포된 triton-inference-server 에 sample model inference 요청 테스트를 한 결과이다.
+Kubernetes custom resource 로 정의한, InferenceService, TrainedModel 을 통하여, predictor, explainer, transformer 등의 container 를 배포하며, workload 에 들어오는 요청에 따라서 autoscaling 등을 수행한다.
 
-> triton sample model 참조
-<https://github.com/triton-inference-server/server/tree/main/docs/examples/model_repository>
+<img src="https://github.com/kubeflow/kfserving/raw/master/docs/diagrams/kfs_architect.png" ></img>
 
-- triton-inference-server SDK Docker container 실행
+- Control Plane Component
+  - Knative Serving Controller: Service revision 관리, Network routing resource 생성 등을 수행. 기본적으로 Queue Proxy 라는 sidecar 가 함께 생성되며, traffic metric expose, 동시성 제한 등을 수행.
+  - Knative Activator : 0으로 축소 된 포드를 다시 가져오고 요청을 전달합니다.
+  - Knative Autoscaler (KPA) : 애플리케이션에 대한 트래픽 흐름을 감시하고 구성된 메트릭에 따라 복제본을 확장 또는 축소합니다.
+  - KFServing Controller : 요청 / 응답 로깅, 일괄 처리 및 모델 풀링을위한 서비스, 수신 리소스, 모델 서버 컨테이너 및 모델 에이전트 컨테이너 생성을 담당합니다.
+  - Ingress Gateway : 외부 또는 내부 요청을 라우팅하기위한 게이트웨이입니다.
 
-```sh
-docker pull nvcr.io/nvidia/tritonserver:21.04-py3-sdk
-docker run -it --rm --net=host nvcr.io/nvidia/tritonserver:21.04-py3-sdk
-```
-
-- SDK container 에 접속하여, image_client 를 실행하여 http request test 한 결과
-
-```sh
-# densenet_onnx 실행
-root@docker-desktop:/workspace# /workspace/install/bin/image_client -m densenet_onnx -c 3 -s INCEPTION -u <External-IP>:8000 /workspace/images/mug.jpg
-Request 0, batch size 1
-Image '/workspace/images/mug.jpg':
-    15.349564 (504) = COFFEE MUG
-    13.227464 (968) = CUP
-    10.424892 (505) = COFFEEPOT
-
-# inception_graphdef 실행
-root@docker-desktop:/workspace# /workspace/install/bin/image_client -m inception_graphdef -c 3 -s INCEPTION -u <External-IP>:8000 /workspace/images/mug.jpg
-Request 0, batch size 1
-Image '/workspace/images/mug.jpg':
-    0.754047 (505) = COFFEE MUG
-    0.157066 (969) = CUP
-    0.002878 (968) = ESPRESSO
-```
-
-- 각 model 이 처리된 내역 Monitoring  
-
-![](../../images/triton-inference-testresult.png)
