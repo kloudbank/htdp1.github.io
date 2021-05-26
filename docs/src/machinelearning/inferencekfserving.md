@@ -78,8 +78,8 @@ Kubernetes custom resource 로 정의한, InferenceService, TrainedModel 을 통
 
 - Control Plane Component
   - Knative Serving Controller: Service revision 관리, Network routing resource 생성 등을 수행. 기본적으로 Queue Proxy 라는 sidecar 가 함께 생성되며, traffic metric expose, 동시성 제한 등을 수행.
-  - Knative Activator : 0으로 축소 된 포드를 다시 가져오고 요청을 전달합니다.
-  - Knative Autoscaler (KPA) : 애플리케이션에 대한 트래픽 흐름을 감시하고 구성된 메트릭에 따라 복제본을 확장 또는 축소합니다.
-  - KFServing Controller : 요청 / 응답 로깅, 일괄 처리 및 모델 풀링을위한 서비스, 수신 리소스, 모델 서버 컨테이너 및 모델 에이전트 컨테이너 생성을 담당합니다.
+  - Knative Activator : 0으로 축소 된 포드를 다시 가져오고 요청을 전달.
+  - Knative Autoscaler (KPA) : 애플리케이션에 대한 트래픽 흐름을 감시하고 구성된 메트릭에 따라 복제본을 확장 또는 축소.
+  - KFServing Controller : request / response logging, 일괄 처리 및 Model Pooling 을 위한 서비스, model server 및 agent container 생성.
   - Ingress Gateway : 외부 또는 내부 요청을 라우팅하기위한 게이트웨이입니다.
 
