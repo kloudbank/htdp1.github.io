@@ -1,4 +1,4 @@
-# Overview
+# Basics
 
 - Issue
   - 기존 Jupyter Notebook 방식은 GPU Resource 를 단독으로 점유하여, Utilization 이 낮음

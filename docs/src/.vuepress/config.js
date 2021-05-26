@@ -40,8 +40,8 @@ module.exports = {
         link: '/framework/'
       },
       {
-        text: 'Data Science',
-        link: '/datascience/'
+        text: 'M / L',
+        link: '/machinelearning/'
       },
     ],
     sidebar: {
@@ -66,10 +66,17 @@ module.exports = {
       ],
       '/cloud/': [
         {
-          title: 'AWS',
+          title: 'Introduction',
           collapsable: false,
           children: [
             '',
+          ]
+        },
+        {
+          title: 'AWS',
+          collapsable: false,
+          children: [
+            'aws',
           ]
         },
         {
@@ -85,6 +92,14 @@ module.exports = {
         }
       ],
       '/refarch/': [
+        {
+          title: 'Introduction',
+          collapsable: false,
+          children: [
+            '',
+          ],
+          sidebarDepth: 2
+        },
         {
           title: 'Redis',
           collapsable: false,
@@ -117,15 +132,33 @@ module.exports = {
           sidebarDepth: 2
         },
       ],
-      '/datascience/': [
+      '/machinelearning/': [
+        {
+          title: 'Introduction',
+          collapsable: false,
+          children: [
+            '',
+          ],
+          sidebarDepth: 2
+        },
         {
           title: 'Jupyter',
           collapsable: false,
           children: [
-            '',
-            'server',
-            'hub',
-            'proxy',
+            'jupyterintro',
+            'jupyterserver',
+            'jupyterhub',
+            'jupyterproxy',
+          ],
+          sidebarDepth: 2
+        },
+        {
+          title: 'Inference',
+          collapsable: false,
+          children: [
+            'inferenceintro',
+            'inferencetriton',
+            // 'inferencekfserving',
           ],
           sidebarDepth: 2
         },
