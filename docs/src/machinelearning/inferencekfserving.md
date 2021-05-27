@@ -155,7 +155,7 @@ deployment.apps/istiod                 3/3     3            3           2d22h
 ```
 
 - Knative Serving: v0.22.0
-  - Controller 는 KFServing InferenceService 의 Revision 관리, route 관리 등을 하며, InferenceService container 및 sidecar 를 생성.
+  - Controller 는 KFServing Serving Container 생성 및 revision, route 관리 등을 하며, Queue Proxy sidecar 를 통하여 traffic metric expose, 동시성 제한 등을 수행.
   - Autoscaler 는 Serving container 의 metric 감시 및 auto scaling 을 수행.
   - Activator 는 request 가 발생한 경우, 0으로 축소된 pod 을 다시 가져오고 요청을 전달.
 
@@ -207,11 +207,73 @@ deployment.apps/cert-manager-cainjector   1/1     1            1           2d3h
 deployment.apps/cert-manager-webhook      1/1     1            1           2d3h
 ```
 
-## KFServing Controller
+### KFServing Controller
 
 - KFServing
+  - kfserving-controller: request / response logging, 일괄 처리 및 Model Pooling 을 위한 서비스, model server 생성.  
+
+```sh
+$ kubectl get all -n kfserving-system
+
+NAME                                 READY   STATUS    RESTARTS   AGE
+pod/kfserving-controller-manager-0   2/2     Running   0          23h
+
+NAME                                                   TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/kfserving-controller-manager-metrics-service   ClusterIP   10.100.239.145   <none>        8443/TCP   2d3h
+service/kfserving-controller-manager-service           ClusterIP   10.100.24.252    <none>        443/TCP    2d3h
+service/kfserving-webhook-server-service               ClusterIP   10.100.51.0      <none>        443/TCP    2d3h
+
+NAME                                            READY   AGE
+statefulset.apps/kfserving-controller-manager   1/1     2d3h
+```
 
 ## InferenceService
+
+KFServing 에서 제공하는 custom resource 로는, InferenceService / TrainedModel 크게 두 가지가 있으나, 핵심 기능인 predictor 를 통한 Model Serving 은 InferenceService 만으로 가능하다.
+
+Kubernetes 에서 InferenceService 를 생성하면 아래와 같은 resource 들이 생성된다. 아래는 default / canary configuration 이 나누어져 있는 예시이지만, default configuration 만으로도 정의할 수 있다.
+
+<img src="../../images/kfserving-inference-service.png" width="350px" height="450px" ></img>
+
+- InferenceService
+  - KFServing, 즉, kubeflow 에서 제공하는 Resource.
+  - Model Server 의 전체적인 Life-Cycle 을 관리.
+- Configuration
+  - Knative 에서 제공하는 configuration resource.
+  - Model server 의 deploy 이력을 관리.
+- Revision
+  - Knative 에서 제공하는 revision resource.
+  - configuration 의 이력 관리를 통해 생성된 resource 이며, 뜯어 보면 serving container 의 spec 을 저장하고 있다.
+- Route
+  - Knative 에서 제공하는 route resource.
+  - Network Traffic 관리를 위한 endpoint 역할.
+  - traffic 을 연결된 revision 으로 routing 하는 역할. (ex> default-service -> revision-00X-service)
+
+
+#### InferenceService 배포 예시  
+
+```sh
+# Knative InferenceService
+# - canary rate, 현재 revision, container 상태 등을 조회
+NAME           URL                                         READY   PREV   LATEST   PREVROLLEDOUTREVISION   LATESTREADYREVISION                    AGE
+triton-model   http://triton-model.inference.<custom.domain>   True           100                              triton-model-predictor-default-00003   2d1h
+
+# Knative configuration
+# - 해당 configuration 이 아래 revision 을 생성.
+NAME                             LATESTCREATED                          LATESTREADY                            READY   REASON
+triton-model-predictor-default   triton-model-predictor-default-00003   triton-model-predictor-default-00003   True
+
+# Knative revision
+NAME                                   CONFIG NAME                      K8S SERVICE NAME                       GENERATION   READY   REASON
+triton-model-predictor-default-00001   triton-model-predictor-default   triton-model-predictor-default-00001   1            True
+triton-model-predictor-default-00002   triton-model-predictor-default   triton-model-predictor-default-00002   2            True
+triton-model-predictor-default-00003   triton-model-predictor-default   triton-model-predictor-default-00003   3            True
+
+# Knative route
+NAME                             URL                                                           READY   REASON
+triton-model-predictor-default   http://triton-model-predictor-default.inference.<custom.domain>   True
+
+```
 
 ### predictor
 
@@ -220,6 +282,5 @@ deployment.apps/cert-manager-webhook      1/1     1            1           2d3h
 ### canary
 
 ## Monitoring
-
-???
+,,?
 
