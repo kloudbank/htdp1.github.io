@@ -236,7 +236,7 @@ Kubernetes 에서 InferenceService 를 생성하면 아래와 같은 resource �
 <img src="../../images/kfserving-inference-service.png" width="350px" height="450px" ></img>
 
 - InferenceService
-  - KFServing, 즉, kubeflow 에서 제공하는 Resource.
+  - KFServing, 즉, kubeflow 에서 제공하는 resource.
   - Model Server 의 전체적인 Life-Cycle 을 관리.
 - Configuration
   - Knative 에서 제공하는 configuration resource.
@@ -249,38 +249,201 @@ Kubernetes 에서 InferenceService 를 생성하면 아래와 같은 resource �
   - Network Traffic 관리를 위한 endpoint 역할.
   - traffic 을 연결된 revision 으로 routing 하는 역할. (ex> default-service -> revision-00X-service)
 
+#### v1beta1 api
+
+InferenceService / TrainedModel 등을 생성하고 KFServing api 를 활용하여 Knative Resource 를 관리.
+필수적으로 predictor spec 이 정의되어야 하며, predictor 의 autoscaling / canary 등의 설정 가능.
+
+> KFServing v1beta1 api docs
+<https://github.com/kubeflow/kfserving/tree/master/docs/apis/v1beta1>
 
 #### InferenceService 배포 예시  
 
+triton-inference-server 를 predictor 로 정의하여, KFServing container 로 배포한 결과.
+
+***
+| <small>Model Serving 과정에 있어서 Triton 의 경우에는, Inference Server 에 Model Repository 를 mount 에서 여러 가지 모델을 활용하여 요청을 처리할 수 있다.</small>
+<small>그 외, tensorflow 등은 predictor 용 container 를 실행할 때, model 1개만을 mount 해서 사용하는 것 같은데, 어떤 식으로 분석가들이 활용하는지, 어떤 차이점이 있는지는 파악을 못하겠다,,,</small>
+***
+
+- Kubernetes 기본 object
+
+```sh
+# revision 별로 service 가 생성되며, container 는 deployment 로 배포.
+$ kubectl get all
+
+NAME                                                   TYPE           CLUSTER-IP       EXTERNAL-IP                                            PORT(S)                             AGE
+service/triton-model                                   ExternalName   <none>           knative-local-gateway.istio-system.svc.cluster.local   <none>                              2d18h
+service/triton-model-predictor-default                 ExternalName   <none>           knative-local-gateway.istio-system.svc.cluster.local   80/TCP                              2d18h
+service/triton-model-predictor-default-00001           ClusterIP      10.100.140.165   <none>                                                 80/TCP                              2d18h
+service/triton-model-predictor-default-00001-private   ClusterIP      10.100.175.250   <none>                                                 80/TCP,9090/TCP,9091/TCP,8022/TCP   2d18h
+service/triton-model-predictor-default-00002           ClusterIP      10.100.242.173   <none>                                                 80/TCP                              2d18h
+service/triton-model-predictor-default-00002-private   ClusterIP      10.100.26.240    <none>                                                 80/TCP,9090/TCP,9091/TCP,8022/TCP   2d18h
+service/triton-model-predictor-default-00003           ClusterIP      10.100.135.47    <none>                                                 80/TCP                              25h
+service/triton-model-predictor-default-00003-private   ClusterIP      10.100.102.133   <none>                                                 80/TCP,9090/TCP,9091/TCP,8022/TCP   25h
+
+NAME                                                              READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/triton-model-predictor-default-00001-deployment   0/0     0            0           2d18h
+deployment.apps/triton-model-predictor-default-00002-deployment   0/0     0            0           2d18h
+deployment.apps/triton-model-predictor-default-00003-deployment   0/0     0            0           25h
+```
+
+- Knative 관련 resource
 ```sh
 # Knative InferenceService
 # - canary rate, 현재 revision, container 상태 등을 조회
+$ kubectl get ksvc
+
 NAME           URL                                         READY   PREV   LATEST   PREVROLLEDOUTREVISION   LATESTREADYREVISION                    AGE
 triton-model   http://triton-model.inference.<custom.domain>   True           100                              triton-model-predictor-default-00003   2d1h
 
 # Knative configuration
 # - 해당 configuration 이 아래 revision 을 생성.
+$ kubectl get configuration
+
 NAME                             LATESTCREATED                          LATESTREADY                            READY   REASON
 triton-model-predictor-default   triton-model-predictor-default-00003   triton-model-predictor-default-00003   True
 
 # Knative revision
+$ kubectl revision configuration
+
 NAME                                   CONFIG NAME                      K8S SERVICE NAME                       GENERATION   READY   REASON
 triton-model-predictor-default-00001   triton-model-predictor-default   triton-model-predictor-default-00001   1            True
 triton-model-predictor-default-00002   triton-model-predictor-default   triton-model-predictor-default-00002   2            True
 triton-model-predictor-default-00003   triton-model-predictor-default   triton-model-predictor-default-00003   3            True
 
 # Knative route
+$ kubectl route configuration
+
 NAME                             URL                                                           READY   REASON
 triton-model-predictor-default   http://triton-model-predictor-default.inference.<custom.domain>   True
 
 ```
 
-### predictor
 
-### autoscaling
+### Predictor
 
-### canary
+InferenceService 를 생성하고 predictor 를 정의하여, inference server container 를 생성
+
+- predictor
+  - TFServing, TorchSere, Triton, MLSerer/KFServer, ONNX Runtime 등 활용 가능하며, official image 활용하여 container 생성.
+  - custom image 정의 가능.
+- storage
+  - Amazon S3, Google GCS 등의 public cloud object storage 활용 가능.
+  - pvc 를 통한 volume mount 가능.
+
+#### Triton model server 생성 예시
+
+Amazon S3 를 storage 로 mount 하기 위하여, 관련 secret 및 serviceAccount 등을 사전에 생성하였음.
+
+```yaml
+apiVersion: "serving.kubeflow.org/v1beta1"
+kind: "InferenceService"
+metadata:
+  name: "triton-model"
+  namespace: inference
+spec:
+  predictor:
+    serviceAccountName: s3-sa
+    triton:    
+      resources:
+        limits:
+          cpu: "1"
+          memory: 2Gi
+      storageUri: s3://htdp1-triton-inference-server-repository/model_repository
+```
+
+### Autoscaling
+
+Knative Serving Container 는 위에서 설명된 것 처럼, KPA 에 의해 HPA 를 통해 scale in/out 을 수행.
+minReplicas 를 0 으로 설정하여, 미사용 Model Server 를 관리 가능.
+
+#### 주요 spec
+- minReplicas: 최소 replicas
+  - default 1
+  - 0 으로 설정하면, Knative 의 config 에 설정된 시간이 지났을 경우 pod terminate.
+    - 관련 Knative Serving configmap: scale-to-zero-grace-period
+    <https://knative.dev/docs/serving/autoscaling/scale-to-zero/#scale-to-zero-last-pod-retention-period>
+
+    - 미사용 container auto scale out 내역  
+    ```sh
+    $ kubectl get po -w
+    
+    NAME                                                              READY   STATUS    RESTARTS   AGE
+    triton-model-predictor-default-00003-deployment-689d9545ff7hvkg   0/2     Pending   0          0s
+    triton-model-predictor-default-00003-deployment-689d9545ff7hvkg   0/2     Pending   0          0s
+    triton-model-predictor-default-00003-deployment-689d9545ff7hvkg   0/2     Init:0/1   0          0s
+    triton-model-predictor-default-00003-deployment-689d9545ff7hvkg   0/2     Init:0/1   0          1s
+    triton-model-predictor-default-00003-deployment-689d9545ff7hvkg   0/2     PodInitializing   0          4s
+    triton-model-predictor-default-00003-deployment-689d9545ff7hvkg   1/2     Running           0          5s
+    triton-model-predictor-default-00003-deployment-689d9545ff7hvkg   1/2     Running           0          6s
+    triton-model-predictor-default-00003-deployment-689d9545ff7hvkg   2/2     Running           0          6s
+    
+    triton-model-predictor-default-00003-deployment-689d9545ff7hvkg   2/2     Terminating       0          68s
+    triton-model-predictor-default-00003-deployment-689d9545ff7hvkg   1/2     Terminating       0          70s
+    triton-model-predictor-default-00003-deployment-689d9545ff7hvkg   0/2     Terminating       0          115s
+    ```
+
+- maxReplicas: 최소 replicas
+
+- containerConcurrency
+  - 요청이 동시에 처리 가능한 개수.
+  - Knative Serving 의 autoscaling concurrency 제어.
+  <https://knative.dev/docs/serving/autoscaling/concurrency>
+
+
+### Canary
+
+storage 를 서로 다르게 하여, 2개 이상의 Model Server 를 통해서 request 를 처리할 수 있다.  
+v1alpha2 에서는 InferenceService 에 default/canary 에 대한 predictor 정의를 한번에 하는 방식이었으나, v1beta1 부터는 default 로 사용할 predictor 를 우선 정의하고, 이후에 canaryTrafficPercent 를 명시한 predictor 를 추가적으로 정의하는 방식으로 변경된 것으로 보인다.
+
+위와 같은 InferenceService patch 내역은 모두 revision 으로 생성하여 관리되기 때문에, 다시 rollback 하는 데에는 더 유리할 것으로 생각됨.
+
+아래는 KFServing 예제에서 제공하는 tensorflow 활용 예제이다.
+
+- default predictor 정의
+
+```yaml
+apiVersion: "serving.kubeflow.org/v1beta1"
+kind: "InferenceService"
+metadata:
+  name: "flower-sample"
+  namespace: kfserving-test
+spec:
+  predictor:
+    minReplicas: 0
+    tensorflow:    
+      storageUri: gs://kfserving-samples/models/tensorflow/flowers
+```
+
+- canary predictor 및 traffic percent 정의
+
+```yaml
+apiVersion: "serving.kubeflow.org/v1beta1"
+kind: "InferenceService"
+metadata:
+  name: "flower-sample"
+  namespace: kfserving-test
+spec:
+  predictor:
+    minReplicas: 0
+    # canary 처리를 위한 추가 predictor 임을 명시하는 방법.
+    canaryTrafficPercent: 20
+    tensorflow:
+      # 다른 Model 을 Mount
+      storageUri: "gs://kfserving-samples/models/tensorflow/flowers-2"
+```
+
+- canary 배포 내역 확인은 InferenceService 를 조회하여 확인 가능
+
+```sh
+$ kubectl get isvc -owide
+
+NAME            URL                                               READY   PREV   LATEST   PREVROLLEDOUTREVISION                   LATESTREADYREVISION                     AGE
+flower-sample   http://flower-sample.kfserving-test.<custom-domain>   True    80     20       flower-sample-predictor-default-00002   flower-sample-predictor-default-00003   25h
+```
 
 ## Monitoring
-,,?
+재설치 이후 다시,,,??
+
 
