@@ -227,6 +227,41 @@ NAME                                            READY   AGE
 statefulset.apps/kfserving-controller-manager   1/1     2d3h
 ```
 
+- KFServing Request Flow
+
+```
+  +----------------------+     +-----------------------+     +----------------------------+
+  |Istio Virtual Service |     |Istio Virtual Service  |     | K8S Service                |
+  |                      |     |                       |     |                            |
+  |model-server          |     |model-server-predictor |     | model-server-predictor     |
+  |                      +---->|  -default             +---->|   -default-$revision       |
+  |                      |     |                       |     |                            |
+  |  *KFServing Route*   |     |  *Knative Route*      |     | *Knative Revision Service* |
+  +----------------------+     +-----------------------+     +----------------+-----------+
+   Istio Ingress Gateway        Istio Local Gateway                    Kube Proxy
+                                                                              |
+                                                                              |
+                                                                              |
+  +-------------------------------------------------------+                   |
+  |  *Knative Revision Pod*                               |                   |
+  |                                                       |                   |
+  |  +-------------------+      +-----------------+       |                   |
+  |  |                   |      |                 |       |                   |
+  |  |kfserving-container|<-----+ Queue Proxy     |       |<------------------+
+  |  |                   |      |                 |       |
+  |  +-------------------+      +--------------^--+       |
+  |                                            |          |
+  |                                            |          |
+  +-----------------------^-------------------------------+
+                          | scale deployment   |
+                 +--------+--------+           | pull metrics
+                 |  Knative        |           |
+                 |  Autoscaler     |-----------
+                 |  KPA/HPA        |
+                 +-----------------+
+```
+
+
 ## InferenceService
 
 KFServing 에서 제공하는 custom resource 로는, InferenceService / TrainedModel 크게 두 가지가 있으나, 핵심 기능인 predictor 를 통한 Model Serving 은 InferenceService 만으로 가능하다.
@@ -442,6 +477,7 @@ $ kubectl get isvc -owide
 NAME            URL                                               READY   PREV   LATEST   PREVROLLEDOUTREVISION                   LATESTREADYREVISION                     AGE
 flower-sample   http://flower-sample.kfserving-test.<custom-domain>   True    80     20       flower-sample-predictor-default-00002   flower-sample-predictor-default-00003   25h
 ```
+
 
 ## Monitoring
 재설치 이후 다시,,,??
