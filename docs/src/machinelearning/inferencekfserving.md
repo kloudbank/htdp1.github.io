@@ -292,6 +292,7 @@ InferenceService / TrainedModel 등을 생성하고 KFServing api 를 활용하�
 > KFServing v1beta1 api docs
 <https://github.com/kubeflow/kfserving/tree/master/docs/apis/v1beta1>
 
+
 #### InferenceService 배포 예시  
 
 triton-inference-server 를 predictor 로 정의하여, KFServing container 로 배포한 결과.
