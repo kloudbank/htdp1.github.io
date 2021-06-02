@@ -29,26 +29,112 @@ AWS Certification 관련 요구 지식 및 자격증 취득을 위한 가이드 
 
 ![](../../images/aws-certi-list.png)
 
-## Solutions Architect Professional
 
-도메인 시험 비중(%)
-도메인 1: 조직적 복잡성을 위한 설계 12.5%
-도메인 2: 새로운 솔루션을 위한 설계 31%
-도메인 3: 마이그레이션 계획 15%
-도메인 4: 비용 관리 12.5%
-도메인 5: 기존 솔루션의 지속적 향상 29%
-합계 100%
+### 시험 비용
+비싸지만, 회사 비용으로 지원되니 신경쓰지 않음.
+
+### 시험 언어 및 추가시간 30분 연장 신청
+Exam Language 를 Korean 으로 선택하면, 시험 도중에 English / Korean version 을 번갈아가면서 문제를 푸는 것이 가능.
+또한, 영어가 모국어가 아닌 나라에서는 어색하게 번역된 문제를 푸는 것에 대한 불리함이 있기 때문에, 추가시간 30분 연장 Advantage 를 신청할 수 있다.
+
+***
+| <small>*문제 은행의 문제를 미리 다 풀어보고 가면, 사실 시험 시간은 매우 충분하다. 1시간을 넘기기 힘들다,,*</small>
+| <small>*작성자의 경우, 굳이 추가시간 연장을 신청하지 않았다.*</small>
+***
+
+- 시험 편의사항 요청을 통해 추가시간 신청 가능  
+
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fec1fXK%2FbtqWc8VheAs%2FA4xNnJZuIBJrCpSbKDM0e1%2Fimg.png" />
+
+
+### 시험 장소 및 유의 사항
+시험 공급기관은 PSI와 Pearson VUE 가 있으며, 마음에 드는 일정으로 선택하면 되는데, PSI 의 시험 일정이 항상 여유가 있었다.
+
+세 번의 시험 모두 SRTC 에서 응시했는데, 문정동의 새 건물에 있다가 선정릉의 오래된 건물로 최근에 옮겼다.
+
+시험장에는 15분 전에 도착하도록 안내되며, 주 신분증과 보조 신분증인 신용카드를 모두 가져가야 한다.
+시험 시간은 유동적이라서, 일찍 도착하면 그냥 일찍 시험을 시작하고, 조금 늦으면 늦은대로 늦게 시작하기도 한다. 빨리 가서 빨리 보고 나오는 것을 추천한다.
+
+
+## Solutions Architect Professional
+시험 안내서 요약 및 주요 출제 내용 정리
+
+### 시험 안내서 요약
+
+- 자격증을 통해 검증되는 능력
+  - AWS에서 동적으로 확장 가능하며 가용성이 높고 내결함성이 있으며 안정적인 애플리케이션을 설계 및 배포
+  - 주어진 요구 사항을 기반으로 애플리케이션을 설계하고 배포하기에 적절한 AWS 서비스 선택
+  - AWS에서 복잡한 멀티 티어 애플리케이션을 마이그레이션
+  - AWS에서 확장 가능한 전사적 작업을 설계 및 배포
+  - 비용 관리 전략 구현
+
+- 도메인 및 가중치
+
+도메인                     |  시험 비중(%)  
+-------------------------|--------------
+1: 조직적 복잡성을 위한 설계   |   12.5%      
+2: 새로운 솔루션을 위한 설계   |    31%       
+3: 마이그레이션 계획         |     15%      
+4: 비용 관리               |    12.5%     
+5: 기존 솔루션의 지속적 향상   |    29%       
+합계                      |    100%      
+
+### 주요 Service / Feature
+
+1. 조직 / audit 관련해서는 간단히만 알고 있어도 큰 문제 없음.
+- AWS Organization, IAM, SSO, Config, Inspector, Cloudtrail, Cloudwatch 등.
+
+2. 새로운 솔루션을 위한 설계 방안으로는, VPC 관련 구성 뿐 아니라, Serverless / Data Analysis 관련 서비스에 대해서도 어느 정도 파악이 필요.
+- Amazon VPC 관련 구성 (Gateway, Endpoint, ENI etc.)
+- EC2 관련 구성 (EBS, EFS, ELB etc.)
+- RDS, DynamoDB, Redshift 등의 적용 방안
+- S3, Cloudfront, API Gateway, Lambda, Kinesis 등을 활용하여 Serverless App. 설계 방안
+- 그 외, 특화된 서비스 (Macie, Rekognition, Athena, Glue, EMR etc.)
+
+3. 마이그레이션 관련, 3-tier 구조의 Application 의 Cloud 전환 및 Database 이관, on-premise storage 이관 등에 관련된 서비스 이해 필요.
+- Amazon EC2, ECS, ASG 등 App. Server 이관
+- RDS, Elasticache 등 DB 이관
+- S3, Storage Gateway, Snowball 등 Storage Data 이관 방안
+- 그 외, Migration 도구 (Migration Hub, Application Discovery Service etc.)
+
+4. 비용 관련, 서비스별 요금을 정확하게 파악할 필요까지는 없었고, 필요 이상의 서비스를 비싸게 사용하는 case 에 대해 파악할 수 있으면 어렵지 않음.
+- AWS Trusted Advisor, Cost Explorer 등의 활용
+- EC2 Instance type 별 사용 용도와 대략적인 요금 파악
+
+5. 기존 솔루션의 고가용성 확보, 보안 강화, 운영 효율화를 위한 서비스 활용 방안에 대하여 어느 정도 파악이 필요.
+- Auto Scaling Group, ECS, ELB, Route53 구성 및 Multi-AZ 활용, Region 간 복제 등의 고가용성 확보 방안
+- EBS, EFS, S3 의 암호화 방안
+- AWS Parameter Store, KMS, CloudHSM 등 보안 강화를 위한 솔루션 활용 방안
+- SQS, SNS, MQ 등을 활용한 App. Architecture 변경
+
 
 ## DevOps Engineer Professional
+AWS DevOps Engineer Professional 시험 안내서 요약 및 주요 출제 내용 정리
 
-도메인 시험 비중(%)
-도메인 1: SDLC 자동화 22%
-도메인 2: 구성 관리 및 Infrastructure as Code 19%
-도메인 3: 모니터링 및 로깅 15%
-도메인 4: 정책 및 표준 자동화 10%
-도메인 5: 인시던트 및 이벤트 대응 18%
-도메인 6: 고가용성, 내결함성 및 재해 복구 16%
-합계 100%
+### 시험 안내서 요약
+
+- 자격증을 통해 검증되는 능력
+  - AWS에서 지속적인 전송 시스템 및 방법론 구현 및 관리
+  - 보안 제어, 거버넌스 프로세스 및 규정 준수 검증의 구현 및 자동화
+  - AWS에서 시스템 모니터링, 지표 및 로깅 시스템 정의 및 배포
+  - AWS 플랫폼에서 가용성이 높고 확장성이 뛰어나며 자가 치유 기능이 있는 시스템 구현
+  - 운영 프로세스를 자동화할 수 있는 도구의 설계, 관리 및 유지 관리
+
+- 도메인 및 가중치
+
+도메인                                  | 시험 비중(%) 
+--------------------------------------|------------
+1: SDLC 자동화                          | 22%        
+2: 구성 관리 및 Infrastructure as Code   | 19%        
+3: 모니터링 및 로깅                       | 15%         
+4: 정책 및 표준 자동화                    |  10%        
+5: 인시던트 및 이벤트 대응                 |  18%        
+6: 고가용성, 내결함성 및 재해 복구           |  16%        
+합계                                   |  100%       
+
+
+### 주요 Service / Feature
+
 
 
 ## Study Guide
@@ -58,7 +144,7 @@ AWS Certification 관련 요구 지식 및 자격증 취득을 위한 가이드 
 2. Solutions Architect Professional
 3. DevOps Engineer Professional
 
-작성자의 경우, AWS 에 대한 지식은 EC2 Instance 몇 번 띄워 본 정도 밖에 없는 상태에서 자격증 취득 공부를 시작했다. 그렇기 때문에, AWS 로 기본적인 웹 서비스를 구축하는 실습을 해볼 수 있는 서적을 참고하여 기초 지식을 습득한 후, 문제 풀이에 돌입했다.  
+: 작성자의 경우, AWS 에 대한 지식은 EC2 Instance 몇 번 띄워 본 정도 밖에 없는 상태에서 자격증 취득 공부를 시작했다. 그렇기 때문에, AWS 로 기본적인 웹 서비스를 구축하는 실습을 해볼 수 있는 서적을 참고하여 기초 지식을 습득한 후, 문제 풀이에 돌입했다.  
 
 <u>*SAA 를 취득하는 데에 가장 오랜 시간을 들였으며, SAP 를 취득할 때 가장 열심히 공부했으며, DOP 취득 시에는 AWS DevOps 도구에 대한 공부만 추가적으로 간단하게 했다.*</u>
 
@@ -70,13 +156,13 @@ AWS Certification 관련 요구 지식 및 자격증 취득을 위한 가이드 
   - 무료 전자책으로 배포되어 있으므로 서적을 직접 구매할 필요는 없으나, 책을 사지 않으면 공부하지 않을 것 같아서 종이 서적을 구매하였음,,
   - AWS Console UI 와 Service 기능이 변경되어, 책에서 설명한 그대로 실습하기 어렵기는 하지만, 간단한 내용의 실습 위주로 AWS 의 주요 서비스를 모두 활용해 볼 수 있음.
   - 책의 19장 정도까지는 직접 실습을 진행하였음. 단, Free-Tier 혹은 무료로 사용 가능한 서비스 들만,,,
-    - EC2, ASG, ELB, EBS, EFS, S3, Cloudfront, RDS, IAM 활용 등 실습.
+    - <u>EC2, ASG, ELB, EBS, EFS, S3, Cloudfront, RDS, IAM</u> 활용 등을 실습.
 
 <img src="http://pyrasis.com/assets/images/TheArtOfAmazonWebServices/TheArtOfAmazonWebServices3d.png" height="320px" width="320px" />
 
 
 - AWS Solutions Architect 기초 정리
-: 최근 SAA-C02 합격자의 공부 내용 정리 내역.
+: 최근 SAA-C02 합격자의 공부 내용 정리 내역인데, 굉장히 정리가 잘 되어 있다,,,
 
 > wbluke tistory blog 참조
 <a href="https://wbluke.tistory.com/54" target="_blank" rel="noopener">1. EC2, Auto Scaling, ELB</a>
@@ -91,7 +177,7 @@ AWS Certification 관련 요구 지식 및 자격증 취득을 위한 가이드 
 ### 문제은행 활용
 
 examtopics.com 에 접속하여 문제를 풀어보고, 문제마다 달린 Discussion 댓글과 본인의 생각을 곁들여 정확한 답을 찾기 위해 노력했다. 기본적으로 문제에서 제공하고 있는 답은 정답률이 60% 정도 밖에 되지 않기 때문에, examtopics 에서 문제/답을 프린트한 출력물을 그대로 외워서는 합격이 불가능하다.  
-처음 접하는 AWS Service 에 대한 내용에 대해 지속적으로 검색이 필요하기 때문에, 출력물을 통한 문제풀이보다는 PC 에서 브라우저를 통해 웹사이트에서 직접 풀어보고, 검색하여 정답을 찾아내는 과정이 매우 중요했다.
+처음 접하는 AWS Service 에 대한 내용에 대해 지속적으로 검색이 필요하기 때문에, 출력물을 통한 문제풀이보다는 PC 에서 브라우저를 통해 웹사이트에서 직접 풀어보고, AWS 문서를 직접 검색하여 정답을 찾아내는 과정이 매우 중요했다.
 
 - SAA-C02
 : 작성자는 C01 ver. 에 응시하여 취득하여, C02 ver. 의 문제 수준은 정확히 파악하기 어려우나, 지문이 다소 더 길어진 것으로 파악됨.
