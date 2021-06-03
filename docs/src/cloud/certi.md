@@ -4,6 +4,8 @@ AWS Certification 관련 요구 지식 및 자격증 취득을 위한 가이드 
 
 ## AWS Certi. Overview
 
+AWS Certification 은 크게 아래와 같이 분류할 수 있다.
+
 - Role based certi.
   - Solutions Architect
   - DevOps Engineer
@@ -17,7 +19,7 @@ AWS Certification 관련 요구 지식 및 자격증 취득을 위한 가이드 
 
 
 ### Eligible Exams
-- 2020 년 기준으로 모든 시험 version 이 갱신되었기 때문에, 문제 은행 Dump 가 적당히 쌓인 현재 시점에 자격증 취득이 수월할 것으로 예상됨.
+- 2020년 기준으로 모든 시험 version 이 갱신되었기 때문에, 문제 은행 Dump 가 적당히 쌓인 현재 시점에 자격증 취득이 수월할 것으로 예상됨.
   - Solutions Architect Associate: <b>SAA-C02</b>
   - Solutions Architect Professional: <b>SAP-C01</b>
   - DevOps Engineer Professional: <b>DOP-C01</b>
@@ -39,7 +41,7 @@ Exam Language 를 Korean 으로 선택하면, 시험 도중에 English / Korean 
 
 ***
 | <small>*문제 은행의 문제를 미리 다 풀어보고 가면, 사실 시험 시간은 매우 충분하다. 1시간을 넘기기 힘들다,,*</small>
-| <small>*작성자의 경우, 굳이 추가시간 연장을 신청하지 않았다.*</small>
+| <small>작성자의 경우, <u>*굳이 추가시간 연장을 신청하지 않았다.*</u></small>
 ***
 
 - 시험 편의사항 요청을 통해 추가시간 신청 가능  
@@ -50,9 +52,9 @@ Exam Language 를 Korean 으로 선택하면, 시험 도중에 English / Korean 
 ### 시험 장소 및 유의 사항
 시험 공급기관은 PSI와 Pearson VUE 가 있으며, 마음에 드는 일정으로 선택하면 되는데, PSI 의 시험 일정이 항상 여유가 있었다.
 
-세 번의 시험 모두 SRTC 에서 응시했는데, 문정동의 새 건물에 있다가 선정릉의 오래된 건물로 최근에 옮겼다.
+세 번의 시험 모두 SRTC 에서 응시했는데, <u>*문정동의 새 건물에 있다가 선정릉의 오래된 건물로 최근에 옮겼다.*</u>
 
-시험장에는 15분 전에 도착하도록 안내되며, 주 신분증과 보조 신분증인 신용카드를 모두 가져가야 한다.
+시험장에는 15분 전에 도착하도록 안내되며, <u>*주 신분증과 보조 신분증인 신용카드를 모두 가져가야 한다.*</u>
 시험 시간은 유동적이라서, 일찍 도착하면 그냥 일찍 시험을 시작하고, 조금 늦으면 늦은대로 늦게 시작하기도 한다. 빨리 가서 빨리 보고 나오는 것을 추천한다.
 
 
@@ -79,32 +81,33 @@ Exam Language 를 Korean 으로 선택하면, 시험 도중에 English / Korean 
 5: 기존 솔루션의 지속적 향상   |    29%       
 합계                      |    100%      
 
+
 ### 주요 Service / Feature
 
-1. 조직 / audit 관련해서는 간단히만 알고 있어도 큰 문제 없음.
+#### 1. 조직 / audit 관련해서는 간단히만 알고 있어도 큰 문제 없음.
 - AWS Organization, IAM, SSO, Config, Inspector, Cloudtrail, Cloudwatch 등.
 
-2. 새로운 솔루션을 위한 설계 방안으로는, VPC 관련 구성 뿐 아니라, Serverless / Data Analysis 관련 서비스에 대해서도 어느 정도 파악이 필요.
+#### 2. 새로운 솔루션을 위한 설계 방안으로는, VPC 관련 구성 뿐 아니라, Serverless / Data Analysis 관련 서비스에 대해서도 어느 정도 파악이 필요.
 - Amazon VPC 관련 구성 (Gateway, Endpoint, ENI etc.)
 - EC2 관련 구성 (EBS, EFS, ELB etc.)
 - RDS, DynamoDB, Redshift 등의 적용 방안
-- S3, Cloudfront, API Gateway, Lambda, Kinesis 등을 활용하여 Serverless App. 설계 방안
+- S3, Cloudfront, API Gateway, Lambda, SWF, Kinesis 등을 활용하여 Serverless App. 설계 방안
 - 그 외, 특화된 서비스 (Macie, Rekognition, Athena, Glue, EMR etc.)
 
-3. 마이그레이션 관련, 3-tier 구조의 Application 의 Cloud 전환 및 Database 이관, on-premise storage 이관 등에 관련된 서비스 이해 필요.
+#### 3. 마이그레이션 관련, 3-tier 구조의 Application 의 Cloud 전환 및 Database 이관, on-premise storage 이관 등에 관련된 서비스 이해 필요.
 - Amazon EC2, ECS, ASG 등 App. Server 이관
 - RDS, Elasticache 등 DB 이관
 - S3, Storage Gateway, Snowball 등 Storage Data 이관 방안
 - 그 외, Migration 도구 (Migration Hub, Application Discovery Service etc.)
 
-4. 비용 관련, 서비스별 요금을 정확하게 파악할 필요까지는 없었고, 필요 이상의 서비스를 비싸게 사용하는 case 에 대해 파악할 수 있으면 어렵지 않음.
+#### 4. 비용 관련, 서비스별 요금을 정확하게 파악할 필요까지는 없었고, 필요 이상의 서비스를 비싸게 사용하는 case 에 대해 파악할 수 있으면 어렵지 않음.
 - AWS Trusted Advisor, Cost Explorer 등의 활용
 - EC2 Instance type 별 사용 용도와 대략적인 요금 파악
 
-5. 기존 솔루션의 고가용성 확보, 보안 강화, 운영 효율화를 위한 서비스 활용 방안에 대하여 어느 정도 파악이 필요.
+#### 5. 기존 솔루션의 고가용성 확보, 보안 강화, 운영 효율화를 위한 서비스 활용 방안에 대하여 어느 정도 파악이 필요.
 - Auto Scaling Group, ECS, ELB, Route53 구성 및 Multi-AZ 활용, Region 간 복제 등의 고가용성 확보 방안
 - EBS, EFS, S3 의 암호화 방안
-- AWS Parameter Store, KMS, CloudHSM 등 보안 강화를 위한 솔루션 활용 방안
+- AWS Systems Manager Parameter Store, KMS, CloudHSM 등 보안 강화를 위한 솔루션 활용 방안
 - SQS, SNS, MQ 등을 활용한 App. Architecture 변경
 
 
@@ -135,18 +138,49 @@ AWS DevOps Engineer Professional 시험 안내서 요약 및 주요 출제 내�
 
 ### 주요 Service / Feature
 
+Solutions Architect 공부를 하면서, VM / Network / DB / Storage 관련 대부분의 서비스에 대해서 어느 정도 파악하고 있었기 때문에, 추가적으로 DevOps 관련 서비스와 Infra 구성 자동화 등의 운영 관점의 편의성을 위한 서비스들에 대해서 추가적으로 이해하기 위해 노력했다.
+
+#### 1. SDLC 자동화 관련, AWS DevOps 서비스 및 3rd. Party Solution 을 활용하여 자동화를 더 효율적으로 달성하는 방안, CI/CD 의 기본적인 개념에 대한 이해가 필요.
+- AWS CodeCommit, CodeBuild, CodeDeploy, CodePipeline 에 대한 이해와, 3rd. Party Solution 과의 효율적인 연계 방안.
+- S3 및 암호화 도구를 활용한 Artifact 관리 방안.
+- API Gateway, Lambda, Route53 등 활용한, 배포 전략 설계.
+
+#### 2. 인프라 구성 자동화 및 수명 주기를 통한 Auto Scaling Group 관리 방안 등에 대한 이해가 필요.
+- AWS CloudFormation 의 template, stack 등 활용, 인프라 구성 자동화 방안
+- AWS OpsWorks 를 활용한 인스턴스 구성 자동화 방안.
+- Auto Scaling Group Life Cycle Hook 에 대한 이해.
+
+#### 3. 지표 모니터링 및 로깅에 대한 기본적인 이해와, 관련 서비스에 대한 이해 필요.
+- Amazon CloudWatch event, logs 를 활용, 모니터링, 로깅 효율성 증대 방안.
+- Amzaon ES, CloudSearch 등, 솔루션 적용 방안.
+- Amazon 에서 제공하는 audit 관련 서비스 이해.
+
+#### 4. 정책 및 표준 관련해서는, general 한 내용들이 대부분이며, 보안 관련 서비스에 대해 이해하면 크게 문제 없을 것으로 보임.
+- AWS Systems Manager 활용, 표준 및 패치 관리 방안.
+
+#### 5. 이벤트에 대응하기 위한 AWS 서비스 활용 방안 이해, 인프라 구성 관련 도메인 2번 내용과 겹치는 부분이 많음.
+- CloudWatch 등과 SNS / SES 등의 서비스 연계
+- Event 연계 Lambda 함수를 활용한 수명 주기 관리, 스크립트 실행 등의 복구 시나리오 수립 방안.
+
+#### 6. 고가용성, 내결함성, 재해 복구 등의 내용은, Solutions Architect 에서 공부한 부분과 거의 유사함. 단, App. Architecture 의 변경 관련 내용을 다루지는 않음.
+- Auto Scaling Group, ECS, ELB, Route53 구성 및 Multi-AZ 활용, Region 간 복제 등의 고가용성 확보 방안
+- AWS Systems Manager Parameter Store, KMS, CloudHSM 등 보안 강화를 위한 솔루션 활용 방안
+- AWS Systems Manager 의 효율적인 활용 방안.
 
 
 ## Study Guide
 
 - AWS Certi. 취득 순서
-1. Solutions Architect Associate
-2. Solutions Architect Professional
-3. DevOps Engineer Professional
+1. Solutions Architect Associate - Public Cloud Solutions 활용의 대략적인 이해
+2. Solutions Architect Professional - Public Cloud Solutions 활용 심화
+3. DevOps Engineer Professional - Public Cloud Solution + DevOps 기본 이해
 
-: 작성자의 경우, AWS 에 대한 지식은 EC2 Instance 몇 번 띄워 본 정도 밖에 없는 상태에서 자격증 취득 공부를 시작했다. 그렇기 때문에, AWS 로 기본적인 웹 서비스를 구축하는 실습을 해볼 수 있는 서적을 참고하여 기초 지식을 습득한 후, 문제 풀이에 돌입했다.  
+<u>*SAA 를 취득하는 데에 가장 오랜 시간을 들였으며,
+SAP 를 취득할 때 가장 열심히 공부했으며,
+DOP 취득 시에는 AWS DevOps 도구에 대한 공부만 추가적으로 간단하게 했다.*</u>
 
-<u>*SAA 를 취득하는 데에 가장 오랜 시간을 들였으며, SAP 를 취득할 때 가장 열심히 공부했으며, DOP 취득 시에는 AWS DevOps 도구에 대한 공부만 추가적으로 간단하게 했다.*</u>
+| <small>*작성자의 경우, AWS 에 대한 지식은 EC2 Instance 몇 번 띄워 본 정도 밖에 없는 상태에서, 자격증 취득 공부를 시작했다. 그렇기 때문에,,  
+  <u>AWS 로 기본적인 웹 서비스를 구축하는 실습을 해볼 수 있는 서적을 참고하여 기초 지식을 습득한 후, 문제 풀이에 돌입했다.</u>*</small>
 
 ### 참고 서적 및 기술 정리 문서
 
@@ -162,7 +196,7 @@ AWS DevOps Engineer Professional 시험 안내서 요약 및 주요 출제 내�
 
 
 - AWS Solutions Architect 기초 정리
-: 최근 SAA-C02 합격자의 공부 내용 정리 내역인데, 굉장히 정리가 잘 되어 있다,,,
+: 구글링 도중 발견한 최근 SAA-C02 합격자의 공부 내용 정리 내역인데, 굉장히 정리가 잘 되어 있다,,,
 
 > wbluke tistory blog 참조
 <a href="https://wbluke.tistory.com/54" target="_blank" rel="noopener">1. EC2, Auto Scaling, ELB</a>
@@ -197,7 +231,8 @@ examtopics.com 에 접속하여 문제를 풀어보고, 문제마다 달린 Disc
 
 ### AWS 공식 문서 및 Reference 활용
 
-공식 문서나 White Paper 를 정독하는 것은, 전혀 필요 없다. 어차피 나중에 AWS 를 활용하여 Migration 이나 신규 System 을 구축할 때, 다시 꼼꼼하게 읽어보면서 AWS Service 사용해야 하기 때문에,,
+구글링을 통해 Certi. 취득 후기를 읽어보면, 가끔 공식 문서나 White Paper 를 정독하라는 이야기도 있지만, <u>*정독할 필요는 전혀 없다.*</u>  
+어차피 나중에 AWS 를 활용하여 Migration 이나 신규 System 을 구축할 때, 다시 꼼꼼하게 읽어보면서 AWS Service 사용해야 하기 때문에,,
 
 - AWS Service 사용설명서
 : 문제에서 이해되지 않거나 혼동되는 내용이 있을 경우, 해당 키워드와 관련된 내용을 사용설명서에서 검색하여 이해 가능. 정확한 답을 찾아낼 수 있음.
@@ -232,6 +267,7 @@ Certi. 인증 코드가 있어야, 접속 가능한 AWS Store.
 - AWS Certified Exam Discount
 : Certification 취득 시마다, Next Exam Discount Code 가 발급되어, 시험 비용의 50% 의 할인율을 적용받을 수 있음.
 | <small>*회사 비용 아껴줄 수 있음,,,*</small>
+
 
 ### Badges  
 SNS, LinkedIn, 혹은 아래와 같은 Public Link 로 Share 가능.

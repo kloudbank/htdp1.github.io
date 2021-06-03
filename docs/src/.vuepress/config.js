@@ -77,11 +77,11 @@ module.exports = {
           collapsable: false,
           children: [
             'aws',
-            // 'certi',
+            'certi',
           ]
         },
         {
-          title: 'Resource',
+          title: 'Resources',
           collapsable: false,
           children: [
             'eks',
