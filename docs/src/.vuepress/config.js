@@ -77,7 +77,7 @@ module.exports = {
           collapsable: false,
           children: [
             'aws',
-            // 'certi',
+            'certi',
           ]
         },
         {
