@@ -46,5 +46,3 @@ docker run --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /et
 kubectl get po -A | grep Evicted | awk '{print $1" " $2}' | xargs kubectl delete po -n {namespace}
 ```
 
-<Comment />
-
