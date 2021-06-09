@@ -43,6 +43,10 @@ module.exports = {
         text: 'M / L',
         link: '/machinelearning/'
       },
+      {
+        text: 'GitOps',
+        link: '/gitops/'
+      },
     ],
     sidebar: {
       '/guide/': [
@@ -164,6 +168,26 @@ module.exports = {
           sidebarDepth: 2
         },
       ],
+      '/gitops/': [
+        {
+          title: 'Introduction',
+          collapsable: false,
+          children: [
+            '',
+            'gitopsintro',
+          ],
+          sidebarDepth: 2
+        },
+        {
+          title: 'FluxCD',
+          collapsable: false,
+          children: [
+            'fluxintro',
+            // 'fluxcd',
+          ],
+          sidebarDepth: 2
+        },
+      ]
     }
   },
 
