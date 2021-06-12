@@ -183,7 +183,7 @@ module.exports = {
           collapsable: false,
           children: [
             'fluxintro',
-            // 'fluxcd',
+            'fluxcdv2',
           ],
           sidebarDepth: 2
         },
