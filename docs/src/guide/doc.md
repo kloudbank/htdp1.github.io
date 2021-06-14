@@ -1,5 +1,7 @@
 # 문서 관리
 
+vuepress + github pages 및 action 을 활용하여, 문서 관리하는 방안 정리한 내역.
+
 ## Prerequisite
 - node.js 및 npm 설치
 <https://nodejs.org/ko/>
