@@ -15,7 +15,7 @@ AWS Certification 은 크게 아래와 같이 분류할 수 있다.
   - Machine Learning, Data Analytics
   - Alexa
 
-<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbcemiZ%2FbtqV2aGEz8b%2FHlOWxFPwI3qitEgH7qCFOk%2Fimg.png" />
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbcemiZ%2FbtqV2aGEz8b%2FHlOWxFPwI3qitEgH7qCFOk%2Fimg.png" width="720px" height="400px" />
 
 
 ### Eligible Exams
@@ -46,7 +46,7 @@ Exam Language 를 Korean 으로 선택하면, 시험 도중에 English / Korean 
 
 - 시험 편의사항 요청을 통해 추가시간 신청 가능  
 
-<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fec1fXK%2FbtqWc8VheAs%2FA4xNnJZuIBJrCpSbKDM0e1%2Fimg.png" />
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fec1fXK%2FbtqWc8VheAs%2FA4xNnJZuIBJrCpSbKDM0e1%2Fimg.png" width="720px" height="320x" />
 
 
 ### 시험 장소 및 유의 사항
