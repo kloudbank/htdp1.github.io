@@ -187,6 +187,14 @@ module.exports = {
           ],
           sidebarDepth: 2
         },
+        {
+          title: 'ArgoCD',
+          collapsable: false,
+          children: [
+            'ArgoCD',
+          ],
+          sidebarDepth: 2
+        },
       ]
     }
   },
