@@ -10,16 +10,16 @@ Flux v2 의 Core Concepts 및 GOTK (GitOps Toolkit) components 정리.
   - Kubernetes custom resource 로 생성하며, 아래와 같은 resource 를 정의할 수 있다.
     - GitRepository, HelmRepository, Bucket (Object Storage).
 
-- Reconcilation
-  - Flux 의 reconcilation 은 Flux source 가 정의한 resource 가 생성한 artifact 의 상태와, 현재 실행 중인 상태 (k8s cluster, infra) 가 일치하는지 확인하는 것을 의미한다.
+- reconciliation
+  - Flux 의 reconciliation 은 Flux source 가 정의한 resource 가 생성한 artifact 의 상태와, 현재 실행 중인 상태 (k8s cluster, infra) 가 일치하는지 확인하는 것을 의미한다.
   - 위의 확인 과정에서 일치하지 않을 경우, source 의 유형에 맞는 작업을 수행하도록 정의할 수 있다.
-    - Kustomization, HelmRelease, Bucket reconcilation 수행.
+    - Kustomization, HelmRelease, Bucket reconciliation 수행.
   - 특히, Kustomization 의 경우, kustomization.kustomize.toolkit.fluxcd.io 의 custom resource 이며, kustomize 릍 통한 k8s object 배포를 위해 정의할 수 있으며, repository 에 kustomization.yml 이 없더라도 내부적으로는 kustomize 를 통하여 모든 k8s object 를 배포한다.
   <https://fluxcd.io/docs/faq/#kustomize-questions>
 
 - Bootstrap
   - FluxCD 의 구성 component 들을 k8s 에 설치하는 방식 또한, GitOps 방식으로 프로세스를 실행하게 되는데, 이를 bootstrap 이라 한다.
-  - FluxCD 의 GitHub main 저장소에 있는 manifest file 을 내려 받아, 사용자의 cluster 에 source repository 에 저장하고, flux 구성 요소의 설정 변경 및 재배포를 Flux Reconcilation 을 통하여 수행한다.
+  - FluxCD 의 GitHub main 저장소에 있는 manifest file 을 내려 받아, 사용자의 cluster 에 source repository 에 저장하고, flux 구성 요소의 설정 변경 및 재배포를 Flux reconciliation 을 통하여 수행한다.
   - 아래 tool 을 설치하여, Flux bootstrap 을 실행할 수 있다.
     - <b>Flux CLI</b> or Terraform Provider
 
@@ -47,11 +47,11 @@ API는 Kubernetes custom resource 로 구성되며, custom resource 정의 를 �
   - ImageUpdateAutomation CRD
 
 FluxCD 에서 제공하는 모든 controller 를 모두 배포하면, 위 목록의 6개의 deployment 가 배포되고, 관련 CRD 가 cluster 에 정의된다.
-아래, controller set 중에서, source 관련 custrom resource 의 artifact 생성을 하는 역할을 <b>Source Controller</b> 가 수행하며, reconcilation 의 역할을 수행하는 것이, <b>Kustomize Controller</b>, Helm Controller 이다.
+아래, controller set 중에서, source 관련 custrom resource 의 artifact 생성을 하는 역할을 <b>Source Controller</b> 가 수행하며, reconciliation 의 역할을 수행하는 것이, <b>Kustomize Controller</b>, Helm Controller 이다.
 
 ***
-| <small>정확히 확인하지는 않았지만,,, git repository 의 k8s 관련 yml 정의와, helm release automation 을 수행하는, 즉, kustomize / helm 의 reconcilation 을 담당하는 controller 는 각각 따로 있지만, Object Storage 의 reconcilation 을 담당하는 controller 는 따로 없다.</small>
-  <small>Object Storage 의 경우에는, artifact revision 재생성하는 작업 이후에, 배포 과정이 따로 필요하지 않으므로, Bucket custom resource 정의만으로 source resource 관리 및 reconcilation 을 모두 수행할 것이다.</small>
+| <small>정확히 확인하지는 않았지만,,, git repository 의 k8s 관련 yml 정의와, helm release automation 을 수행하는, 즉, kustomize / helm 의 reconciliation 을 담당하는 controller 는 각각 따로 있지만, Object Storage 의 reconciliation 을 담당하는 controller 는 따로 없다.</small>
+  <small>Object Storage 의 경우에는, artifact revision 재생성하는 작업 이후에, 배포 과정이 따로 필요하지 않으므로, Bucket custom resource 정의만으로 source resource 관리 및 reconciliation 을 모두 수행할 것이다.</small>
 ***
 
 그 외, Notification Controller 는 정의된 Alert custom resource 를 통하여 3rd. party 연계 등을 위한 부가적인 기능을 제공한다.
@@ -92,7 +92,7 @@ Kustomize Controller 는 Source Controller 가 생성한 artifact 와 현재 k8s
 <img src="https://fluxcd.io/img/kustomize-controller.png" />
 
 - Features
-  - k8s cluster 의 reconcilation 을 담당하며, 여러 개의 source resource 변경 감지도 가능.
+  - k8s cluster 의 reconciliation 을 담당하며, 여러 개의 source resource 변경 감지도 가능.
   - Kustomize 를 사용하여 배포하기 위한 manifest 를 생성.
   - Kubernetes API에 대한 manifest validation check.
   - Service Account 로 Impersonate,,? (multi-tenancy RBAC)
@@ -106,7 +106,7 @@ Kustomize Controller 는 Source Controller 가 생성한 artifact 와 현재 k8s
 ### Image reflector & automation controller
 
 image-reflector-controller와 image-automation-controller는 set 로 배포된다.  
-새로운 Container Image 가 감지되면, Git Repository 의 manifest 에 지정된 image tag 를 업데이트 하고, 이를 통해 Kustomization 의 reconcilation 이 수행되어질 수 있도록 한다.
+새로운 Container Image 가 감지되면, Git Repository 의 manifest 에 지정된 image tag 를 업데이트 하고, 이를 통해 Kustomization 의 reconciliation 이 수행되어질 수 있도록 한다.
 
 <img src="https://fluxcd.io/img/image-update-automation.png" />
 

@@ -40,7 +40,7 @@ Flux CLI bootstrap 을 실행하여, flux-system namespace 에 flux v2 controlle
 
 ### Bootstrap
 
-public 저장소인 github 를 사용하여 bootstrap 하는 가이드가 주로 많이 있으나, generic 한 git 저장소를 통한 배포 테스트를 위해서 <u>AWS CodeCommit</u> 에 repository 를 생성하였다.   bootstrap 실행 시, ssh 혹은 https 를 통하여 해당 repository 에 flux v2 manifest 를 push 하고, reconcilation 을 실행한다.
+public 저장소인 github 를 사용하여 bootstrap 하는 가이드가 주로 많이 있으나, generic 한 git 저장소를 통한 배포 테스트를 위해서 <u>AWS CodeCommit</u> 에 repository 를 생성하였다.   bootstrap 실행 시, ssh 혹은 https 를 통하여 해당 repository 에 flux v2 manifest 를 push 하고, reconciliation 을 실행한다.
 
 ```sh
 flux bootstrap git \
@@ -55,7 +55,7 @@ flux bootstrap git \
 1. flux manitfest 를 생성하여 git repository 에 push
 2. reconcile 을 실행하여, cluster 에 flux gotk component 배포
 3. GitRepository source 생성 및 인증 secret 등을 생성
-4. Kustomize reconcilation 생성
+4. Kustomize reconciliation 생성
 5. git repository 에 push 후, reconcile 실행하여 custom resource 생성
 
 - git repository manifest 생성 내역
@@ -85,7 +85,7 @@ notification-controller-7c9d5cdc4c-gkwkc      1/1     Running     0          19d
 source-controller-655c987dff-pz9df            1/1     Running     0          8d
 ```
 
-### Source & Reconcilation
+### Source & reconciliation
 
 bootstrap 의 결과로 생성된 manifest 중, gotk-sync.yaml 에는 GitRepository 와 Kustomization 이 정의되어 있다.  
 설치 과정에서 parameter 로 입력한 접속 정보를 가지고 secret 을 생성하여, git repository access 를 위해 사용한다.
@@ -123,7 +123,7 @@ spec:
 
 ```
 
-- flux source, reconcilation 생성 내역
+- flux source, reconciliation 생성 내역
 : gotk-sync.yaml 에 정의된 내역이며, flux resource 는 flux CLI 를 통해 조회할 수도 있다. flux-system 이라는 name 으로 공통으로 생성된다.
 
 ```sh
@@ -162,8 +162,8 @@ path 로 지정한 directory 아래에, k8s object manifest 를 유형별로 정
 │           └── update-policy.yml
 ```
 
-특이 사항으로, k8s API 로 정의된 yaml 들만 Kustomization reconcilation 에 의해 apply / patch / delete 가 실행이 된다.
-예를 들면, 위 파일 중 update-policy.yml 은 fluxcd API 중 ImageUpdateAutomation manifest 인데, 이 파일을 수정해서 push 하면, 자동으로 reconcilation 이 이루어지지 않는다.
+특이 사항으로, k8s API 로 정의된 yaml 들만 Kustomization reconciliation 에 의해 apply / patch / delete 가 실행이 된다.
+예를 들면, 위 파일 중 update-policy.yml 은 fluxcd API 중 ImageUpdateAutomation manifest 인데, 이 파일을 수정해서 push 하면, 자동으로 reconciliation 이 이루어지지 않는다.
 <u>*즉, FluxCD 의 설정 자체에 영향을 주는 yml 파일을, git repository 에서 관리하더라도, 소스코드 push 후 flux CLI 를 통해 reconcile 명령을 실행해 주어야 실제로 배포가 실행된다.*</u>
 
 아래와 같이, fluxcd kustomization 을 source 인 git repository 기반으로 reconcile 하겠다는 command 실행을 하면 수동 반영이 가능하다.
@@ -187,7 +187,7 @@ $ flux reconcile kustomization flux-system --with-source
 ## CI/CD Automation
 
 현재 구성된 환경에서는 k8s manifest 를 관리하는 별도의 git repository 를 생성하여, FluxCD 가 repository 의 변경을 감지하여 k8s object 를 변경하고 있다.  
-AWS Managed Service 를 활용하여, source code 빌드 및 docker image build / push 후, 자동으로 git repository 의 deployment image tag 를 수정하여, 이를 통해 FluxCD 의 reconcilation 이 실행될 수 있도록 구성 및 테스트한 내역이다.
+AWS Managed Service 를 활용하여, source code 빌드 및 docker image build / push 후, 자동으로 git repository 의 deployment image tag 를 수정하여, 이를 통해 FluxCD 의 reconciliation 이 실행될 수 있도록 구성 및 테스트한 내역이다.
 
 - CI/CD workflow
   - DEV: Local code 수정 및 git repository commit and push.
@@ -411,6 +411,101 @@ index 5d947df..74f8196 100644
 
 ## Monitoring
 
-...
+Flux는 kube-prometheus-stack 을 사용하여, 아래와 같은 기본적인 monitoring manifest 를 github main 저장소를 통해 제공한다.
+
+- 기본 제공 monitoring manifest
+  - Prometheus Operator -Kubernetes에서 Prometheus 클러스터 관리
+  - Prometheus - Flux 컨트롤러 및 Kubernetes API에서 메트릭 수집
+  - Grafana Dashbards -Flux 컨트롤 플레인 리소스 사용량 및 조정 통계를 표시합니다.
+  - kube-state-metrics - Kubernetes 객체의 상태에 대한 메트릭을 생성합니다.
 
 
+- flux v2 github 의 monitoring manifest 참조
+: 정의된 kustomize 로 prometheus / grafana 를 배포하였으며, 기본 dashboard 가 포함되어 있다.
+<https://github.com/fluxcd/flux2/tree/main/manifests/monitoring>
+
+
+```sh
+> cd ./flux2/tree/main/manifests/monitoring
+> tree grafana prometheus kustomization.yaml    
+grafana
+├── dashboards
+│   ├── cluster.json
+│   └── control-plane.json
+├── datasources.yaml
+├── deployment.yaml
+├── kustomization.yaml
+├── providers.yaml
+└── service.yaml
+prometheus
+├── account.yaml
+├── deployment.yaml
+├── kustomization.yaml
+├── prometheus.yml
+├── rbac.yaml
+└── service.yaml
+kustomization.yaml
+```
+
+### Flux Monitoring Resource
+
+FluxCD 는 monitoring stack 설치를 flux resource 생성을 통해 설치하도록 가이드 함. 
+fluxv2 의 Github main repository 를 GitRepository resource 로 생성하고, monitoring 을 배포하기 위한 Kustomization resource 를 생성.
+
+***
+| <small>전체 monitoring stack 이 아닌, 필요에 따른 prometheus 와 grafana 만 별도로 설치하였음.</small>
+***
+
+- flux source 및 reconciliation 생성
+: Github main 저장소를 source 로 생성하고, source 의 monitoring directory 에 있는 kustomization.yaml 기반으로 reconciliation 을 생성.
+```sh
+> flux create source git monitoring \
+  --interval=30m \
+  --url=https://github.com/fluxcd/flux2 \
+  --branch=main
+
+> flux create kustomization monitoring-stack \
+  --interval=1h \
+  --prune=true \
+  --source=monitoring \
+  --path="./manifests/monitoring" # prometheus / grafana 배포를 위한 kustomize manifest path.
+```
+
+- flux resource 생성 내역
+: application manifest 관련 source / reconciliation 외에 추가로 monitoring 관련 resource 가 생성되었음.
+```sh
+> flux get source git
+NAME       	READY	MESSAGE                                                        	REVISION                                     	SUSPENDED
+flux-system	True 	Fetched revision: eks/08231b0c6993577d71af7f0ac069381684d43697 	eks/08231b0c6993577d71af7f0ac069381684d43697 	False
+monitoring 	True 	Fetched revision: main/fd364828a120421b9a2ca169c4284d78eeb38d16	main/fd364828a120421b9a2ca169c4284d78eeb38d16	False
+
+> flux get kustomization
+NAME            	READY	MESSAGE                                                        	REVISION                                     	SUSPENDED
+flux-system     	True 	Applied revision: eks/08231b0c6993577d71af7f0ac069381684d43697 	eks/08231b0c6993577d71af7f0ac069381684d43697 	False
+monitoring-stack	True 	Applied revision: main/fd364828a120421b9a2ca169c4284d78eeb38d16	main/fd364828a120421b9a2ca169c4284d78eeb38d16	False
+```
+
+
+### Flux Dashboards
+
+FluxCD 에서 제공하는 monitoring dashboard.
+
+***
+| <small>기본 제공 dashboard 에는, ImageRepository 및 ImageUpdateAutomation 관련 monitoring 은 없음.</small>
+| <small>또한, monitoring 과 연계 하여, FluxCD Alert 및 Notification 기능과의 연계도 가능할 것으로 보임,,,</small>
+***
+
+- Flux Cluster Status
+: FluxCD 에서 생성한 custrom resource monitoring
+  - reconciliations / sources 의 list-up 및 상태
+  - reconciliatino, soure acquisition 의 수행 시간
+
+![](../../images/flux-dashboard-cluster.png)
+
+- Flux Control Plane
+: FluxCD control plane 으로 생성된, k8s object monitoring
+  - Flux Controller 상태 및 자원 사용율 조회
+  - Controller 의 Kubernetes API request 상태 확인
+  - reconciliation request 상태 확인 (Kustomization, HelmRelease)
+
+![](../../images/flux-dashboard-control-plane.png)
