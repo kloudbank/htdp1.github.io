@@ -162,9 +162,9 @@ path 로 지정한 directory 아래에, k8s object manifest 를 유형별로 정
 │           └── update-policy.yml
 ```
 
-특이 사항으로, k8s API 로 정의된 yaml 들만 Kustomization reconciliation 에 의해 apply / patch / delete 가 실행이 된다.
+~~특이 사항으로, k8s API 로 정의된 yaml 들만 Kustomization reconciliation 에 의해 apply / patch / delete 가 실행이 된다.
 예를 들면, 위 파일 중 update-policy.yml 은 fluxcd API 중 ImageUpdateAutomation manifest 인데, 이 파일을 수정해서 push 하면, 자동으로 reconciliation 이 이루어지지 않는다.
-<u>*즉, FluxCD 의 설정 자체에 영향을 주는 yml 파일을, git repository 에서 관리하더라도, 소스코드 push 후 flux CLI 를 통해 reconcile 명령을 실행해 주어야 실제로 배포가 실행된다.*</u>
+<u>*즉, FluxCD 의 설정 자체에 영향을 주는 yml 파일을, git repository 에서 관리하더라도, 소스코드 push 후 flux CLI 를 통해 reconcile 명령을 실행해 주어야 실제로 배포가 실행된다.*</u>~~
 
 아래와 같이, fluxcd kustomization 을 source 인 git repository 기반으로 reconcile 하겠다는 command 실행을 하면 수동 반영이 가능하다.
 
