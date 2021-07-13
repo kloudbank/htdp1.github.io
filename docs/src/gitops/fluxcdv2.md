@@ -7,10 +7,9 @@ manifest 선언 형식, 기본 namespace 변경, 분리되어 배포되는 GOTK 
 
 AWS Managed Service 로 제공되는 CI Pipeline 을 사용하여 Docker image 를 build 하고, FluxCD 를 활용하여 Amazon EKS cluster 에 자동으로 배포하는 CD 구성을 작업하였다.
 
-- 구성 Architecture 참고
-> <https://aws.amazon.com/ko/blogs/devops/ci-cd-on-amazon-eks-using-aws-codecommit-aws-codepipeline-aws-codebuild-and-fluxcd/>
+- 구성 Architecture
 
-<img src="https://d2908q01vomqb2.cloudfront.net/7719a1c782a1ba91c031a682a0a2f8658209adbf/2021/03/09/diagram.png" />
+![](../../images/flux-eks-architecture.png)
 
 
 ## Prerequisite
