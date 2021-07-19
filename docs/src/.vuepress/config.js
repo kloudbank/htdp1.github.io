@@ -187,14 +187,14 @@ module.exports = {
           ],
           sidebarDepth: 2
         },
-        // {
-        //   title: 'ArgoCD',
-        //   collapsable: false,
-        //   children: [
-        //     'argocd',
-        //   ],
-        //   sidebarDepth: 2
-        // },
+        {
+          title: 'ArgoCD',
+          collapsable: false,
+          children: [
+            'argocd',
+          ],
+          sidebarDepth: 2
+        },
       ]
     }
   },
