@@ -147,6 +147,12 @@ module.exports = {
           children: ["fluxintro", "fluxcdv2"],
           sidebarDepth: 2,
         },
+        {
+          title: "ArgoCD",
+          collapsable: false,
+          children: ["argocd"],
+          sidebarDepth: 2,
+        },
         // {
         //   title: 'ArgoCD',
         //   collapsable: false,
