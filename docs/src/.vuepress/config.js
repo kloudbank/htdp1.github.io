@@ -1,14 +1,16 @@
 // const { description } = require('../../../package')
 
 module.exports = {
-
-  title: 'HTDP1',
-  description: 'htdp1 github pages',
+  title: "HTDP1",
+  description: "htdp1 github pages",
 
   head: [
-    ['meta', { name: 'theme-color', content: '#3eaf7c' }],
-    ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
-    ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }]
+    ["meta", { name: "theme-color", content: "#3eaf7c" }],
+    ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
+    [
+      "meta",
+      { name: "apple-mobile-web-app-status-bar-style", content: "black" },
+    ],
   ],
 
   /**
@@ -17,175 +19,133 @@ module.exports = {
    * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
    */
   themeConfig: {
-    repo: '',
+    repo: "",
     editLinks: false,
-    docsDir: '',
-    editLinkText: '',
+    docsDir: "",
+    editLinkText: "",
     lastUpdated: false,
     nav: [
       {
-        text: 'Guide',
-        link: '/guide/'
+        text: "Guide",
+        link: "/guide/",
       },
       {
-        text: 'Cloud',
-        link: '/cloud/'
+        text: "Cloud",
+        link: "/cloud/",
       },
       {
-        text: 'Ref. Arch.',
-        link: '/refarch/'
+        text: "Ref. Arch.",
+        link: "/refarch/",
       },
       {
-        text: 'Framework',
-        link: '/framework/'
+        text: "Cloud.Native.App",
+        link: "/cloud-native-app/",
       },
       {
-        text: 'M / L',
-        link: '/machinelearning/'
+        text: "M / L",
+        link: "/machinelearning/",
       },
       {
-        text: 'GitOps',
-        link: '/gitops/'
+        text: "GitOps",
+        link: "/gitops/",
       },
     ],
     sidebar: {
-      '/guide/': [
+      "/guide/": [
         {
-          title: 'Guide',
+          title: "Guide",
           collapsable: false,
-          children: [
-            '',
-            'env',
-            'doc',
-          ],
-          sidebarDepth: 2
+          children: ["", "env", "doc"],
+          sidebarDepth: 2,
         },
         {
-          title: 'Resource',
+          title: "Resource",
           collapsable: false,
-          children: [
-            'resource',
-          ]
-        }
-      ],
-      '/cloud/': [
-        {
-          title: 'Introduction',
-          collapsable: false,
-          children: [
-            '',
-          ]
-        },
-        {
-          title: 'AWS',
-          collapsable: false,
-          children: [
-            'aws',
-            'certi',
-          ]
-        },
-        {
-          title: 'Resources',
-          collapsable: false,
-          children: [
-            'eks',
-            'alb',
-            'nlb',
-            'ebs',
-            'efs',
-          ]
-        }
-      ],
-      '/refarch/': [
-        {
-          title: 'Introduction',
-          collapsable: false,
-          children: [
-            '',
-          ],
-          sidebarDepth: 2
-        },
-        {
-          title: 'Redis',
-          collapsable: false,
-          children: [
-            '',
-            'perftest',
-            'hatest',
-          ],
-          sidebarDepth: 2
-        },
-        {
-          title: 'EIP',
-          collapsable: false,
-          children: [
-            'camel',
-            'legacy',
-          ],
-          sidebarDepth: 2
+          children: ["resource"],
         },
       ],
-      '/framework/': [
+      "/cloud/": [
         {
-          title: 'Sprint#1',
+          title: "Introduction",
           collapsable: false,
-          children: [
-            '',
-            'arch',
-            'dev',
-          ],
-          sidebarDepth: 2
+          children: [""],
+        },
+        {
+          title: "AWS",
+          collapsable: false,
+          children: ["aws", "certi"],
+        },
+        {
+          title: "Resources",
+          collapsable: false,
+          children: ["eks", "alb", "nlb", "ebs", "efs"],
         },
       ],
-      '/machinelearning/': [
+      "/refarch/": [
         {
-          title: 'Introduction',
+          title: "Introduction",
           collapsable: false,
-          children: [
-            '',
-          ],
-          sidebarDepth: 2
+          children: [""],
+          sidebarDepth: 2,
         },
         {
-          title: 'Jupyter',
+          title: "Redis",
           collapsable: false,
-          children: [
-            'jupyterintro',
-            'jupyterserver',
-            'jupyterhub',
-            'jupyterproxy',
-          ],
-          sidebarDepth: 2
+          children: ["", "perftest", "hatest"],
+          sidebarDepth: 2,
         },
         {
-          title: 'Inference',
+          title: "EIP",
           collapsable: false,
-          children: [
-            'inferenceintro',
-            'inferencetriton',
-            'inferencekfserving',
-          ],
-          sidebarDepth: 2
+          children: ["camel", "legacy"],
+          sidebarDepth: 2,
         },
       ],
-      '/gitops/': [
+      "/framework/": [
         {
-          title: 'Introduction',
+          title: "Sprint#1",
           collapsable: false,
-          children: [
-            '',
-            'gitopsintro',
-          ],
-          sidebarDepth: 2
+          children: ["", "arch", "dev"],
+          sidebarDepth: 2,
+        },
+      ],
+      "/machinelearning/": [
+        {
+          title: "Introduction",
+          collapsable: false,
+          children: [""],
+          sidebarDepth: 2,
         },
         {
-          title: 'FluxCD',
+          title: "Jupyter",
           collapsable: false,
           children: [
-            'fluxintro',
-            'fluxcdv2',
+            "jupyterintro",
+            "jupyterserver",
+            "jupyterhub",
+            "jupyterproxy",
           ],
-          sidebarDepth: 2
+          sidebarDepth: 2,
+        },
+        {
+          title: "Inference",
+          collapsable: false,
+          children: ["inferenceintro", "inferencetriton", "inferencekfserving"],
+          sidebarDepth: 2,
+        },
+      ],
+      "/gitops/": [
+        {
+          title: "Introduction",
+          collapsable: false,
+          children: ["", "gitopsintro"],
+          sidebarDepth: 2,
+        },
+        {
+          title: "FluxCD",
+          collapsable: false,
+          children: ["fluxintro", "fluxcdv2"],
+          sidebarDepth: 2,
         },
         // {
         //   title: 'ArgoCD',
@@ -195,24 +155,23 @@ module.exports = {
         //   ],
         //   sidebarDepth: 2
         // },
-      ]
-    }
+      ],
+    },
   },
 
   /**
    * Apply plugins，ref：https://v1.vuepress.vuejs.org/zh/plugin/
    */
   plugins: [
-    '@vuepress/plugin-back-to-top',
-    '@vuepress/plugin-medium-zoom',
-    '@dovyp/vuepress-plugin-clipboard-copy',
+    "@vuepress/plugin-back-to-top",
+    "@vuepress/plugin-medium-zoom",
+    "@dovyp/vuepress-plugin-clipboard-copy",
   ],
 
   markdown: {
-    extendMarkdown: md => {
-      md.set({ breaks: true })
-      md.use(require('markdown-it-plantuml'))
-    }
-  }
-
-}
+    extendMarkdown: (md) => {
+      md.set({ breaks: true });
+      md.use(require("markdown-it-plantuml"));
+    },
+  },
+};
