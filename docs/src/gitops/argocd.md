@@ -29,6 +29,33 @@ Push-based vs. Pull-based Deployments <https://www.gitops.tech/#push-based-vs-pu
 Key Benefits <https://www.weave.works/technologies/gitops/#key-benefits-of-gitops>
 정리하기
 
+## ArgoCD란
+![ArgoCD GitOps CD](../../images/gitops-argocd.png)
+### ArgoCD 장점
+1. 모든 변경사항이 git rep에 저장 되어있기 때문에 검증하거나 감사(audit)하기 쉽다.
+2. git repo라는 single source of truth 를 가지기 때문에 환경을 쉽고 일관성 있게 복제 할 수 있다. 장애 복구 시 매우 유용
+3. git을 사용하기 때문에 개발자들에게 learning curve가 적다.
+4. rollback 이 쉽다.
+
+### ArgoCD의 Key Component
+1. API Server  
+ArgoCD는 다른 외부 시스템과 interact 하기 위한 API를 제공하는 API Server가 있다. API Server는 Application, repository, cluster credential, 인증 및 권한 부여 등을 관리한다.
+2. Repository server  
+Repository server는 k8s manifest file이 있는 git repository의 로컬 캐시를 유지한다. git repo에서 manifest 정보를 가져올 때 이 repository server를 호출하게 된다.
+3. Application controller  
+Application controller는 배포된 application 의 state와 정의된 desired state를 계속해서 비교하여 서로 동기화 되지 않을 때마다 API Server에 report하는 역할을 담당한다.
+    - 3분마다 git을 polling(`argo-cd` ConfigMap에 설정되어있어서 변경가능함)
+
+
+### Key objects/resources in Argo CD
+1. Application 
+* ArgoCD는 Application이라는 k8s custom resource definition(CRD)를 통해서 배포하고자 하는 application의 instance를 나타낸다.
+* 이 ArgoCD Application 안에 생성할 application의 K8s manifest 파일이 있는 git repo, 배포하고자 하는 k8s server, namsepace 등등의 정보를 정의한다.
+2. App Project
+* 쿠버네티스의 namespace와 비슷한 개념으로 여러 App을 논리적인 project로 구분하기 위해 사용되는 ArgoCD CRD
+3. Repo Credentials
+* repository에 접근하기 위해서 필요한 credential. ArgoCD는 git url을 arogocd-cm이라는 ConfigMap에 저장하고 credential 가 담긴 secret 을 사용한다.
+4. Cluster Credentials: ArgoCD가 설치된 cluster가 아닌 다른 cluster에 접근할 때 사용됨
 ## ArgoCD 실습
 ![ArgoCD GitOps CD](../../images/argocd-flow.png)
 * Jenkins 설치 및 설정(작성중)
@@ -40,7 +67,9 @@ Key Benefits <https://www.weave.works/technologies/gitops/#key-benefits-of-gitop
 ### Jenkins 설치(작성중)
 ### ArgoCD 설치
 * helm repo 추가
-`helm repo add argo https://argoproj.github.io/argo-helm`
+```bash
+helm repo add argo https://argoproj.github.io/argo-helm
+```
 * config 수정을 위해서 source 다운로드 및 소스 수정 후 argocd 설치
 ```bash
 # source 다운로드
