@@ -17,8 +17,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "vuepress": "^1.5.3",
     "@dovyp/vuepress-plugin-clipboard-copy": "^1.0.0-alpha.7",
-    "markdown-it-plantuml": "^1.4.1"
+    "markdown-it-plantuml": "^1.4.1",
+    "vuepress": "^1.5.3"
   }
 }

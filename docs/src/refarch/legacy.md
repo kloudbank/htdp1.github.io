@@ -42,46 +42,59 @@ Apcahe Camel 은 Springboot 을 위해 별도의 라이브러리를 제공할 �
 </dependency>
 ```
 
+### CamelWebConfig.java 생성
+Camel Rest 를 사용하여 Rest API 를 제공하려면 ServletRegistrationBean 를 Bean 으로 생성해야 합니다.
+CamelWebConfig 클래스는 위 작업을 수행합니다.
+``` java
+@Configuration
+public class CamelWebConfig {
+    private static final String CAMEL_URL_MAPPING = "/camel/*";
+    private static final String CAMEL_SERVLET_NAME = "CamelServlet";
+
+    @Bean
+    public ServletRegistrationBean<CamelHttpTransportServlet> servletRegistrationBean() {
+
+        CamelHttpTransportServlet camelHttpTransportServlet = new CamelHttpTransportServlet();
+        camelHttpTransportServlet.setAsync(true);
+
+        ServletRegistrationBean<CamelHttpTransportServlet> registration = new ServletRegistrationBean<>(
+                camelHttpTransportServlet, CAMEL_URL_MAPPING);
+        registration.setName(CAMEL_SERVLET_NAME);
+
+        return registration;
+    }
+}
+```
+
 ### java code 를 이용한 개발
 아래 java class 를 생성합니다.
 ``` java
-package com.htdp1.camelspring.route;
-
-import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.model.rest.RestBindingMode;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-
-import com.htdp1.camelspring.dto.Department;
-
 @Component
 public class RestRoute extends RouteBuilder {
+    @Override
+    public void configure() throws Exception {
+	restConfiguration().component("servlet").bindingMode(RestBindingMode.json);
 
-	@Override
-	public void configure() throws Exception {
-		restConfiguration().component("servlet").bindingMode(RestBindingMode.json);
-		
-		// rest api 를 정의합니다.
-        rest("/sample")
-			.get("/")
-			.to("direct:get_sample")
-			.post("/")
-			.to("direct:post_sample")
-			;
-		
-		// get 에 대한 다른 rest api 로 routing 처리합니다.
-        // api 는 별도로 개발이 필요합니다.
-        from("direct:get_sample")
-			.to("rest:get:?host=localhost:8090/sample/")
-			;
-		
-        // post 에 대한 다른 rest api 로 routing 처리합니다.
-        // api 는 별도로 개발이 필요합니다.
-		from("direct:post_sample")
-			.to("rest:post:?host=localhost:8090/sample/")
-		;
+	// rest api 를 정의합니다.
+	rest("/sample")
+	    .get("/")
+	    .to("direct:get_sample")
+            .post("/")
+	    .to("direct:post_sample")
+	;
 
-	}
+	// get 에 대한 다른 rest api 로 routing 처리합니다.
+	// api 는 별도로 개발이 필요합니다.
+	from("direct:get_sample")
+	    .to("rest:get:?host=localhost:8090/sample/")
+	;
+
+	// post 에 대한 다른 rest api 로 routing 처리합니다.
+	// api 는 별도로 개발이 필요합니다.
+	from("direct:post_sample")
+	    .to("rest:post:?host=localhost:8090/sample/")
+	;
+    }
 }
 ```
 
