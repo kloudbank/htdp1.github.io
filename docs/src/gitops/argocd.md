@@ -19,10 +19,10 @@
 ---
 ### GitOps 배포방식
 * Push 방식
-![pusj 배포방식](/docs/images/normal_cicd_flow.png)
+![pusj 배포방식](../../images/normal_cicd_flow.png)
 
 * Pull 방식
-![pull 배포방식](/docs/images/gitops_cicd_flow.png)
+![pull 배포방식](../../images/gitops_cicd_flow.png)
 
 Basics <https://www.gitops.tech/#what-is-gitops>
 Push-based vs. Pull-based Deployments <https://www.gitops.tech/#push-based-vs-pull-based-deployments>
