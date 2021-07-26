@@ -101,12 +101,25 @@ module.exports = {
           sidebarDepth: 2,
         },
       ],
-      "/framework/": [
+      "/cloud-native-app/": [
         {
-          title: "Sprint#1",
+          title: "Cloud Native App",
           collapsable: false,
-          children: ["", "arch", "dev"],
+          children: ["", "restapi"],
           sidebarDepth: 2,
+        },
+        {
+          title: "Springboot",
+          collapsable: false,
+          children: [
+            "springboot/",
+            "springboot/restapi",
+            "springboot/bean",
+            "springboot/env",
+            "springboot/mybatis",
+            "springboot/jpa",
+          ],
+          sidebarDepth: 1,
         },
       ],
       "/machinelearning/": [
