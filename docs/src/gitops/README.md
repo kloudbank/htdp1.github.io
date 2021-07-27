@@ -6,11 +6,12 @@ GitOps, DevSecOps, AIOps, etc.
   - Git Ops Basics
 
 - FluxCD
-  - Basics, concepts, gotk component
+  - Basics, Concepts, GOTK Component
   - Amazon ECR, EKS, CodePipeline + FluxCD
 
 - ArgoCD
-  - ???
+  - Basics, Key Components / Objects
+  - Jenkins Pipeline + ArgoCD
 
 
 <Comment />

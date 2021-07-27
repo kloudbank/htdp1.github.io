@@ -161,6 +161,12 @@ module.exports = {
           sidebarDepth: 2,
         },
         {
+          title: "Flagger",
+          collapsable: false,
+          children: ["flaggerintro", "flaggerdeploy"],
+          sidebarDepth: 2,
+        },
+        {
           title: "ArgoCD",
           collapsable: false,
           children: ["argocd"],
