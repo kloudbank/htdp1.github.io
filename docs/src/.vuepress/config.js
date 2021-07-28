@@ -106,6 +106,12 @@ module.exports = {
           children: ["keycloak"],
           sidebarDepth: 2,
         },
+        {
+          title: "Harbor",
+          collapsable: false,
+          children: ["harbor"],
+          sidebarDepth: 2,
+        },
       ],
       "/cloud-native-app/": [
         {
