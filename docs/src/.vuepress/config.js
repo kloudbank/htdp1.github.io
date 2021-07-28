@@ -121,14 +121,6 @@ module.exports = {
           ],
           sidebarDepth: 1,
         },
-        {
-          title: "KeyCloak",
-          collapsable: false,
-          children: [
-            "KeyCloak"
-          ],
-          sidebarDepth: 1,
-        },
       ],
       "/machinelearning/": [
         {
