@@ -154,7 +154,46 @@ argocd-image-updater.argoproj.io/write-back-method: git
 : 동일한 state 임을 보장한다.<gitops 선언적 방식의 장점>
 2. Rollback #손쉬운 #완벽한
 : image tag만 바꾸는 것이 아니라 완벽한 rollback 가능
-3. config 분리 적용가능 
+
+3. config 분리 적용가능
+
+- ConfigMap repository 예시.
+
+```bash
+├── kustomization.yaml
+└── prd
+    ├── backend001
+    │   ├── application-api.yml
+    │   ├── application-db.yml
+    │   └── application.yml
+    ├── backend002
+    │   ├── application-api.yml
+    │   ├── application-db.yml
+    │   └── application.yml
+```
+
+- Kustomization configMapGenerator 구성 예시
+
+```yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+...
+
+configMapGenerator:
+- name: account
+  files:
+  - ./prd/backend001/application.yml
+  - ./prd/backend001/application-api.yml
+  - ./prd/backend001/application-db.yml
+- name: apigateway
+  files:
+  - ./prd/backend002/application.yml
+  - ./prd/backend002/application-api.yml
+  - ./prd/backend002/application-db.yml
+```
+
+
 4. multi cluster 관리용이 #한방에
 5. 빌드없는 배포 가능(CD) #SRE를 위한
 : helm, daemonset 등
