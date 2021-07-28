@@ -100,6 +100,12 @@ module.exports = {
           children: ["camel", "legacy"],
           sidebarDepth: 2,
         },
+        {
+          title: "KeyCloak",
+          collapsable: false,
+          children: ["keycloak"],
+          sidebarDepth: 2,
+        },
       ],
       "/cloud-native-app/": [
         {
@@ -172,14 +178,6 @@ module.exports = {
           children: ["argocd"],
           sidebarDepth: 2,
         },
-        // {
-        //   title: 'ArgoCD',
-        //   collapsable: false,
-        //   children: [
-        //     'argocd',
-        //   ],
-        //   sidebarDepth: 2
-        // },
       ],
     },
   },
