@@ -38,6 +38,11 @@ Key Benefits <https://www.weave.works/technologies/gitops/#key-benefits-of-gitop
 4. rollback 이 쉽다.
 
 ### ArgoCD의 Key Component
+
+- Reconciliation Cycle Overview
+
+![](./images/argo-reconcile-cycle.png)
+
 1. API Server  
 ArgoCD는 다른 외부 시스템과 interact 하기 위한 API를 제공하는 API Server가 있다. API Server는 Application, repository, cluster credential, 인증 및 권한 부여 등을 관리한다.
 2. Repository server  
@@ -45,6 +50,19 @@ Repository server는 k8s manifest file이 있는 git repository의 로컬 캐시
 3. Application controller  
 Application controller는 배포된 application 의 state와 정의된 desired state를 계속해서 비교하여 서로 동기화 되지 않을 때마다 API Server에 report하는 역할을 담당한다.
     - 3분마다 git을 polling(`argo-cd` ConfigMap에 설정되어있어서 변경가능함)
+
+- argocd 기본 설치 시, 생성되는 object
+
+```bash
+NAME                                            READY   UP-TO-DATE   AVAILABLE
+deployment.apps/argocd-application-controller   1/1     1            1        
+# 인증 용 dex server
+deployment.apps/argocd-dex-server               1/1     1            1        
+deployment.apps/argocd-redis                    1/1     1            1        
+deployment.apps/argocd-repo-server              1/1     1            1        
+# UI
+deployment.apps/argocd-server                   1/1     1            1        
+```
 
 
 ### Key objects/resources in Argo CD

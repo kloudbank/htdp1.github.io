@@ -275,7 +275,7 @@ spec:
   channel: on-call-alerts
   username: flagger
   # webhook address (ignored if secretRef is specified)
-  address: https://hooks.slack.com/services/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
+  address: <webhook address>
 ```
 
 - **Canary resource 생성 시, generate 되는 object 내역**
