@@ -31,8 +31,10 @@
 
 ## Keycloak 실습
 * Keycloak, Grafana 설치
+* Keycloak에 realm, client 추가
 * Keycloak 설정
-* Keycloak Realm, Client ID 확인
+* 연동 설정 후 재배포
+* Keycloak + Grafana 연동 확인
 
 ### Keycloak, Grafana 설치
 - Keycloak, Grafana 설치 및 연동 쉘 파일, yaml 파일 로컬PC에 Clone
@@ -53,7 +55,7 @@ git clone https://github.com/Salteed/dp2_keycloak
 sh 01_install.sh
 ```
 
-### Keycloak 설정
+### Keycloak에 realm, client 추가
 - 02_keycloak_setting.sh 실행
   - 아래 정보 입력
     - keycloak에 추가할 realm 이름
@@ -62,54 +64,35 @@ sh 01_install.sh
 sh 02_keycloak_setting.sh
 ```
 
-### Keycloak Realm, Client ID 확인
-- 
+### Keycloak 설정
+- Keycloak 접속 후 Administration Console 클릭
+- Keycloak 관리자 계정 로그인
+- 좌측 Clients 메뉴 클릭 -> Client ID 클릭
+- Access Type을 public -> confidential 로 변경 후 저장
+- Credentials 탭 클릭한 후 Secret 키 복사
+- 좌측 Users 메뉴 클릭 후 Add user 클릭
+- Username, Email 입력 후 저장
+- Credentials 탭 클릭한 다음 Password 입력 후 Set Password 클릭
+- 좌측 Clients 메뉴 클릭한 후 Client ID 클릭
+- Roles 탭 클릭한 후 Add Role 클릭
+- Role Name 입력 후 저장
+- 좌측 Roles 메뉴 클릭한 후 default-roles-{realm 이름} 클릭
+  - ex) default-roles-realm-50
+- Client Roles 클릭하여 생성한 client 선택
+  - ex) client-50
+- 생성된 Role 클릭 후 Add selected 클릭
 
+### 연동 설정 후 재배포
+- 04_connect_authorization.sh 파일 keycloak secret 값 수정
+  - ex) i_keycloak_secret
+- 스크립트 확인
+- 04_connect_authorization.sh 실행
+```bash
+sh 04_connect_authorization.sh
+```
 
-
-
-(아래는 참고 추후 내용 삭제 예정)
-
-- $ sh 01_install.sh 실행
-- keycloak  네임스페이스 입력(- 입력)
-- keycloak ID/PW 입력
-- grafana 네임스페이스 입력
-- 엔드포인트 출력됨 (대기 뜨는거 확인 후 다음 진행)
-
-- $ sh 02_keycloak_setting.sh
-- realm 이름 입력
-- realm 에 추가할 client ID 입력
-- keycloak admin 로그인
-
-// 3번 단계
-- realm 확인, client sk 확인
-  - clients 설정
-  - sk 클릭
-  - (Base URL : login_generic_oauth 선택)  API 호출로 됨
-  - Access Type : confidential 로 선택 후 저장
-  - Credential 탭 선택
-  - Secret 키 복사
-  - Roles 탭 선택
-  - Role Name 입력 grafana_role (임의로) 입력 후 저장
-  - 왼쪽 Roles 메뉴 선택
-    - default-roles-subway 클릭
-    - Client Roles 선택, client 이름 sk 선택
-    - grafana_role 확인 (생성한) 후 add
-  - Users 메뉴 선택
-    - Add User 선택
-    - User Name : user01 입력
-    - Email : 아무거나 입력 후 저장
-    - Credentials 탭 들어가서 비밀번호 저장
-
-//
-- Secret 키 쉘 파일에 입력 
-- $ 04_connect_authorization.sh 실행
-- grafana URL에 포트 3000 추가해서 접속
-
-
-
-
-
-
-
-
+### Keycloak + Grafana 연동 확인
+- Grafana 접속
+- Sign in with Login Keycloak 클릭
+- Username과 Password 입력
+- 로그인 확인
