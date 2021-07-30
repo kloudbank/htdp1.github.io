@@ -6,6 +6,13 @@
 * KeyCloak은 기본 인증 방식이 OAuth 2.0을 베이스로 한 OIDC
 * Kubernetes 나 MSA 환경에 최적화 된 솔루션이다.
 
+### Keycloak Core Concepts
+* Keycloak Core Concepts
+
+![Keycloak Core Concepts](../refarch/image/keycloakArch.png) 
+
+(출처 : https://developers.redhat.com/blog/2019/12/11/keycloak-core-concepts-of-open-source-identity-and-access-management)
+
 ### Keycloak 장점
 * 오픈소스로 제공되며 community 버전의 경우 별도의 비용없이 사용 가능
 
@@ -35,6 +42,14 @@
 * Keycloak 설정
 * 연동 설정 후 재배포
 * Keycloak + Grafana 연동 확인
+
+### Keycloak with k8s Apps
+* Keycloak with k8s Apps
+
+![Keycloak with k8s Apps](../refarch/image/keyCloakWithK8sApp.png) 
+
+ 
+(출처 : https://www.openshift.com/blog/adding-authentication-to-your-kubernetes-web-applications-with-keycloak)
 
 ### Keycloak, Grafana 설치
 - Keycloak, Grafana 설치 및 연동 쉘 파일, yaml 파일 로컬PC에 Clone
