@@ -61,9 +61,10 @@
    ```
 
 ## Request Input 처리
-> HTTP의 request에서 동적인 값 전달 방식은 Header, Coookie, QueryString, Form, Body를 통해 전달되며, Servlet의 Session 값을 이용하여 메모리 상에 임시로 데이터를 저장하고 활용 할 수 있음.  
-> Cloud Native Application에서 Session을 활용하는 경우는 여러 불 특정한 여러 instance에서 공유해야 함으로 추가적인 미들웨어(Redis, DB 등)를 활용해야 한다.
-
+::: tip
+HTTP의 request에서 동적인 값 전달 방식은 Header, Coookie, QueryString, Form, Body를 통해 전달되며, Servlet의 Session 값을 이용하여 메모리 상에 임시로 데이터를 저장하고 활용 할 수 있음.  
+Cloud Native Application에서 Session을 활용하는 경우는 여러 불 특정한 여러 instance에서 공유해야 함으로 추가적인 미들웨어(Redis, DB 등)를 활용해야 한다.
+:::
 1. http header 처리  
    http header 는 Key:Value 구조로 되어 있으며, 로직 처리에 있어 http header 값을 식별하여 처리할 경우 사용하며, http의 header의 값은 key 값을 이용하여 함수의 인자로 맵핑하여 처리 가능함  
    Annotation @RequestHeader(value="key", required=true/false, defaultValue = "value") 형태로 사용함
@@ -122,9 +123,11 @@
 
 5. http body의 값을 Java 객체로 처리하는 방법(json to object)
    ![](img/2021-06-09-16-42-10.png)  
-   > http post로 요청되며, http의 body가 자동으로 지정된 구조(type)로 변환됨  
-   > http body에 요청되는 데이터가 json 인 경우, 서버에 매핑되는 객체를 선언하고 자동으로
-   > controller 함수 파라미터롤 생성해서 로직을 처리 할 수 있도록 기능을 제공함  
+   ::: tip
+   http post로 요청되며, http의 body가 자동으로 지정된 구조(type)로 변환됨  
+   http body에 요청되는 데이터가 json 인 경우, 서버에 매핑되는 객체를 선언하고 자동으로
+   controller 함수 파라미터롤 생성해서 로직을 처리 할 수 있도록 기능을 제공함  
+   :::
      ```java
       /* 
       curl --location --request POST 'localhost:8080/input/body' \
@@ -159,10 +162,12 @@
       ```
 
 ## Handling Response.
-> rest api 요청을 처리하고 응답으로 단순 문자열, json 형태의 데이터를 응답할 수 있으며,  
-> 응답 http에 필요한 header, http status, cookie 등을 처리 할 수 있음
-> 본가이드에서는 restful api를 위한 내용만 설명함
 
+::: tip
+rest api 요청을 처리하고 응답으로 단순 문자열, json 형태의 데이터를 응답할 수 있으며,  
+응답 http에 필요한 header, http status, cookie 등을 처리 할 수 있음
+본가이드에서는 restful api를 위한 내용만 설명함
+:::
 1. 단순 문자열 응답  
    요청 결과에 따른 문자열 값을 리턴함.
    ``` sh
@@ -181,7 +186,9 @@
 2. 객체를 json으로 응답  
    요청되는 비즈니스 로직(데이터 가공, 데이터베이스 select 등)를 처리하고, Value Object를 json 형태로  
    응답처리함.
-   > return 객체는 Serializable interface 객체이어야함.  
+   ::: tip
+   return 객체는 Serializable interface 객체이어야함.  
+   :::
      ``` java
      public class TodoItem implements Serializable{
       private int id;
@@ -211,7 +218,7 @@
       ...
       }
      ```
-   > 요청 처리 
+   요청 처리 
       ``` sh
       curl localhost:8080/output/todo/9
       ```
@@ -231,7 +238,7 @@
       ```
 
 3. http protocol 응답
-   > 일반적인 Controller의 함수 argument에 HttpServletResponse 추가하여 reponse에 직접 처리함
+   일반적인 Controller의 함수 argument에 HttpServletResponse 추가하여 reponse에 직접 처리함
    1. header 응답
       ``` java
       // Response json using object with header
