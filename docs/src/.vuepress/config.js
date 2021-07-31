@@ -117,7 +117,7 @@ module.exports = {
             "springboot/bean",
             "springboot/env",
             "springboot/mybatis",
-            "springboot/jpa",
+            "springboot/rest-client",
           ],
           sidebarDepth: 1,
         },
@@ -192,5 +192,6 @@ module.exports = {
       md.set({ breaks: true });
       md.use(require("markdown-it-plantuml"));
     },
+    lineNumbers: true,
   },
 };
