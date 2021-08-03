@@ -30,3 +30,5 @@ application.properties 위치에 따라 순서적으로 반영되며, 나중에 
 
 ## Externalized 활용
 빌드(jar, Docker)후에 기존 생성된 jar 또는 Container를 재사용하고자 할 때, application.properties에 지정된 값을 변경하고자 하는 경우 외부 파일을 사용할 수 있음. [실행 위치 참조](#위치)
+
+<Comment />

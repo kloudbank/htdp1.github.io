@@ -182,3 +182,5 @@ Springboot의 Annotation 방식 기준으로 설명
    4. Configuration class를 만들고 bean 생성 함수를 각각 FootBall, BascketBall용으로 생성한다
    5. Controller에 Ball 멥버변수를 선언하고 bean 이름을 별도로 지정하여 binding함
    6. Controller에 get api를 생성하고 component 호출 결과를 응답처리 한다.
+
+<Comment />
