@@ -147,6 +147,10 @@ export default {
 }
 </script>
 ```
+### paste image extension
+
+![](./img/2021-07-31-21-02-03.png)
+
 
 #### 4. Markdown에서 Comment component 적용
 현재는 메뉴의 Introduction page에만 적용되어 있음

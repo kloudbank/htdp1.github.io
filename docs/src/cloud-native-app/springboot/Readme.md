@@ -10,3 +10,4 @@ Web Application을 Embedded하여 처리하여 단일 Process로 관리할 수 �
 | App 자원 관리     | Spring Context에서 관리 됨                                                                          | Web Application의 설정에 의해 관리됨                                                       |
 | Web app 환경 설정 | 기본값으로 모든 설정 값이 자동설정되며, <br>application.yml(properties) 파일에 의해 설정 할 수 있음 | Web Context(server.xml)에 의해 설정되며, <br>사용되는 servlet 및 Web App Server마다 상이함 |
 
+<Comment />
