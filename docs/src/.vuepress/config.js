@@ -117,7 +117,7 @@ module.exports = {
         {
           title: "Cloud Native App",
           collapsable: false,
-          children: ["", "restapi"],
+          children: ["", "container", "restapi"],
           sidebarDepth: 2,
         },
         {
