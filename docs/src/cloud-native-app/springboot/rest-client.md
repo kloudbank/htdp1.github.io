@@ -1,4 +1,4 @@
-# Restful Client
+# Restful API Client
 ::: tip Overview
 Micro Service Architecture에서 App 간 또는 외부 I/F 하기 위한 방법 중 
 restful api를 이용하여 App 또는 I/F를 호출하는 방법을 설명 함
