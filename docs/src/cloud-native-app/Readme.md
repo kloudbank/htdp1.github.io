@@ -148,7 +148,7 @@ spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 * 장시간 소요되는 데이터 프로세싱 작업은 스레드풀에 할당해서 스레드 실행기(executor) 를 통해 수행되 어야 한다
 * 예를 들어, HTTP 요청은 서블릿 쓰레드가 처리하고, 시간이 오래 걸리는 작업은 워커 쓰레드가 처리해야 한다
 
-### 페기가능(Disposability)
+### 폐기가능(Disposability)
 
 * 빠른 시작과 그레이스풀 셧다운(graceful shutdown)을 통한 안정성 극대화
 * 애플리케이션은 프로세스 실행 중에 언제든지 중지될 수 있고, 중지될 때 처리되어야 하는 작업을 모두 수행 한 다음 깔끔하게 종료될 수 있다
