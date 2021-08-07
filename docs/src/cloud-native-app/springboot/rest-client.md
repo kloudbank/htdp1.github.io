@@ -113,4 +113,28 @@ Servlet 영역에는 SpringMVC, Rest Client를 위해서는 WebFlux를 위한 We
   ![](./img/2021-08-03-21-49-13.png)
 
 
+## 성능 비교 예시
+
+| Non-Block I/O | Block I/O |
+|:-------------|:---------|
+|![](./img/2021-08-07-15-46-52.png)|![](./img/2021-08-07-15-47-14.png)|
+
+### Non-Block I/O
+* Requests      [total, rate, throughput]         250, 50.18, 49.14
+* Duration      [total, attack, wait]             5.087s, 4.982s, 105.579ms
+* Latencies     [min, mean, 50, 90, 95, 99, max]  103.283ms, 108.07ms, 107.816ms, 111.332ms, 114.109ms, 121.721ms, 135.554ms
+* Bytes In      [total, mean]                     38250, 153.00
+* Bytes Out     [total, mean]                     0, 0.00
+* Success       [ratio]                           100.00%
+* Status Codes  [code:count]                      200:250
+
+### Block I/O
+* Requests      [total, rate, throughput]         250, 50.24, 18.86
+* Duration      [total, attack, wait]             13.259s, 4.976s, 8.283s
+* Latencies     [min, mean, 50, 90, 95, 99, max]  108.7ms, 4.19s, 4.505s, 7.55s, 7.93s, 8.215s, 8.283s
+* Bytes In      [total, mean]                     38250, 153.00
+* Bytes Out     [total, mean]                     0, 0.00
+* Success       [ratio]                           100.00%
+* Status Codes  [code:count]                      200:250
+
 <Comment />

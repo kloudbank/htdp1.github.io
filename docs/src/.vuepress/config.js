@@ -117,8 +117,8 @@ module.exports = {
         {
           title: "Cloud Native App",
           collapsable: false,
-          children: ["", "container", "restapi"],
-          sidebarDepth: 2,
+          children: ["", "container", "k8s", "restapi"],
+          sidebarDepth: 1,
         },
         {
           title: "Springboot",

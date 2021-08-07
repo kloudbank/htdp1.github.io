@@ -95,20 +95,17 @@ curl --location --request POST 'http(s)://[domain]/[servlet_path]' \
 ### Level 0
 
 level 0은 웹 메커니즘을 사용하지 않고 HTTP를 원격 통신을 위한 전송 시스템으로 사용한다. RPC(Remote Precedure Call) 형태로 리소스 구분 없이 설계된 HTTP API이다.
-
 그저 단순하게 POX(Plain Old XML)를 주고 받는 RPC 스타일 시스템을 말한다. 단 하나의 endpoint를 사용하고, 전달되는 서로 다른 매개변수를 통해 하나의 endpoint에서 여러 동작을 하게 된다. 매개 변수를 body로 전달하기 위해 HTTP method는 POST가 된다.
 
 ### Level 1
 
 REST의 '리소스'는 애플리케이션이 작동하는 데이터의 핵심 부분입니다. 이는 종종 애플리케이션의 모델에 해당합니다(특히 MVC - 모델, 뷰, 컨트롤러 패턴을 따르는 경우).
-
 레벨 1의 API 디자인은 애플리케이션의 다양한 리소스와 상호 작용하기 위해 서로 다른 URL을 사용하는 것에 관한 것입니다.
 
 
 ### Level 2
 
 우리는 항상 리소스에 대해 CRUD 작업을 수행해야 하므로 리소스 간에 이러한 작업을 공유하는 방법을 찾지 않겠습니까? 수행하려는 각 작업이나 작업에 대해 새 리소스를 만드는 이유는 무엇입니까?
-
 우리는 이것을 HTTP 동사를 사용하여 수행합니다. Pages 목록을 얻으려면 에 GET요청 /page하지만 새 Page를 만들려면 동일한 리소스가 POST아닌 GET- 를 사용 /page합니다.
 
 #### Level 2.1 HTTP Headers
