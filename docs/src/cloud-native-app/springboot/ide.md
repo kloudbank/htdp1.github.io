@@ -46,5 +46,5 @@ cat extension.txt | xargs -L 1 echo code --install-extension
 
 ## Step 4: Run/Debug 설정
 
-1. [download sample project](https://github.com/htdp1/sam-springboot/archive/refs/tags/boilerplate.zip)
+1. [download sample project](https://github.com/htdp1/sam-springboot/archive/refs/tags/v1.0.zip)
 2. 
