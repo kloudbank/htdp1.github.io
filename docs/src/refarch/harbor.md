@@ -195,7 +195,7 @@ Cluster Issuer를 apply한 후 ingress 리소스를 생성하면 spec 하위에 
 
 kubed 는 cluster나 namespace 간에 configmaps/secrets를 동기화하는 기능을 한다.
 
-![kubed](../refarch/image/harbor-kubed.png)
+![kubed](../refarch/image/harbor-kubed2.png)
 (출처: https://cert-manager.io/docs/)
 
 
