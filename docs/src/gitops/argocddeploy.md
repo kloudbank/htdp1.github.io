@@ -240,8 +240,12 @@ git repo에 정의한 상태와 클러스터가 동일하게 유지되어 관리
 3. Multi Cluster 관리 용이
 * As-Is
 ![](../../images/argocd-multi-cluster-asis.png)
+수백개의 클러스터에 metricbeat를 설치하려면 수동으로 수백번 설치해줘야하여 비효율적임
+
 * To-Be
 ![](../../images/argocd-multi-cluster-tobe.png)
+argocd를 사용하면 새로운 클러스터가 추가되더라도 간단하게 클러스터 설정만 추가해주면 별도의 처리 없이 멀티 클러스터에 동일한 형상을 유지할 수 있음.
+
 4. Helm Chart Repo 없이 helm 배포
 * As-Is
 ![](../../images/argocd-helm-deploy-asis.png)
