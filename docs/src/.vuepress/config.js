@@ -181,7 +181,7 @@ module.exports = {
         {
           title: "ArgoCD",
           collapsable: false,
-          children: ["argocd"],
+          children: ["argocdintro","argocddeploy"],
           sidebarDepth: 2,
         },
       ],
