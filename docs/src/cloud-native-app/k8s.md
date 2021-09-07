@@ -4,7 +4,7 @@
 
 ### Physical Component
 
-![](./img/2021-08-06-17-08-19.png)
+![image](./img/2021-08-06-17-08-19.png)
 
 ### Logical Component
 
