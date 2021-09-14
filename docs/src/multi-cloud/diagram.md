@@ -4,6 +4,10 @@
 scale 1
 title "Site A - site B 에서 사용하는 컴포넌트만"
 
+[기존컴포넌트] as old
+[신규컴포넌트] as new #orange
+old -[hidden]d-> new
+
 rectangle "Common Service" as a_comm {
     [SSO] as a_comm_sso
     [Cube] as a_comm_cube
@@ -20,6 +24,7 @@ node "hcp" as hcp {
     rectangle "CI/CD" as hcp_cicd {
         [Bitbucket] as hcp_cicd_bitbucket
     }
+    [TaskAgent] as hcp_agent #orange
 }
 @enduml
 
@@ -50,7 +55,7 @@ node "Control Plane" as bcp {
         [Redis] as bcp_mananged_redis
         [Gitee] as bcp_mananged_gitee #orange
     }
-    [TaskAgent] as bcp_cicd_taskagent #orange
+    [TaskRunner] as bcp_cicd_taskruuner #orange
 }
 
 node "Data Plane" as dcp {
@@ -126,10 +131,10 @@ box "site A"
 participant DWP
 participant CUBE
 participant Bitbucket
-participant TaskRunner
+participant TaskAgent
 end box
 box "site B"
-participant TaskAgent
+participant TaskRunner
 participant Jenkins
 participant ArgoCD
 participant Harbor
@@ -137,26 +142,26 @@ end box
 
 autonumber 1-1
 User -> DWP : create app.
-DWP -\ TaskRunner : create job (async)
+DWP -\ TaskAgent : create job (async)
+TaskAgent -\ TaskRunner : create app.
 TaskRunner -> Bitbucket : checkout template
 TaskRunner -> Bitbucket : push template
-TaskRunner -\ TaskAgent : create app.
-TaskAgent -> Jenkins : create job
-TaskAgent -> ArgoCD : create app.
-TaskAgent -> Harbor : create docker repository
-TaskAgent -> TaskRunner : call back
-TaskRunner -> DWP : callback
+TaskRunner -> Jenkins : create job
+TaskRunner -> ArgoCD : create application
+TaskRunner -> Harbor : create docker repository
+TaskRunner -> TaskAgent : call back
+TaskAgent -> DWP : callback
 DWP -\ CUBE : send message
 
 @enduml
 
-## Deploy application process
+## CI process
 @startuml
 
 scale 1
 skinparam ParticipantPadding 5
 skinparam BoxPadding 5
-title "App. 배포"
+title "App. CI"
 
 actor User
 box "site A"
@@ -190,7 +195,36 @@ TaskAgent -> TaskRunner : callbask
 TaskRunner -> DWP : callbask
 DWP -> CUBE : send message
 
-autonumber 2-1
+@enduml
+
+@enduml
+
+## CD process
+@startuml
+
+scale 1
+skinparam ParticipantPadding 5
+skinparam BoxPadding 5
+title "App. CD"
+
+actor User
+box "site A"
+participant DWP
+participant CUBE
+participant "Bitbucket\n(source)" as source
+participant "Bitbucket\n(yaml)" as yaml
+participant TaskRunner
+end box
+box "site B"
+participant TaskAgent
+participant Jenkins
+participant Nexus
+participant Harbor
+participant ArgoCD
+participant k8s
+end box
+
+autonumber 1-1
 User -> DWP : run CD
 note left : CD
 DWP -\ TaskRunner : run CD
@@ -204,9 +238,9 @@ TaskAgent -> TaskRunner : call back
 TaskRunner -> DWP : call back
 DWP -> CUBE : send message
 
-autonumber 3-1
-ArgoCD -> yaml : sync yaml
-note right : sync k8s
+autonumber 2-1
+ArgoCD -> yaml : chcekout yaml
+note right : deploy k8s
 ArgoCD -> k8s : deploy yaml
 k8s -> Harbor : pull docker image
 
