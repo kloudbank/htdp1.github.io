@@ -1,8 +1,8 @@
-## Deployment Diagram
-### Site A
+# Deployment Diagram
+## Site A
 @startuml
 
-title "Site A - site B 에서 사용하는 컴포넌트만"
+title "Site A : Site B 에서 사용하는 컴포넌트만 표시"
 
 [기존컴포넌트] as old
 [신규컴포넌트] as new #orange
@@ -28,7 +28,7 @@ node "hcp" as hcp {
 }
 @enduml
 
-### Site B
+## Site B
 @startuml
 
 title "Site B"
@@ -76,6 +76,7 @@ node "Data Plane" as dcp {
 }
 @enduml
 
+# Sequence Diagram
 ## Login SSO process
 @startuml
 
