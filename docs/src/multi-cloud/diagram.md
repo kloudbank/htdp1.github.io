@@ -27,8 +27,8 @@ node "hcp" as hcp {
         [Nexus] as hcp_cicd_nexus
         [ArgoCD] as hcp_cicd_argocd #orange
         [Harbor] as hcp_cicd_harbor #orange
-        [TaskRunner] as hcp_cicd_taskrunner #orange
     }
+    [TaskRunner] as hcp_cicd_taskrunner #orange
 }
 @enduml
 
@@ -47,7 +47,6 @@ node "Control Plane" as bcp {
         [SonarQube] as bcp_cicd_sonarqube
         [ArgoCD] as bcp_cicd_argocd #orange
         [Harbor] as bcp_cicd_harbor #orange
-        [TaskAgent] as bcp_cicd_taskagent #orange
     }
     rectangle "Monitoring/Alert\n(long-terms)" as bcp_mon {
         [Elastic-Search] as bcp_mon_elk
@@ -59,6 +58,7 @@ node "Control Plane" as bcp {
         [Redis] as bcp_mananged_redis
         [Gitee] as bcp_mananged_gitee #orange
     }
+    [TaskAgent] as bcp_cicd_taskagent #orange
 }
 
 node "Data Plane" as dcp {
