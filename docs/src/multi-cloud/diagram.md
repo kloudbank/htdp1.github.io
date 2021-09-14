@@ -132,6 +132,8 @@ node "Data Plane" as bdp {
     - git repo 로 ArgoCD Application 을 구성한다.
         - 1개 Application 으로도 가능할 수 있음
         - 구성요소에 특성에 따라 Application 을 분할해도 됨
+    - Control Plane TaskRunner 에 Data Plane 정보를 기록한다.
+        - TaskRunner restart 없이 적용 방안?
     - TaskAgent 에 Data Plane 정보를 기록한다.
         - TaskAgent restart 없이 적용 방안?
 
