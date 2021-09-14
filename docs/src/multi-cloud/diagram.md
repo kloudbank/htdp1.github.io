@@ -60,15 +60,6 @@ node "Control Plane" as bcp {
         [Gitee] as bcp_mananged_gitee #orange
     }
 }
-@enduml
-
-@startuml
-
-title "Site B"
-
-[기존컴포넌트] as old
-[신규컴포넌트] as new #orange
-old -[hidden]d-> new
 
 node "Data Plane" as dcp {
     rectangle "Biz" as bdp_bz {
@@ -79,6 +70,7 @@ node "Data Plane" as dcp {
         [Grafana] as bdp_mon_grafana
         [Kibana] as bdp_mon_kibana
         [Prometheus] as bdp_mon_prometheus
+        [loki] as dbp_mon_loki #orange
     }
 }
 @enduml
