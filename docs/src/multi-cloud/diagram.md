@@ -1,8 +1,10 @@
 # Deployment Diagram
 ## Site A
+- Site B 에서 사용하는 컴포넌트만 표시함
+
 @startuml
 
-title "Site A : Site B 에서 사용하는 컴포넌트만 표시"
+title "Site A"
 
 [기존컴포넌트] as old
 [신규컴포넌트] as new #orange
@@ -29,6 +31,8 @@ node "hcp" as hcp {
 @enduml
 
 ## Site B
+- Control Plane, Data Plane 으로 구분
+
 @startuml
 
 title "Site B"
@@ -78,6 +82,11 @@ node "Data Plane" as dcp {
 
 # Sequence Diagram
 ## Login SSO process
+- Site A 사용자가 A url 과 B url 을 사용하여 로그인 할 경우
+    - case1 and case2
+- Site B 사용자가 B url 을 사용하여 로그인 할 경우
+    - case3
+
 @startuml
 
 scale 1
@@ -114,12 +123,6 @@ note right : case3
 b_wp -> b_sso : authentication
 b_sso -> b_wp : redirect url
 b_wp -> b_user : success
-autonumber 4-1
-b_user -> a_wp : login
-note right : case4
-a_wp -> a_sso : authentication
-a_sso -> a_wp : redirect url
-a_wp -> b_user : success
 
 @enduml
 
