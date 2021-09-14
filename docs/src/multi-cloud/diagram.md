@@ -5,6 +5,7 @@ title "Site A"
 
 [기존컴포넌트] as old
 [신규컴포넌트] as new #orange
+old -[hidden]d-> new
 
 rectangle "Common Service" as a_comm {
     [SSO] as a_comm_sso
@@ -33,48 +34,53 @@ node "hcp" as hcp {
 
 @startuml
 
-title "Site B - Control Plane"
+title "Site B"
 
 [기존컴포넌트] as old
 [신규컴포넌트] as new #orange
+old -[hidden]d-> new
 
-rectangle "CI/CD" as bcp_cicd {
-    [Jenkins] as bcp_cicd_jenkins
-    [Nexus] as bcp_cicd_nexus
-    [SonarQube] as bcp_cicd_sonarqube
-    [ArgoCD] as bcp_cicd_argocd #orange
-    [Harbor] as bcp_cicd_harbor #orange
-    [TaskAgent] as bcp_cicd_taskagent #orange
-}
-rectangle "Monitoring/Alert\n(long-terms)" as bcp_mon {
-    [Elastic-Search] as bcp_mon_elk
-    [Grafana] as bcp_mon_grafana
-    [Kibana] as bcp_mon_kibana
-    [Prometheus] as bcp_mon_prometheus
-}
-rectangle "Managed Service" as bcp_mananged {
-    [Redis] as bcp_mananged_redis
-    [Gitee] as bcp_mananged_gitee #orange
+node "Control Plane" as bcp {
+    rectangle "CI/CD" as bcp_cicd {
+        [Jenkins] as bcp_cicd_jenkins
+        [Nexus] as bcp_cicd_nexus
+        [SonarQube] as bcp_cicd_sonarqube
+        [ArgoCD] as bcp_cicd_argocd #orange
+        [Harbor] as bcp_cicd_harbor #orange
+        [TaskAgent] as bcp_cicd_taskagent #orange
+    }
+    rectangle "Monitoring/Alert\n(long-terms)" as bcp_mon {
+        [Elastic-Search] as bcp_mon_elk
+        [Grafana] as bcp_mon_grafana
+        [Kibana] as bcp_mon_kibana
+        [Prometheus] as bcp_mon_prometheus
+    }
+    rectangle "Managed Service" as bcp_mananged {
+        [Redis] as bcp_mananged_redis
+        [Gitee] as bcp_mananged_gitee #orange
+    }
 }
 @enduml
 
 @startuml
 
-title "Site B - Data Plane"
+title "Site B"
 
 [기존컴포넌트] as old
 [신규컴포넌트] as new #orange
+old -[hidden]d-> new
 
-rectangle "Biz" as bdp_bz {
-    [Biz App. Backend] as bdp_bz_app
+node "Data Plane" as dcp {
+    rectangle "Biz" as bdp_bz {
+        [Biz App. Backend] as bdp_bz_app
+    }
+    rectangle "Monitoring/Alert\n(short-terms)" as bdp_mon {
+        [Elastic-Search] as bdp_mon_elk
+        [Grafana] as bdp_mon_grafana
+        [Kibana] as bdp_mon_kibana
+        [Prometheus] as bdp_mon_prometheus
+    }
 }
-rectangle "Monitoring/Alert\n(short-terms)" as bdp_mon {
-    [Elastic-Search] as bdp_mon_elk
-    [Grafana] as bdp_mon_grafana
-    [Kibana] as bdp_mon_kibana
-    [Prometheus] as bdp_mon_prometheus
-}
-
 @enduml
 
 ## Login SSO process
