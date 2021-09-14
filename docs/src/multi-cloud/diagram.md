@@ -1,5 +1,6 @@
-# Deployment Diagram
-## Site A
+# Diagram
+## Deployment Diagram
+### Site A
 - Site B 에서 사용하는 컴포넌트만 표시함
 
 @startuml
@@ -30,7 +31,7 @@ node "hcp" as hcp {
 }
 @enduml
 
-## Site B
+### Site B
 - Control Plane, Data Plane 으로 구분
 
 @startuml
@@ -80,8 +81,8 @@ node "Data Plane" as dcp {
 }
 @enduml
 
-# Sequence Diagram
-## Login SSO process
+## Sequence Diagram
+### Login SSO process
 - Site A 사용자가 A url 과 B url 을 사용하여 로그인 할 경우
     - case1 and case2
 - Site B 사용자가 B url 을 사용하여 로그인 할 경우
@@ -126,7 +127,7 @@ b_wp -> b_user : success
 
 @enduml
 
-## Create application process
+### Create application process
 @startuml
 
 scale 1
@@ -166,7 +167,7 @@ User -> DWP : view status
 
 @enduml
 
-## CI process
+### CI process
 @startuml
 
 scale 1
@@ -208,7 +209,7 @@ User -> DWP : view status
 
 @enduml
 
-## CD process
+### CD process
 @startuml
 
 scale 1
