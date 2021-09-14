@@ -185,6 +185,14 @@ module.exports = {
           sidebarDepth: 2,
         },
       ],
+      "/multi-cloud/": [
+        {
+          title: "Introduction",
+          collapsable: false,
+          children: ["", "diagram"],
+          sidebarDepth: 2,
+        },
+      ],
     },
   },
 
