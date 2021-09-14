@@ -1,7 +1,7 @@
 ## Deployment Diagram
+### Site A
 @startuml
 
-scale 1
 title "Site A - site B 에서 사용하는 컴포넌트만"
 
 [기존컴포넌트] as old
@@ -28,9 +28,9 @@ node "hcp" as hcp {
 }
 @enduml
 
+### Site B
 @startuml
 
-scale 1
 title "Site B"
 
 [기존컴포넌트] as old
@@ -57,6 +57,10 @@ node "Control Plane" as bcp {
     }
     [TaskRunner] as bcp_cicd_taskruuner #orange
 }
+
+@enduml
+
+@startuml
 
 node "Data Plane" as dcp {
     rectangle "Biz" as bdp_bz {
@@ -153,6 +157,9 @@ TaskRunner -> TaskAgent : call back
 TaskAgent -> DWP : callback
 DWP -\ CUBE : send message
 
+autonumber 2-1
+User -> DWP : view status
+
 @enduml
 
 ## CI process
@@ -168,34 +175,32 @@ box "site A"
 participant DWP
 participant CUBE
 participant "Bitbucket\n(source)" as source
-participant "Bitbucket\n(yaml)" as yaml
-participant TaskRunner
+participant TaskAgent
 end box
 box "site B"
-participant TaskAgent
+participant TaskRunner
 participant Jenkins
 participant Nexus
 participant Harbor
-participant ArgoCD
-participant k8s
 end box
 
 autonumber 1-1
 User -> DWP : run CI
 note left : CI
-DWP -\ TaskRunner : run CI
-TaskRunner -\ TaskAgent : run CI
-TaskAgent -> Jenkins : run job
+DWP -\ TaskAgent : run CI
+TaskAgent -\ TaskRunner : run CI
+TaskRunner -> Jenkins : run job
 Jenkins -> source : checkout source
 Jenkins -> Jenkins : app. build
 Jenkins -> Nexus : download libs
 Jenkins -> Jenkins : docker build
 Jenkins -> Harbor : push docker image
-TaskAgent -> TaskRunner : callbask
-TaskRunner -> DWP : callbask
+TaskRunner -> TaskAgent : callbask
+TaskAgent -> DWP : callbask
 DWP -> CUBE : send message
 
-@enduml
+autonumber 2-1
+User -> DWP : view status
 
 @enduml
 
@@ -211,14 +216,12 @@ actor User
 box "site A"
 participant DWP
 participant CUBE
-participant "Bitbucket\n(source)" as source
 participant "Bitbucket\n(yaml)" as yaml
-participant TaskRunner
+participant TaskAgent
 end box
 box "site B"
-participant TaskAgent
+participant TaskRunner
 participant Jenkins
-participant Nexus
 participant Harbor
 participant ArgoCD
 participant k8s
@@ -227,21 +230,21 @@ end box
 autonumber 1-1
 User -> DWP : run CD
 note left : CD
-DWP -\ TaskRunner : run CD
-TaskRunner -\ TaskAgent : run CD
-TaskAgent -> Jenkins : run job
+DWP -\ TaskAgent : run CD
+TaskAgent -\ TaskRunner : run CD
+TaskRunner -> Jenkins : run job
 Jenkins -> yaml : checkout yaml
 Jenkins -> Jenkins : modify yaml
 Jenkins -> yaml : push yaml
 Jenkins -\ ArgoCD : run deploy
-TaskAgent -> TaskRunner : call back
-TaskRunner -> DWP : call back
+ArgoCD -> yaml : chcekout yaml
+ArgoCD -> k8s : deploy yaml
+k8s -> Harbor : pull docker image
+TaskRunner -> TaskAgent : call back
+TaskAgent -> DWP : call back
 DWP -> CUBE : send message
 
 autonumber 2-1
-ArgoCD -> yaml : chcekout yaml
-note right : deploy k8s
-ArgoCD -> k8s : deploy yaml
-k8s -> Harbor : pull docker image
+User -> DWP : view status
 
 @enduml
