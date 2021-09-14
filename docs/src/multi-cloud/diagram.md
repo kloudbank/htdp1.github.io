@@ -46,12 +46,15 @@ title "Site B"
 old -[hidden]d-> new
 
 node "Control Plane" as bcp {
-    rectangle "CI/CD" as bcp_cicd {
-        [Jenkins] as bcp_cicd_jenkins
-        [Nexus] as bcp_cicd_nexus
-        [SonarQube] as bcp_cicd_sonarqube
-        [ArgoCD] as bcp_cicd_argocd #orange
-        [Harbor] as bcp_cicd_harbor #orange
+    rectangle "Task Service" as bcp_cicd {
+        [TaskRunner] as bcp_taskruuner #orange
+        [ArgoCD] as bcp_argocd #orange
+    }
+    rectangle "Common Service" as bcp_common {
+        [Gitee] as bcp_mananged_gitee #orange
+        [Nexus] as nexus
+        [SonarQube] as sonarqube
+        [Harbor] as harbor #orange
     }
     rectangle "Monitoring/Alert" as bcp_mon {
         [Elastic-Search\n(long-terms)] as bcp_mon_elk
@@ -59,12 +62,8 @@ node "Control Plane" as bcp {
         [Kibana\n(long-terms)] as bcp_mon_kibana
         [Prometheus\n(long-terms)] as bcp_mon_prometheus
     }
-    rectangle "Common Service" as bcp_comm {
+    rectangle "Managed Service" as bcp_managed {
         [Redis] as bcp_mananged_redis
-        [Gitee] as bcp_mananged_gitee #orange
-    }
-    rectangle "Agent Service" as bcp_agent {
-        [TaskRunner] as bcp_comm_taskruuner #orange
     }
 }
 
@@ -76,8 +75,11 @@ node "Control Plane" as bcp {
 [신규컴포넌트] as new #orange
 old -[hidden]d-> new
 
-node "Data Plane" as dcp {
-    rectangle "Biz" as bdp_bz {
+node "Data Plane" as bdp {
+    rectangle "Task Service" as bdp_task {
+        [ArgoCD] as bdp_argocd #orange
+    }
+    rectangle "Biz" as bdp_biz {
         [Biz-App.-Backend] as bdp_bizapp
     }
     rectangle "Monitoring/Alert" as bdp_mon {
@@ -139,6 +141,41 @@ b_wp -> b_user : success
 
 @enduml
 
+### Create Cluster
+- Platform Cluster 에 TaskAgent 를 설치한다.
+
+- Site Cluster 의 Control Plane 설치
+    - ArgoCD 를 설치한다.
+    - Cluster 구성
+        - Control Plane 용 git repo 를 준비한다.
+        - git repo 에 cluster 에 설치할 yaml 파일을 push 한다.
+            - 1개 git repo 로도 가능할 수 있음
+            - 구성요소에 특성에 따라 git repo 를 분할해도 됨
+        - git repo 로 ArgoCD Application 을 구성한다.
+            - 1개 Application 으로도 가능할 수 있음
+            - 구성요소에 특성에 따라 Application 을 분할해도 됨
+    - TaskRunner 구성
+        - Task 용 git repo 를 준비한다.
+        - git repo 에 task yaml 파일을 push 한다.
+        - git repo 로 ArgoCD Application 을 구성한다.
+            - 1개 Application 으로도 가능할 수 있음
+            - 구성요소에 특성에 따라 Application 을 분할해도 됨
+    - TaskAgent 에 Control Plane 정보를 기록한다.
+        - TaskAgent restart 없이 적용 방안?
+
+- Site Cluster 의 Data Plane 설치
+    - Data Plane 에 ArgoCD 를 설치한다.
+    - Cluster 구성
+        - Data Plane 용 git repo 를 준비한다.
+        - git repo 에 cluster 에 설치할 yaml 파일을 push 한다.
+            - 1개 git repo 로도 가능할 수 있음
+            - 구성요소에 특성에 따라 git repo 를 분할해도 됨
+        - git repo 로 ArgoCD Application 을 구성한다.
+            - 1개 Application 으로도 가능할 수 있음
+            - 구성요소에 특성에 따라 Application 을 분할해도 됨
+        - TaskAgent 에 Data Plane 정보를 기록한다.
+            - TaskAgent restart 없이 적용 방안?
+
 ### Create application process
 - 검토 필요 사항
     - Async process 에 대한 status 조회 방안 필요
@@ -155,31 +192,33 @@ box "site A"
 participant DWP
 participant CUBE
 participant NotifyAgent
+participant TaskAgent
 participant "Bitbucket\n(source)" as source
 participant "Bitbucket\n(yaml)" as yaml
-participant TaskAgent
 end box
-box "site B"
+box "site B - control plane"
 participant TaskRunner
-participant Jenkins
 participant ArgoCD
 participant Harbor
 end box
 
 autonumber 1-1
 User -> DWP : create app.
-DWP -\ TaskAgent : create app
-TaskAgent -\ TaskRunner : create app.
+DWP -\ TaskAgent : run task
+TaskAgent -\ TaskRunner : run task
+TaskAgent --\ NotifyAgent : send notify
+NotifyAgent --\ CUBE : send message
+
+autonumber 2-1
 TaskRunner -> source : checkout source template
 TaskRunner -> source : push source
 TaskRunner -> yaml : checkout yaml template
 TaskRunner -> yaml : push yaml
-TaskRunner -> Jenkins : create pipeline
-TaskRunner -> ArgoCD : create application
+TaskRunner -> TaskRunner : create pipeline
+TaskRunner -> ArgoCD : create app.(/w data plane)
 TaskRunner -> Harbor : create docker repository
-TaskRunner -> TaskAgent : call back
-TaskAgent -> NotifyAgent : send notify
-NotifyAgent -\ CUBE : send message
+TaskRunner --> NotifyAgent : send notify
+NotifyAgent --\ CUBE : send message
 
 autonumber 2-1
 User -> DWP : view status
@@ -218,18 +257,19 @@ note left : CI
 DWP -\ TaskAgent : run task
 TaskAgent -> TaskAgent : discovery taskrunner
 TaskAgent -\ TaskRunner : run task
-TaskAgent -\ NotifyAgent : send notify
-NotifyAgent -\ CUBE : send message
+TaskAgent --\ NotifyAgent : send notify
+NotifyAgent --\ CUBE : send message
 
 autonumber 2-1
+TaskRunner -> TaskRunner : run task
 TaskRunner -> source : checkout source
 TaskRunner -> Nexus : download libs
 TaskRunner -> TaskRunner : app. build
 TaskRunner -> TaskRunner : docker build
 TaskRunner -> Harbor : push docker image
-TaskRunner -> SonarQube : check source
-TaskRunner -\ NotifyAgent : send notify
-NotifyAgent -\ CUBE : send message
+TaskRunner -> SonarQube : test source
+TaskRunner --\ NotifyAgent : send notify
+NotifyAgent --\ CUBE : send message
 
 autonumber 2-1
 User -> DWP : view status
@@ -255,11 +295,14 @@ participant NotifyAgent
 participant TaskAgent
 participant "Bitbucket\n(yaml)" as yaml
 end box
-box "site B"
+box "site B - control plane"
 participant TaskRunner
 participant ArgoCD
-participant k8s
 participant Harbor
+end box
+
+box "site B - data plane"
+participant k8s
 end box
 
 autonumber 1-1
@@ -268,16 +311,16 @@ note left : CD
 DWP -\ TaskAgent : run task
 TaskAgent -> TaskAgent : discovery taskrunner
 TaskAgent -\ TaskRunner : run task
-TaskAgent -\ NotifyAgent : notify status
-NotifyAgent -> CUBE : send message
+TaskAgent --\ NotifyAgent : notify status
+NotifyAgent --\ CUBE : send message
 
 autonumber 2-1
 TaskRunner -> yaml : checkout yaml
 TaskRunner -> TaskRunner : modify yaml
 TaskRunner -> yaml : push yaml
 TaskRunner -\ ArgoCD : run deploy
-TaskRunner -\ NotifyAgent : notify status
-NotifyAgent -> CUBE : send message
+TaskRunner --\ NotifyAgent : notify status
+NotifyAgent --\ CUBE : send message
 
 autonumber 3-1
 ArgoCD -> yaml : chcekout yaml
@@ -289,6 +332,10 @@ autonumber 4-1
 User -> DWP : view status
 
 @enduml
+
+
+## ETC
+### Tekton
 
 @startuml
 
