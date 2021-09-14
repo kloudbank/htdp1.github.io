@@ -38,10 +38,6 @@ node "hcp" as hcp {
 
 title "Site B"
 
-[기존컴포넌트] as old
-[신규컴포넌트] as new #orange
-old -[hidden]d-> new
-
 node "Control Plane" as bcp {
     rectangle "CI/CD" as bcp_cicd {
         [Jenkins] as bcp_cicd_jenkins
@@ -66,6 +62,10 @@ node "Control Plane" as bcp {
 @enduml
 
 @startuml
+
+[기존컴포넌트] as old
+[신규컴포넌트] as new #orange
+old -[hidden]d-> new
 
 node "Data Plane" as dcp {
     rectangle "Biz" as bdp_bz {
