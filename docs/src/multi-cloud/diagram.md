@@ -1,11 +1,8 @@
 ## Deployment Diagram
 @startuml
 
-title "Site A"
-
-[기존컴포넌트] as old
-[신규컴포넌트] as new #orange
-old -[hidden]d-> new
+scale 1
+title "Site A - site B 에서 사용하는 컴포넌트만"
 
 rectangle "Common Service" as a_comm {
     [SSO] as a_comm_sso
@@ -22,17 +19,13 @@ node "hcp" as hcp {
     }
     rectangle "CI/CD" as hcp_cicd {
         [Bitbucket] as hcp_cicd_bitbucket
-        [Jenkins] as hcp_cicd_jenkins
-        [SonarQube] as hcp_cicd_sonarqube
-        [Nexus] as hcp_cicd_nexus
-        [Harbor] as hcp_cicd_harbor #orange
     }
-    [TaskRunner] as hcp_cicd_taskrunner #orange
 }
 @enduml
 
 @startuml
 
+scale 1
 title "Site B"
 
 [기존컴포넌트] as old
@@ -78,8 +71,8 @@ node "Data Plane" as dcp {
 @startuml
 
 scale 1
-skinparam ParticipantPadding 10
-skinparam BoxPadding 10
+skinparam ParticipantPadding 5
+skinparam BoxPadding 5
 title "Login Process"
 
 box "site A"
@@ -147,10 +140,11 @@ User -> DWP : create app.
 DWP -\ TaskRunner : create job (async)
 TaskRunner -> Bitbucket : checkout template
 TaskRunner -> Bitbucket : push template
-TaskRunner -> TaskAgent : create app.
+TaskRunner -\ TaskAgent : create app.
 TaskAgent -> Jenkins : create job
 TaskAgent -> ArgoCD : create app.
 TaskAgent -> Harbor : create docker repository
+TaskAgent -> TaskRunner : call back
 TaskRunner -> DWP : callback
 DWP -\ CUBE : send message
 
@@ -160,8 +154,8 @@ DWP -\ CUBE : send message
 @startuml
 
 scale 1
-skinparam ParticipantPadding 10
-skinparam BoxPadding 10
+skinparam ParticipantPadding 5
+skinparam BoxPadding 5
 title "App. 배포"
 
 actor User
