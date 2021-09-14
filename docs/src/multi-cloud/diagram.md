@@ -17,7 +17,7 @@ rectangle "Common Service" as a_comm {
     [CDN] as a_comm_cnd
     [SMTP] as a_comm_smtp
 }
-node "hcp" as hcp {
+node "Platfrom Plane" as hcp {
     rectangle "Portal" as hcp_portal {
         [WP] as hcp_portal_wp
         [DWP] as hcp_portal_dwp
@@ -36,6 +36,7 @@ node "hcp" as hcp {
 
 ### Site B
 - Control Plane, Data Plane 으로 구분
+- Platform Plane 과의 통신을 TaskAgent 와 TaskRunner 를 이용하는 방안
 
 @startuml
 
@@ -92,7 +93,51 @@ node "Data Plane" as bdp {
 }
 @enduml
 
+### Create Cluster
+- Cluster 를 새로 구축하는 경우 절차를 기술함
+- Site Cluster 정보를 관리하는 TaskAgent 가 필요함
+- Site Cluster 에 설치될 구성요소는 ArgoCD 로 관리함
+
+#### Platform Cluster 에 TaskAgent 를 설치
+- TaskAgent 를 어떤걸 사용해야 할지 ?
+- TaskRunner 에 대한 EndPoint 관리 필요
+    - Discovery Control Plane TaskRunner ?
+
+#### Site Cluster 의 Control Plane 구성요소 설치
+- Control Plane ArgoCD 를 설치한다.
+- Cluster 구성
+    - Control Plane 용 git repo 를 준비한다.
+    - git repo 에 cluster 에 설치할 yaml 파일을 push 한다.
+        - 1개 git repo 로도 가능할 수 있음
+        - 구성요소에 특성에 따라 git repo 를 분할해도 됨
+    - git repo 로 ArgoCD Application 을 구성한다.
+        - 1개 Application 으로도 가능할 수 있음
+        - 구성요소에 특성에 따라 Application 을 분할해도 됨
+- TaskRunner 구성
+    - Task 용 git repo 를 준비한다.
+    - git repo 에 task yaml 파일을 push 한다.
+    - git repo 로 ArgoCD Application 을 구성한다.
+        - 1개 Application 으로도 가능할 수 있음
+        - 구성요소에 특성에 따라 Application 을 분할해도 됨
+- TaskAgent 에 Control Plane 정보를 기록한다.
+    - TaskAgent restart 없이 적용 방안?
+
+#### Site Cluster 의 Data Plane 구성요소 설치
+- Data Plane 에 ArgoCD 를 설치한다.
+- Cluster 구성
+    - Data Plane 용 git repo 를 준비한다.
+    - git repo 에 cluster 에 설치할 yaml 파일을 push 한다.
+        - 1개 git repo 로도 가능할 수 있음
+        - 구성요소에 특성에 따라 git repo 를 분할해도 됨
+    - git repo 로 ArgoCD Application 을 구성한다.
+        - 1개 Application 으로도 가능할 수 있음
+        - 구성요소에 특성에 따라 Application 을 분할해도 됨
+    - TaskAgent 에 Data Plane 정보를 기록한다.
+        - TaskAgent restart 없이 적용 방안?
+
 ## Sequence Diagram
+- 사용자 관점에서 필요한 프로세스를 Sequece Diagram 으로 작성
+
 ### Login SSO process
 - 프로세스 설명
     - Site A 사용자가 A url 과 B url 을 사용하여 로그인 할 경우
@@ -140,41 +185,6 @@ b_sso -> b_wp : redirect url
 b_wp -> b_user : success
 
 @enduml
-
-### Create Cluster
-- Platform Cluster 에 TaskAgent 를 설치한다.
-
-- Site Cluster 의 Control Plane 설치
-    - ArgoCD 를 설치한다.
-    - Cluster 구성
-        - Control Plane 용 git repo 를 준비한다.
-        - git repo 에 cluster 에 설치할 yaml 파일을 push 한다.
-            - 1개 git repo 로도 가능할 수 있음
-            - 구성요소에 특성에 따라 git repo 를 분할해도 됨
-        - git repo 로 ArgoCD Application 을 구성한다.
-            - 1개 Application 으로도 가능할 수 있음
-            - 구성요소에 특성에 따라 Application 을 분할해도 됨
-    - TaskRunner 구성
-        - Task 용 git repo 를 준비한다.
-        - git repo 에 task yaml 파일을 push 한다.
-        - git repo 로 ArgoCD Application 을 구성한다.
-            - 1개 Application 으로도 가능할 수 있음
-            - 구성요소에 특성에 따라 Application 을 분할해도 됨
-    - TaskAgent 에 Control Plane 정보를 기록한다.
-        - TaskAgent restart 없이 적용 방안?
-
-- Site Cluster 의 Data Plane 설치
-    - Data Plane 에 ArgoCD 를 설치한다.
-    - Cluster 구성
-        - Data Plane 용 git repo 를 준비한다.
-        - git repo 에 cluster 에 설치할 yaml 파일을 push 한다.
-            - 1개 git repo 로도 가능할 수 있음
-            - 구성요소에 특성에 따라 git repo 를 분할해도 됨
-        - git repo 로 ArgoCD Application 을 구성한다.
-            - 1개 Application 으로도 가능할 수 있음
-            - 구성요소에 특성에 따라 Application 을 분할해도 됨
-        - TaskAgent 에 Data Plane 정보를 기록한다.
-            - TaskAgent restart 없이 적용 방안?
 
 ### Create application process
 - 검토 필요 사항
