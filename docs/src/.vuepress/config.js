@@ -49,6 +49,10 @@ module.exports = {
         text: "GitOps",
         link: "/gitops/",
       },
+      {
+        text: "Multi Cloud",
+        link: "/multi-cloud/",
+      },
     ],
     sidebar: {
       "/guide/": [
