@@ -25,7 +25,6 @@ node "hcp" as hcp {
         [Jenkins] as hcp_cicd_jenkins
         [SonarQube] as hcp_cicd_sonarqube
         [Nexus] as hcp_cicd_nexus
-        [ArgoCD] as hcp_cicd_argocd #orange
         [Harbor] as hcp_cicd_harbor #orange
     }
     [TaskRunner] as hcp_cicd_taskrunner #orange
