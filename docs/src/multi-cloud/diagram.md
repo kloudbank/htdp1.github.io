@@ -177,38 +177,52 @@ actor User
 box "site A"
 participant DWP
 participant CUBE
-participant "Bitbucket(source)" as source
-participant "Bitbucket(yaml)" as yaml
+participant "Bitbucket\n(source)" as source
+participant "Bitbucket\n(yaml)" as yaml
+participant TaskRunner
 end box
 box "site B"
-participant Jenkins #orange
-participant Nexus #orange
-participant Harbor #orange
-participant ArgoCD #orange
-participant k8s #orange
+participant TaskAgent
+participant Jenkins
+participant Nexus
+participant Harbor
+participant ArgoCD
+participant k8s
 end box
 
 autonumber 1-1
 User -> DWP : run CI
-DWP -> Jenkins : run job
+note left : CI
+DWP -\ TaskRunner : run CI
+TaskRunner -\ TaskAgent : run CI
+TaskAgent -> Jenkins : run job
 Jenkins -> source : checkout source
-Jenkins -> Jenkins : app build
+Jenkins -> Jenkins : app. build
 Jenkins -> Nexus : download libs
 Jenkins -> Jenkins : docker build
 Jenkins -> Harbor : push docker image
-Jenkins -> CUBE : send message
+TaskAgent -> TaskRunner : callbask
+TaskRunner -> DWP : callbask
+DWP -> CUBE : send message
 
 autonumber 2-1
 User -> DWP : run CD
-DWP -> Jenkins : run job
+note left : CD
+DWP -\ TaskRunner : run CD
+TaskRunner -\ TaskAgent : run CD
+TaskAgent -> Jenkins : run job
 Jenkins -> yaml : checkout yaml
-Jenkins -> DWP : get resources
 Jenkins -> Jenkins : modify yaml
 Jenkins -> yaml : push yaml
-Jenkins -> ArgoCD : run deploy
+Jenkins -\ ArgoCD : run deploy
+TaskAgent -> TaskRunner : call back
+TaskRunner -> DWP : call back
+DWP -> CUBE : send message
+
+autonumber 3-1
 ArgoCD -> yaml : sync yaml
+note right : sync k8s
 ArgoCD -> k8s : deploy yaml
 k8s -> Harbor : pull docker image
-Jenkins -> CUBE : send message
 
 @enduml
