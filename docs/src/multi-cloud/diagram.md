@@ -46,7 +46,7 @@ node "Control Plane" as bcp {
         [ArgoCD] as bcp_cicd_argocd #orange
         [Harbor] as bcp_cicd_harbor #orange
     }
-    rectangle "Monitoring/Alert\n(long-terms)" as bcp_mon {
+    rectangle "Monitoring/Alert (long-terms)" as bcp_mon {
         [Elastic-Search] as bcp_mon_elk
         [Grafana] as bcp_mon_grafana
         [Kibana] as bcp_mon_kibana
@@ -71,7 +71,7 @@ node "Data Plane" as dcp {
     rectangle "Biz" as bdp_bz {
         [Biz App. Backend] as bdp_bz_app
     }
-    rectangle "Monitoring/Alert\n(short-terms)" as bdp_mon {
+    rectangle "Monitoring/Alert (short-terms)" as bdp_mon {
         [Elastic-Search] as bdp_mon_elk
         [Grafana] as bdp_mon_grafana
         [Kibana] as bdp_mon_kibana
@@ -83,10 +83,11 @@ node "Data Plane" as dcp {
 
 ## Sequence Diagram
 ### Login SSO process
-- Site A 사용자가 A url 과 B url 을 사용하여 로그인 할 경우
-    - case1 and case2
-- Site B 사용자가 B url 을 사용하여 로그인 할 경우
-    - case3
+- 프로세스 설명
+    - Site A 사용자가 A url 과 B url 을 사용하여 로그인 할 경우
+        - case1, case2
+    - Site B 사용자가 B url 을 사용하여 로그인 할 경우
+        - case3
 
 @startuml
 
@@ -128,6 +129,9 @@ b_wp -> b_user : success
 @enduml
 
 ### Create application process
+- 검토 필요 사항
+    - Async process 에 대한 status 조회 방안 필요
+
 @startuml
 
 scale 1
@@ -168,6 +172,9 @@ User -> DWP : view status
 @enduml
 
 ### CI process
+- 검토 필요 사항
+    - Async process 에 대한 status 조회 방안 필요
+
 @startuml
 
 scale 1
@@ -210,6 +217,9 @@ User -> DWP : view status
 @enduml
 
 ### CD process
+- 검토 필요 사항
+    - Async process 에 대한 status 조회 방안 필요
+
 @startuml
 
 scale 1
