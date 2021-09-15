@@ -12,49 +12,7 @@
 ### Site A
 - Site B 에서 사용하는 컴포넌트만 표시함
 
-@startuml
 
-title "Site A"
-
-[기존컴포넌트] as old
-[신규컴포넌트] as new #orange
-old -[hidden]d-> new
-
-rectangle "Common Service" as a_comm {
-    [SSO] as a_comm_sso
-    [Cube] as a_comm_cube
-    [CDN] as a_comm_cnd
-    [SMTP] as a_comm_smtp
-    a_comm_sso -[hidden]r- a_comm_cube
-    a_comm_cube -[hidden]r- a_comm_cnd
-    a_comm_cnd -[hidden]r- a_comm_smtp
-}
-rectangle "CI/CD" as hcp_cicd {
-    [Nexus] as hcp_cicd_nexus
-    [Bitbucket] as hcp_cicd_bitbucket
-    [Jira] as hcp_cicd_jira
-    [Harbor] as hcp_cicd_harbor #orange
-    hcp_cicd_bitbucket -[hidden]r- hcp_cicd_harbor
-    hcp_cicd_bitbucket -[hidden]r- hcp_cicd_jira
-}
-node "Platfrom Plane" as hcp {
-    rectangle "Portal" as hcp_portal {
-        [WP] as hcp_portal_wp
-        [DWP] as hcp_portal_dwp
-        [Redis-WP] as hcp_portal_rediswp
-        [Redis-DWP] as hcp_portal_redisdwp
-        hcp_portal_wp -d-* hcp_portal_rediswp
-        hcp_portal_dwp -d-* hcp_portal_redisdwp
-    }
-    rectangle "Agent Service" as hcp_agent {
-        [TaskAgent] as hcp_agent_taskagent #orange
-        [NotifyAgent] as hcp_agent_notifyagent #orange
-    }
-}
-a_comm -[hidden]d- hcp_cicd
-hcp_cicd -[hidden]d- hcp
-
-@enduml
 
 ### Site B
 - Control Plane, Data Plane 으로 구분
@@ -127,6 +85,7 @@ node "Data Plane" as bdp {
     }
     bdp_task -[hidden]d- bdp_mon
 }
+
 @enduml
 
 ## Cluster Management
@@ -143,8 +102,10 @@ title "Cluster Management"
 
 Actor Manager
 participant Bitbucket
-participant ArgoCD
-participant k8s
+box "control plane"
+    participant ArgoCD
+    participant k8s
+end box
 
 Manager -> Bitbucket : git push yml
 ArgoCD -> Bitbucket : checkout yml
@@ -209,14 +170,14 @@ skinparam BoxPadding 5
 title "Login Process"
 
 box "site A"
-actor "site A User" as a_user
-participant SSO as a_sso
-participant "A url WP" as a_wp
-participant "B url WP" as b_wp
+    actor "site A User" as a_user
+    participant SSO as a_sso
+    participant "A url WP" as a_wp
+    participant "B url WP" as b_wp
 end box
 box "site B"
-participant SSO as b_sso
-actor "site B User" as b_user
+    participant SSO as b_sso
+    actor "site B User" as b_user
 end box
 
 autonumber 1-1
@@ -255,17 +216,17 @@ title "App. 생성"
 
 actor User
 box "site A"
-participant DWP
-participant CUBE
-participant NotifyAgent
-participant TaskAgent
-participant "Bitbucket\n(source)" as source
-participant "Bitbucket\n(yaml)" as yaml
+    participant DWP
+    participant CUBE
+    participant NotifyAgent
+    participant TaskAgent
+    participant "Bitbucket\n(source)" as source
+    participant "Bitbucket\n(yaml)" as yaml
 end box
 box "site B - control plane"
-participant TaskRunner
-participant ArgoCD
-participant Harbor
+    participant TaskRunner
+    participant ArgoCD
+    participant Harbor
 end box
 
 autonumber 1-1
@@ -304,17 +265,17 @@ title "App. CI"
 
 actor User
 box "site A"
-participant DWP
-participant CUBE
-participant NotifyAgent
-participant TaskAgent
-participant "Bitbucket\n(source)" as source
+    participant DWP
+    participant CUBE
+    participant NotifyAgent
+    participant TaskAgent
+    participant "Bitbucket\n(source)" as source
 end box
 box "site B"
-participant TaskRunner
-participant Nexus
-participant Harbor
-participant SonarQube
+    participant TaskRunner
+    participant Nexus
+    participant Harbor
+    participant SonarQube
 end box
 
 autonumber 1-1
@@ -355,16 +316,16 @@ title "App. CD"
 
 actor User
 box "site A"
-participant DWP
-participant CUBE
-participant NotifyAgent
-participant TaskAgent
-participant "Bitbucket\n(yaml)" as yaml
+    participant DWP
+    participant CUBE
+    participant NotifyAgent
+    participant TaskAgent
+    participant "Bitbucket\n(yaml)" as yaml
 end box
 box "site B - control plane"
-participant TaskRunner
-participant ArgoCD
-participant Harbor
+    participant TaskRunner
+    participant ArgoCD
+    participant Harbor
 end box
 
 box "site B - data plane"
@@ -412,11 +373,13 @@ title "Tekton"
 
 object git
 object image
-object Pipeline
-object PipelineRun
-object PipelineResource
-object Task
-object TaskRun
+package tekton {
+    object Pipeline
+    object PipelineRun
+    object PipelineResource
+    object Task
+    object TaskRun
+}
 
 PipelineResource -u-o git
 PipelineResource -u-o image
