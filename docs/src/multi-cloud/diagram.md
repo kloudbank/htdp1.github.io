@@ -12,7 +12,48 @@
 ### Site A
 - Site B 에서 사용하는 컴포넌트만 표시함
 
+@startuml
 
+title "Site A"
+
+[기존컴포넌트] as old
+[신규컴포넌트] as new #orange
+old -[hidden]d-> new
+rectangle "Common Service" as a_comm {
+    [SSO] as a_comm_sso
+    [Cube] as a_comm_cube
+    [CDN] as a_comm_cnd
+    [SMTP] as a_comm_smtp
+    a_comm_sso -[hidden]r- a_comm_cube
+    a_comm_cube -[hidden]r- a_comm_cnd
+    a_comm_cnd -[hidden]r- a_comm_smtp
+}
+rectangle "CI/CD" as hcp_cicd {
+    [Nexus] as hcp_cicd_nexus
+    [Bitbucket] as hcp_cicd_bitbucket
+    [Jira] as hcp_cicd_jira
+    [Harbor] as hcp_cicd_harbor #orange
+    hcp_cicd_bitbucket -[hidden]r- hcp_cicd_harbor
+    hcp_cicd_bitbucket -[hidden]r- hcp_cicd_jira
+}
+node "Platfrom Plane" as hcp {
+    rectangle "Portal" as hcp_portal {
+        [WP] as hcp_portal_wp
+        [DWP] as hcp_portal_dwp
+        [Redis-WP] as hcp_portal_rediswp
+        [Redis-DWP] as hcp_portal_redisdwp
+        hcp_portal_wp -d-* hcp_portal_rediswp
+        hcp_portal_dwp -d-* hcp_portal_redisdwp
+    }
+    rectangle "Agent Service" as hcp_agent {
+        [TaskAgent] as hcp_agent_taskagent #orange
+        [NotifyAgent] as hcp_agent_notifyagent #orange
+    }
+}
+a_comm -[hidden]d- hcp_cicd
+hcp_cicd -[hidden]d- hcp
+
+@enduml
 
 ### Site B
 - Control Plane, Data Plane 으로 구분
