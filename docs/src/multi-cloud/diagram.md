@@ -1,4 +1,13 @@
-# Diagram
+# Multi Cluster 구축
+- 구축 목표
+    - Control Plane 과 Data Planes 으로 구성한다.
+    - Cluster 에 설치되는 기본 컴포넌트의 설치를 자동화 한다.
+    - Cluster EndPoint 관리를 자동화 한다.
+    - DWP 에서 Cluster Resource 제어시 Task Runner 를 적용한다.
+    - DWP 에서 Cluster Resource 제어시 async, non-block 을 적용한다.
+    - DWP 에서 Cluster Resource 제어시 status monitoring 을 적용한다.
+    - Access Log 를 Application 외부에서 처리한다.
+
 ## Deployment Diagram
 ### Site A
 - Site B 에서 사용하는 컴포넌트만 표시함
@@ -16,6 +25,17 @@ rectangle "Common Service" as a_comm {
     [Cube] as a_comm_cube
     [CDN] as a_comm_cnd
     [SMTP] as a_comm_smtp
+    a_comm_sso -[hidden]r- a_comm_cube
+    a_comm_cube -[hidden]r- a_comm_cnd
+    a_comm_cnd -[hidden]r- a_comm_smtp
+}
+rectangle "CI/CD" as hcp_cicd {
+    [Nexus] as hcp_cicd_nexus
+    [Bitbucket] as hcp_cicd_bitbucket
+    [Jira] as hcp_cicd_jira
+    [Harbor] as hcp_cicd_harbor #orange
+    hcp_cicd_bitbucket -[hidden]r- hcp_cicd_harbor
+    hcp_cicd_bitbucket -[hidden]r- hcp_cicd_jira
 }
 node "Platfrom Plane" as hcp {
     rectangle "Portal" as hcp_portal {
@@ -23,15 +43,17 @@ node "Platfrom Plane" as hcp {
         [DWP] as hcp_portal_dwp
         [Redis-WP] as hcp_portal_rediswp
         [Redis-DWP] as hcp_portal_redisdwp
-    }
-    rectangle "CI/CD" as hcp_cicd {
-        [Bitbucket] as hcp_cicd_bitbucket
+        hcp_portal_wp -d-* hcp_portal_rediswp
+        hcp_portal_dwp -d-* hcp_portal_redisdwp
     }
     rectangle "Agent Service" as hcp_agent {
         [TaskAgent] as hcp_agent_taskagent #orange
         [NotifyAgent] as hcp_agent_notifyagent #orange
     }
 }
+a_comm -[hidden]d- hcp_cicd
+hcp_cicd -[hidden]d- hcp
+
 @enduml
 
 ### Site B
@@ -50,22 +72,30 @@ node "Control Plane" as bcp {
     rectangle "Task Service" as bcp_cicd {
         [TaskRunner] as bcp_taskruuner #orange
         [ArgoCD] as bcp_argocd #orange
+        bcp_taskruuner -[hidden]r- bcp_argocd
     }
-    rectangle "Common Service" as bcp_common {
-        [Gitee] as bcp_mananged_gitee #orange
+    rectangle "CI/CD Service" as bcp_common {
+        [Gitee] as gitee #orange
         [Nexus] as nexus
         [SonarQube] as sonarqube
         [Harbor] as harbor #orange
+        nexus -[hidden]r- sonarqube
+        sonarqube -[hidden]r- harbor
+        harbor -[hidden]r- gitee
     }
     rectangle "Monitoring/Alert" as bcp_mon {
         [Elastic-Search\n(long-terms)] as bcp_mon_elk
         [Grafana\n(long-terms)] as bcp_mon_grafana
         [Kibana\n(long-terms)] as bcp_mon_kibana
         [Prometheus\n(long-terms)] as bcp_mon_prometheus
+        bcp_mon_elk -[hidden]r- bcp_mon_grafana
     }
     rectangle "Managed Service" as bcp_managed {
         [Redis] as bcp_mananged_redis
     }
+    bcp_cicd -[hidden]d- bcp_common
+    bcp_cicd -[hidden]d- bcp_managed
+    bcp_common -[hidden]d- bcp_mon
 }
 
 @enduml
@@ -81,7 +111,8 @@ node "Data Plane" as bdp {
         [ArgoCD] as bdp_argocd #orange
     }
     rectangle "Biz" as bdp_biz {
-        [Biz-App.-Backend] as bdp_bizapp
+        [A-Biz-App.-Backend] as bdp_biza
+        [B-Biz-App.-Backend] as bdp_bizb
     }
     rectangle "Monitoring/Alert" as bdp_mon {
         [Elastic-Search\n(short-terms)] as bdp_mon_elk
@@ -89,49 +120,54 @@ node "Data Plane" as bdp {
         [Kibana\n(short-terms)] as bdp_mon_kibana
         [Prometheus\n(short-terms)] as bdp_mon_prometheus
         [loki\n(short-terms)] as dbp_mon_loki #orange
+        bdp_mon_elk -[hidden]r- bdp_mon_grafana
+        bdp_mon_grafana -[hidden]r- bdp_mon_kibana
+        bdp_mon_kibana -[hidden]r- bdp_mon_prometheus
+        bdp_mon_prometheus -[hidden]r- dbp_mon_loki
     }
+    bdp_task -[hidden]d- bdp_mon
 }
 @enduml
 
-### Create Cluster
+## Create Cluster
 - Cluster 를 새로 구축하는 경우 절차를 기술함
 - Site Cluster 정보를 관리하는 TaskAgent 가 필요함
-- Site Cluster 에 설치될 구성요소는 ArgoCD 로 관리함
+- Site Cluster 에 설치될 컴포넌트는 ArgoCD 로 관리함
 
-#### Platform Cluster 에 TaskAgent 를 설치
+### Platform Cluster 에 TaskAgent 를 설치
 - TaskAgent 를 어떤걸 사용해야 할지 ?
 - TaskRunner 에 대한 EndPoint 관리 필요
     - Discovery Control Plane TaskRunner ?
 
-#### Site Cluster 의 Control Plane 구성요소 설치
+### Site Cluster 의 Control Plane 구성요소 설치
 - Control Plane ArgoCD 를 설치한다.
 - Cluster 구성
     - Control Plane 용 git repo 를 준비한다.
     - git repo 에 cluster 에 설치할 yaml 파일을 push 한다.
         - 1개 git repo 로도 가능할 수 있음
-        - 구성요소에 특성에 따라 git repo 를 분할해도 됨
+        - 컴포넌트의 특성에 따라 git repo 를 분할해도 됨
     - git repo 로 ArgoCD Application 을 구성한다.
         - 1개 Application 으로도 가능할 수 있음
-        - 구성요소에 특성에 따라 Application 을 분할해도 됨
+        - 컴포넌트의 특성에 따라 Application 을 분할해도 됨
 - TaskRunner 구성
     - Task 용 git repo 를 준비한다.
     - git repo 에 task yaml 파일을 push 한다.
     - git repo 로 ArgoCD Application 을 구성한다.
         - 1개 Application 으로도 가능할 수 있음
-        - 구성요소에 특성에 따라 Application 을 분할해도 됨
+        - 컴포넌트의 특성에 따라 Application 을 분할해도 됨
 - TaskAgent 에 Control Plane 정보를 기록한다.
     - TaskAgent restart 없이 적용 방안?
 
-#### Site Cluster 의 Data Plane 구성요소 설치
+### Site Cluster 의 Data Plane 구성요소 설치
 - Data Plane 에 ArgoCD 를 설치한다.
 - Cluster 구성
     - Data Plane 용 git repo 를 준비한다.
     - git repo 에 cluster 에 설치할 yaml 파일을 push 한다.
         - 1개 git repo 로도 가능할 수 있음
-        - 구성요소에 특성에 따라 git repo 를 분할해도 됨
+        - 컴포넌트의 특성에 따라 git repo 를 분할해도 됨
     - git repo 로 ArgoCD Application 을 구성한다.
         - 1개 Application 으로도 가능할 수 있음
-        - 구성요소에 특성에 따라 Application 을 분할해도 됨
+        - 컴포넌트의 특성에 따라 Application 을 분할해도 됨
     - Control Plane TaskRunner 에 Data Plane 정보를 기록한다.
         - TaskRunner restart 없이 적용 방안?
     - TaskAgent 에 Data Plane 정보를 기록한다.
@@ -364,11 +400,57 @@ object PipelineResource
 object Task
 object TaskRun
 
-PipelineResource -u-* git
-PipelineResource -u-* image
+PipelineResource -u-o git
+PipelineResource -u-o image
 Pipeline -u-* PipelineResource
 Pipeline -r-* Task
 PipelineRun -u-* Pipeline
 TaskRun -u-* Task
+
+@enduml
+
+### Argo
+
+@startuml
+
+scale 1
+skinparam ParticipantPadding 5
+skinparam BoxPadding 5
+title "Argo"
+
+object DWP
+object Redis
+object AgroResource
+object ArgoSensor
+object ArgoTrigger
+object ArgoWorkflow
+
+DWP -d- Redis : message
+Redis -d- AgroResource : listner
+AgroResource -r- ArgoSensor
+ArgoSensor -r- ArgoTrigger
+ArgoTrigger -r- ArgoWorkflow
+
+@enduml
+
+@startuml
+
+scale 1
+skinparam ParticipantPadding 5
+skinparam BoxPadding 5
+title "Argo"
+
+participant DWP
+participant Redis
+participant AgroResource
+participant ArgoSensor
+participant ArgoTrigger
+participant ArgoWorkflow
+
+DWP -> Redis : task message
+Redis -> AgroResource : listner
+AgroResource -> ArgoSensor : sensor
+ArgoSensor -> ArgoTrigger : trigger
+ArgoTrigger -> ArgoWorkflow : run
 
 @enduml
