@@ -129,10 +129,28 @@ node "Data Plane" as bdp {
 }
 @enduml
 
-## Create Cluster
+## Cluster Management
 - Cluster 를 새로 구축하는 경우 절차를 기술함
 - Site Cluster 정보를 관리하는 TaskAgent 가 필요함
 - Site Cluster 에 설치될 컴포넌트는 ArgoCD 로 관리함
+
+@startuml
+
+scale 1
+skinparam ParticipantPadding 5
+skinparam BoxPadding 5
+title "Cluster Management"
+
+Actor Manager
+participant Bitbucket
+participant ArgoCD
+participant k8s
+
+Manager -> Bitbucket : git push yml
+ArgoCD -> Bitbucket : checkout yml
+ArgoCD -> k8s : deploy
+
+@enduml
 
 ### Platform Cluster 에 TaskAgent 를 설치
 - TaskAgent 를 어떤걸 사용해야 할지 ?
@@ -420,16 +438,20 @@ title "Argo"
 
 object DWP
 object Redis
-object AgroResource
-object ArgoSensor
-object ArgoTrigger
-object ArgoWorkflow
+package ArgoEvent {
+    object AgroResource
+    object ArgoSensor
+    object ArgoTrigger
+}
+package ArgoWorkflow {
+    object ArgoWorkflow
+}
 
 DWP -d- Redis : message
 Redis -d- AgroResource : listner
 AgroResource -r- ArgoSensor
 ArgoSensor -r- ArgoTrigger
-ArgoTrigger -r- ArgoWorkflow
+ArgoTrigger -d- ArgoWorkflow
 
 @enduml
 
@@ -454,3 +476,4 @@ ArgoSensor -> ArgoTrigger : trigger
 ArgoTrigger -> ArgoWorkflow : run
 
 @enduml
+
