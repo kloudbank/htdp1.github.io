@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Amazon EKS Cluster | HTDP1</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="htdp1 github pages">
+    <meta name="theme-color" content="#3eaf7c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    
+    <link rel="preload" href="/am-arch/assets/css/0.styles.cf1d3b34.css" as="style"><link rel="preload" href="/am-arch/assets/js/app.89e1056e.js" as="script"><link rel="preload" href="/am-arch/assets/js/2.158b03bb.js" as="script"><link rel="preload" href="/am-arch/assets/js/28.58281d66.js" as="script"><link rel="prefetch" href="/am-arch/assets/js/10.f985dceb.js"><link rel="prefetch" href="/am-arch/assets/js/11.13a0885b.js"><link rel="prefetch" href="/am-arch/assets/js/12.784f5764.js"><link rel="prefetch" href="/am-arch/assets/js/13.0705463a.js"><link rel="prefetch" href="/am-arch/assets/js/14.edf1e9bf.js"><link rel="prefetch" href="/am-arch/assets/js/15.ecbe92b4.js"><link rel="prefetch" href="/am-arch/assets/js/16.b0e5273b.js"><link rel="prefetch" href="/am-arch/assets/js/17.c1412e8f.js"><link rel="prefetch" href="/am-arch/assets/js/18.2bf38a43.js"><link rel="prefetch" href="/am-arch/assets/js/19.d66be9cb.js"><link rel="prefetch" href="/am-arch/assets/js/20.2d12a517.js"><link rel="prefetch" href="/am-arch/assets/js/21.4a5538a4.js"><link rel="prefetch" href="/am-arch/assets/js/22.b2655bc9.js"><link rel="prefetch" href="/am-arch/assets/js/23.f69f4766.js"><link rel="prefetch" href="/am-arch/assets/js/24.d9cb860d.js"><link rel="prefetch" href="/am-arch/assets/js/25.7a3200a9.js"><link rel="prefetch" href="/am-arch/assets/js/26.5cb3a254.js"><link rel="prefetch" href="/am-arch/assets/js/27.0c63f9e7.js"><link rel="prefetch" href="/am-arch/assets/js/29.164199d9.js"><link rel="prefetch" href="/am-arch/assets/js/3.0b98036c.js"><link rel="prefetch" href="/am-arch/assets/js/30.495713a6.js"><link rel="prefetch" href="/am-arch/assets/js/31.4507fc8d.js"><link rel="prefetch" href="/am-arch/assets/js/32.e2d5f511.js"><link rel="prefetch" href="/am-arch/assets/js/33.5a7d28a0.js"><link rel="prefetch" href="/am-arch/assets/js/34.24927452.js"><link rel="prefetch" href="/am-arch/assets/js/35.b946ec72.js"><link rel="prefetch" href="/am-arch/assets/js/36.3e0df84b.js"><link rel="prefetch" href="/am-arch/assets/js/37.baf5ac72.js"><link rel="prefetch" href="/am-arch/assets/js/38.924d0d58.js"><link rel="prefetch" href="/am-arch/assets/js/39.c9ada2db.js"><link rel="prefetch" href="/am-arch/assets/js/4.3bf6929e.js"><link rel="prefetch" href="/am-arch/assets/js/40.59ff4950.js"><link rel="prefetch" href="/am-arch/assets/js/41.e36e5e29.js"><link rel="prefetch" href="/am-arch/assets/js/42.8fbd702b.js"><link rel="prefetch" href="/am-arch/assets/js/43.682ed0be.js"><link rel="prefetch" href="/am-arch/assets/js/44.e96bd250.js"><link rel="prefetch" href="/am-arch/assets/js/45.e5548ca0.js"><link rel="prefetch" href="/am-arch/assets/js/46.eb3135d2.js"><link rel="prefetch" href="/am-arch/assets/js/47.75bfb6d8.js"><link rel="prefetch" href="/am-arch/assets/js/48.24475551.js"><link rel="prefetch" href="/am-arch/assets/js/49.4f9d97da.js"><link rel="prefetch" href="/am-arch/assets/js/5.612537aa.js"><link rel="prefetch" href="/am-arch/assets/js/50.9396ae6a.js"><link rel="prefetch" href="/am-arch/assets/js/51.0246b6e3.js"><link rel="prefetch" href="/am-arch/assets/js/52.b63d5ce3.js"><link rel="prefetch" href="/am-arch/assets/js/53.1f0c3f8c.js"><link rel="prefetch" href="/am-arch/assets/js/54.945e81a6.js"><link rel="prefetch" href="/am-arch/assets/js/55.7f8cfc43.js"><link rel="prefetch" href="/am-arch/assets/js/56.c5892f1b.js"><link rel="prefetch" href="/am-arch/assets/js/57.95dda11c.js"><link rel="prefetch" href="/am-arch/assets/js/58.5239fcca.js"><link rel="prefetch" href="/am-arch/assets/js/59.8c2edf4b.js"><link rel="prefetch" href="/am-arch/assets/js/6.744bf98a.js"><link rel="prefetch" href="/am-arch/assets/js/60.41a76796.js"><link rel="prefetch" href="/am-arch/assets/js/61.26101a83.js"><link rel="prefetch" href="/am-arch/assets/js/62.f17e7ccd.js"><link rel="prefetch" href="/am-arch/assets/js/63.26013c6d.js"><link rel="prefetch" href="/am-arch/assets/js/64.5a311c5f.js"><link rel="prefetch" href="/am-arch/assets/js/65.eb28022b.js"><link rel="prefetch" href="/am-arch/assets/js/7.fed2825e.js"><link rel="prefetch" href="/am-arch/assets/js/8.8c182984.js"><link rel="prefetch" href="/am-arch/assets/js/9.3fd7e149.js">
+    <link rel="stylesheet" href="/am-arch/assets/css/0.styles.cf1d3b34.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="global-layout"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/am-arch/" class="home-link router-link-active"><!----> <span class="site-name">HTDP1</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/am-arch/guide/" class="nav-link">
+  Guide
+</a></div><div class="nav-item"><a href="/am-arch/cloud/" class="nav-link router-link-active">
+  Cloud
+</a></div><div class="nav-item"><a href="/am-arch/refarch/" class="nav-link">
+  Ref. Arch.
+</a></div><div class="nav-item"><a href="/am-arch/cloud-native-app/" class="nav-link">
+  Cloud.Native.App
+</a></div><div class="nav-item"><a href="/am-arch/machinelearning/" class="nav-link">
+  M / L
+</a></div><div class="nav-item"><a href="/am-arch/gitops/" class="nav-link">
+  GitOps
+</a></div><div class="nav-item"><a href="/am-arch/multi-cloud/" class="nav-link">
+  Multi Cloud
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/am-arch/guide/" class="nav-link">
+  Guide
+</a></div><div class="nav-item"><a href="/am-arch/cloud/" class="nav-link router-link-active">
+  Cloud
+</a></div><div class="nav-item"><a href="/am-arch/refarch/" class="nav-link">
+  Ref. Arch.
+</a></div><div class="nav-item"><a href="/am-arch/cloud-native-app/" class="nav-link">
+  Cloud.Native.App
+</a></div><div class="nav-item"><a href="/am-arch/machinelearning/" class="nav-link">
+  M / L
+</a></div><div class="nav-item"><a href="/am-arch/gitops/" class="nav-link">
+  GitOps
+</a></div><div class="nav-item"><a href="/am-arch/multi-cloud/" class="nav-link">
+  Multi Cloud
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Introduction</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/am-arch/cloud/" aria-current="page" class="sidebar-link">Overview</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>AWS</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/am-arch/cloud/aws.html" class="sidebar-link">Quick Start</a></li><li><a href="/am-arch/cloud/certi.html" class="sidebar-link">Certification</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Resources</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/am-arch/cloud/eks.html" aria-current="page" class="active sidebar-link">Amazon EKS Cluster</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/am-arch/cloud/eks.html#overview" class="sidebar-link">Overview</a></li><li class="sidebar-sub-header"><a href="/am-arch/cloud/eks.html#create-eks-cluster" class="sidebar-link">Create EKS Cluster</a></li><li class="sidebar-sub-header"><a href="/am-arch/cloud/eks.html#metric-server" class="sidebar-link">Metric Server</a></li><li class="sidebar-sub-header"><a href="/am-arch/cloud/eks.html#kubernetes-dashboard" class="sidebar-link">Kubernetes Dashboard</a></li><li class="sidebar-sub-header"><a href="/am-arch/cloud/eks.html#prometheus-grafana" class="sidebar-link">Prometheus + Grafana</a></li></ul></li><li><a href="/am-arch/cloud/alb.html" class="sidebar-link">Amazon ALB</a></li><li><a href="/am-arch/cloud/nlb.html" class="sidebar-link">Amazon NLB</a></li><li><a href="/am-arch/cloud/ebs.html" class="sidebar-link">Amazon EBS</a></li><li><a href="/am-arch/cloud/efs.html" class="sidebar-link">Amazon EFS</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="amazon-eks-cluster"><a href="#amazon-eks-cluster" class="header-anchor">#</a> Amazon EKS Cluster</h1> <h2 id="overview"><a href="#overview" class="header-anchor">#</a> Overview</h2> <p><img src="/am-arch/assets/img/eks-public-private-subnet-view.87e3c160.png" alt=""></p> <h2 id="create-eks-cluster"><a href="#create-eks-cluster" class="header-anchor">#</a> Create EKS Cluster</h2> <h3 id="_1-create-vpc-stack-using-cloud-formation-stack"><a href="#_1-create-vpc-stack-using-cloud-formation-stack" class="header-anchor">#</a> 1. Create VPC stack using Cloud Formation stack</h3> <div class="language- line-numbers-mode"><pre class="language-text"><code>aws cloudformation create-stack \
+  --stack-name &lt;stack name&gt; \
+  --template-url https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml \
+  --profile &lt;user&gt;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h3 id="_2-create-iam-role"><a href="#_2-create-iam-role" class="header-anchor">#</a> 2. Create IAM Role</h3> <p>cluster-role-trust-policy.json 파일 참조<br> <a href="https://github.com/htdp1/md-repository/blob/main/create-eks/cluster-role-trust-policy.json" target="_blank" rel="noopener noreferrer">https://github.com/htdp1/md-repository/blob/main/create-eks/cluster-role-trust-policy.json<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <div class="language- line-numbers-mode"><pre class="language-text"><code>aws iam create-role \
+  --role-name myAmazonEKSClusterRole \
+  --assume-role-policy-document file://&quot;cluster-role-trust-policy.json&quot; \
+  --profile &lt;username&gt;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><ul><li>result</li></ul> <div class="language- line-numbers-mode"><pre class="language-text"><code>{
+    &quot;Role&quot;: {
+        &quot;Path&quot;: &quot;/&quot;,
+        &quot;RoleName&quot;: &quot;myAmazonEKSClusterRole&quot;,
+        &quot;RoleId&quot;: &quot;AROASPI4ISUMP7KRVJACR&quot;,
+        &quot;Arn&quot;: &quot;arn:aws:iam::170247361816:role/myAmazonEKSClusterRole&quot;,
+        &quot;CreateDate&quot;: &quot;2021-02-18T00:54:34+00:00&quot;,
+        &quot;AssumeRolePolicyDocument&quot;: {
+            &quot;Version&quot;: &quot;2012-10-17&quot;,
+            &quot;Statement&quot;: [
+                {
+                    &quot;Effect&quot;: &quot;Allow&quot;,
+                    &quot;Principal&quot;: {
+                        &quot;Service&quot;: &quot;eks.amazonaws.com&quot;
+                    },
+                    &quot;Action&quot;: &quot;sts:AssumeRole&quot;
+                }
+            ]
+        }
+    }
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><h3 id="_3-attach-role"><a href="#_3-attach-role" class="header-anchor">#</a> 3. Attach role</h3> <div class="language- line-numbers-mode"><pre class="language-text"><code>aws iam attach-role-policy \
+  --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy \
+  --role-name myAmazonEKSClusterRole \
+  --profile &lt;username&gt;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h3 id="_4-create-eks-cluster-on-console"><a href="#_4-create-eks-cluster-on-console" class="header-anchor">#</a> 4. Create EKS cluster on Console</h3> <p>Console 에서 수동으로 생성<br> <a href="https://console.aws.amazon.com/eks/home#/clusters" target="_blank" rel="noopener noreferrer">https://console.aws.amazon.com/eks/home#/clusters<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <h3 id="_5-create-iam-openid-connect-oidc-provider-on-console"><a href="#_5-create-iam-openid-connect-oidc-provider-on-console" class="header-anchor">#</a> 5. Create IAM OpenID Connect(OIDC) provider on Console</h3> <p>In the navigation panel, choose Identity Providers<br> <a href="https://console.aws.amazon.com/iam/" target="_blank" rel="noopener noreferrer">https://console.aws.amazon.com/iam/<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <h3 id="_6-create-cni-plugin-iam-role"><a href="#_6-create-cni-plugin-iam-role" class="header-anchor">#</a> 6. Create CNI plugin IAM role</h3> <p>cni-role-trust-policy.json 참조하여, OpenID 설정 및 생성<br> <a href="https://github.com/htdp1/md-repository/blob/main/create-eks/cni-role-trust-policy.json" target="_blank" rel="noopener noreferrer">https://github.com/htdp1/md-repository/blob/main/create-eks/cni-role-trust-policy.json<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <div class="language- line-numbers-mode"><pre class="language-text"><code>aws iam create-role \
+  --role-name myAmazonEKSCNIRole \
+  --assume-role-policy-document file://&quot;cni-role-trust-policy.json&quot; \
+  --profile &lt;username&gt;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><ul><li>result</li></ul> <div class="language- line-numbers-mode"><pre class="language-text"><code>{
+  &quot;Role&quot;: {
+      &quot;Path&quot;: &quot;/&quot;,
+      &quot;RoleName&quot;: &quot;myAmazonEKSCNIRole&quot;,
+      &quot;RoleId&quot;: &quot;AROASPI4ISUMAM2INZCWX&quot;,
+      &quot;Arn&quot;: &quot;arn:aws:iam::170247361816:role/myAmazonEKSCNIRole&quot;,
+      &quot;CreateDate&quot;: &quot;2021-02-16T08:06:50+00:00&quot;,
+      &quot;AssumeRolePolicyDocument&quot;: {
+          &quot;Version&quot;: &quot;2012-10-17&quot;,
+          &quot;Statement&quot;: [
+              {
+                  &quot;Effect&quot;: &quot;Allow&quot;,
+                  &quot;Principal&quot;: {
+                      &quot;Federated&quot;: &quot;arn:aws:iam::170247361816:oidc-provider/oidc.eks.ap-northeast-2.amazonaws.com/id/D042A41F174B68930A9229EE478F9CDF&quot;
+                  },
+                  &quot;Action&quot;: &quot;sts:AssumeRoleWithWebIdentity&quot;,
+                  &quot;Condition&quot;: {
+                      &quot;StringEquals&quot;: {
+                          &quot;oidc.eks.ap-northeast-2.amazonaws.com/id/D042A41F174B68930A9229EE478F9CDF:sub&quot;: &quot;system:serviceaccount:kube-system:aws-node&quot;
+                      }
+                  }
+              }
+          ]
+      }
+  }
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br></div></div><h3 id="_7-create-cni-policy-and-attach-cni-role"><a href="#_7-create-cni-policy-and-attach-cni-role" class="header-anchor">#</a> 7. Create CNI policy and attach CNI role</h3> <div class="language- line-numbers-mode"><pre class="language-text"><code>aws iam attach-role-policy \
+  --policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy \
+  --role-name myAmazonEKSCNIRole \
+  --profile &lt;username&gt;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><div class="language- line-numbers-mode"><pre class="language-text"><code>aws eks update-addon \
+  --cluster-name &lt;cluster name&gt; \
+  --addon-name vpc-cni \
+  --service-account-role-arn arn:aws:iam::170247361816:role/myAmazonEKSCNIRole \
+  --profile &lt;username&gt;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h3 id="_8-create-node-iam-role"><a href="#_8-create-node-iam-role" class="header-anchor">#</a> 8. Create Node IAM role</h3> <p>node-role-trust-policy.json 참조하여 생성<br> <a href="https://github.com/htdp1/md-repository/blob/main/create-eks/node-role-trust-policy.json" target="_blank" rel="noopener noreferrer">https://github.com/htdp1/md-repository/blob/main/create-eks/node-role-trust-policy.json<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <div class="language- line-numbers-mode"><pre class="language-text"><code>aws iam create-role \
+  --role-name myAmazonEKSNodeRole \
+  --assume-role-policy-document file://&quot;node-role-trust-policy.json&quot; \
+  --profile &lt;username&gt;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><ul><li>result</li></ul> <div class="language- line-numbers-mode"><pre class="language-text"><code>{
+    &quot;Role&quot;: {
+        &quot;Path&quot;: &quot;/&quot;,
+        &quot;RoleName&quot;: &quot;myAmazonEKSNodeRole&quot;,
+        &quot;RoleId&quot;: &quot;AROASPI4ISUMC42VNFW3V&quot;,
+        &quot;Arn&quot;: &quot;arn:aws:iam::170247361816:role/myAmazonEKSNodeRole&quot;,
+        &quot;CreateDate&quot;: &quot;2021-02-16T08:09:46+00:00&quot;,
+        &quot;AssumeRolePolicyDocument&quot;: {
+            &quot;Version&quot;: &quot;2012-10-17&quot;,
+            &quot;Statement&quot;: [
+                {
+                    &quot;Effect&quot;: &quot;Allow&quot;,
+                    &quot;Principal&quot;: {
+                        &quot;Service&quot;: &quot;ec2.amazonaws.com&quot;
+                    },
+                    &quot;Action&quot;: &quot;sts:AssumeRole&quot;
+                }
+            ]
+        }
+    }
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><h3 id="_9-attach-node-role-to-iam-policy"><a href="#_9-attach-node-role-to-iam-policy" class="header-anchor">#</a> 9. Attach Node role to IAM policy</h3> <div class="language- line-numbers-mode"><pre class="language-text"><code>aws iam attach-role-policy \
+  --policy-arn arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy \
+  --role-name myAmazonEKSNodeRole \
+  --profile &lt;username&gt;
+aws iam attach-role-policy \
+  --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly \
+  --role-name myAmazonEKSNodeRole \
+  --profile &lt;username&gt;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h3 id="_10-create-nodegroup-on-console"><a href="#_10-create-nodegroup-on-console" class="header-anchor">#</a> 10. Create nodegroup on console</h3> <p>In the Navigation Panel, Configuration &gt; Compute<br> <a href="https://ap-northeast-2.console.aws.amazon.com/eks/home?region=ap-northeast-2#/clusters/htdp1-cluster" target="_blank" rel="noopener noreferrer">https://ap-northeast-2.console.aws.amazon.com/eks/home?region=ap-northeast-2#/clusters/htdp1-cluster<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <h2 id="metric-server"><a href="#metric-server" class="header-anchor">#</a> Metric Server</h2> <p>Amazon EKS Cluster에는 기본적으로 Metric Server가 배포되어 있지 않아서 추가 배포가 필요함<br> <a href="https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/metrics-server.html" target="_blank" rel="noopener noreferrer">https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/metrics-server.html<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <h3 id="metric-server-deploy"><a href="#metric-server-deploy" class="header-anchor">#</a> Metric Server Deploy</h3> <div class="language- line-numbers-mode"><pre class="language-text"><code>$ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+$ kubectl get deploy -n kube-system
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+aws-load-balancer-controller   1/1     1            1           10d
+coredns                        2/2     2            2           10d
+ebs-csi-controller             2/2     2            2           2d17h
+metrics-server                 1/1     1            0           17s
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h2 id="kubernetes-dashboard"><a href="#kubernetes-dashboard" class="header-anchor">#</a> Kubernetes Dashboard</h2> <h3 id="kubernetes-dashboard-deploy"><a href="#kubernetes-dashboard-deploy" class="header-anchor">#</a> Kubernetes Dashboard Deploy</h3> <ul><li>Deploy Manual<br> <a href="https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/dashboard-tutorial.html" target="_blank" rel="noopener noreferrer">https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/dashboard-tutorial.html<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li>github repository<br> <a href="https://github.com/kubernetes/dashboard" target="_blank" rel="noopener noreferrer">https://github.com/kubernetes/dashboard<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul> <h3 id="접속-방법"><a href="#접속-방법" class="header-anchor">#</a> 접속 방법</h3> <h4 id="_1-eks-admin-service-account에-대한-인증-token-조회"><a href="#_1-eks-admin-service-account에-대한-인증-token-조회" class="header-anchor">#</a> 1. eks-admin service account에 대한 인증 token 조회</h4> <div class="language- line-numbers-mode"><pre class="language-text"><code>kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep eks-admin | awk '{print $1}')
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><ul><li>result</li></ul> <div class="language- line-numbers-mode"><pre class="language-text"><code>Name:         eks-admin-token-tbcpj
+Namespace:    kube-system
+Labels:       &lt;none&gt;
+Annotations:  kubernetes.io/service-account.name: eks-admin
+              kubernetes.io/service-account.uid: 9d98ae6a-9697-42a3-a1af-2a7eda64e68a
+
+Type:  kubernetes.io/service-account-token
+
+Data
+====
+ca.crt:     1025 bytes
+namespace:  11 bytes
+token: &lt;authentication_token&gt;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><h4 id="_2-start-proxy"><a href="#_2-start-proxy" class="header-anchor">#</a> 2. Start Proxy</h4> <div class="language- line-numbers-mode"><pre class="language-text"><code>kubectl proxy
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><h4 id="_3-access-the-dashboard-endpoint"><a href="#_3-access-the-dashboard-endpoint" class="header-anchor">#</a> 3. Access the dashboard endpoint</h4> <p><a href="http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#!/login" target="_blank" rel="noopener noreferrer">http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#!/login<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <h4 id="_4-token-입력-및-login"><a href="#_4-token-입력-및-login" class="header-anchor">#</a> 4. Token 입력 및 Login</h4> <p>&lt;authentication_token&gt; 을 복사하여, token에 입력하여 접속</p> <table><thead><tr><th><small>NOTE : <em>Dashboard 에 지표가 표시되기까지 몇 분이 걸릴 수 있습니다.</em></small></th></tr></thead> <tbody></tbody></table> <h2 id="prometheus-grafana"><a href="#prometheus-grafana" class="header-anchor">#</a> Prometheus + Grafana</h2> <h3 id="prometheus-deploy"><a href="#prometheus-deploy" class="header-anchor">#</a> Prometheus Deploy</h3> <ul><li><p>Helm으로 Prometheus를 EKS Cluster에 배포<br> <a href="https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/prometheus.html" target="_blank" rel="noopener noreferrer">https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/prometheus.html<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></li> <li><p>Helm으로 Grafana를 EKS Cluster에 배포<br> <a href="https://awskrug.github.io/eks-workshop/monitoring/deploy-grafana/" target="_blank" rel="noopener noreferrer">https://awskrug.github.io/eks-workshop/monitoring/deploy-grafana/<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></li></ul> <div class="language- line-numbers-mode"><pre class="language-text"><code>$ kubectl get po -n prometheus
+
+NAME                                             READY   STATUS    RESTARTS   AGE
+prometheus-alertmanager-6b8d9d55c4-76295         2/2     Running   0          7h55m
+prometheus-kube-state-metrics-6bfcd6f648-hlzn5   1/1     Running   0          7h55m
+prometheus-node-exporter-fj9mh                   1/1     Running   0          7h55m
+prometheus-node-exporter-nmjcv                   1/1     Running   0          7h55m
+prometheus-node-exporter-w9gjz                   1/1     Running   0          7h55m
+prometheus-node-exporter-zg6sq                   1/1     Running   0          73m
+prometheus-pushgateway-dcc654486-czmm7           1/1     Running   0          7h55m
+prometheus-server-6f5f6f4859-pc7cw               2/2     Running   0          7h55m
+
+
+$ kubectl get po -n grafana
+
+NAME                      READY   STATUS    RESTARTS   AGE
+grafana-b8b886687-9zvh8   1/1     Running   0          7h29m
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><ul><li>Grafana Dashboard 구성 json 참조
+<ul><li>EKS Node Monitoring<br> <a href="https://github.com/htdp1/session-k8s/blob/main/dev/monitoring/grafana/Grafana_EKS_Node_DashBoard.json" target="_blank" rel="noopener noreferrer">https://github.com/htdp1/session-k8s/blob/main/dev/monitoring/grafana/Grafana_EKS_Node_DashBoard.json<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li>EKS Pod Monitoring<br> <a href="https://github.com/htdp1/session-k8s/blob/main/dev/monitoring/grafana/EKS_Pod_DashBoard.json" target="_blank" rel="noopener noreferrer">https://github.com/htdp1/session-k8s/blob/main/dev/monitoring/grafana/EKS_Pod_DashBoard.json<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li></ul></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/am-arch/cloud/certi.html" class="prev">
+        Certification
+      </a></span> <span class="next"><a href="/am-arch/cloud/alb.html">
+        Amazon ALB
+      </a>
+      →
+    </span></p></div> </main></div></div><div class="global-ui"></div></div>
+    <script src="/am-arch/assets/js/app.89e1056e.js" defer></script><script src="/am-arch/assets/js/2.158b03bb.js" defer></script><script src="/am-arch/assets/js/28.58281d66.js" defer></script>
+  </body>
+</html>

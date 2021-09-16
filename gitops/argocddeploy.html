@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ArgoCD 실습 | HTDP1</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="htdp1 github pages">
+    <meta name="theme-color" content="#3eaf7c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    
+    <link rel="preload" href="/am-arch/assets/css/0.styles.cf1d3b34.css" as="style"><link rel="preload" href="/am-arch/assets/js/app.89e1056e.js" as="script"><link rel="preload" href="/am-arch/assets/js/2.158b03bb.js" as="script"><link rel="preload" href="/am-arch/assets/js/4.3bf6929e.js" as="script"><link rel="prefetch" href="/am-arch/assets/js/10.f985dceb.js"><link rel="prefetch" href="/am-arch/assets/js/11.13a0885b.js"><link rel="prefetch" href="/am-arch/assets/js/12.784f5764.js"><link rel="prefetch" href="/am-arch/assets/js/13.0705463a.js"><link rel="prefetch" href="/am-arch/assets/js/14.edf1e9bf.js"><link rel="prefetch" href="/am-arch/assets/js/15.ecbe92b4.js"><link rel="prefetch" href="/am-arch/assets/js/16.b0e5273b.js"><link rel="prefetch" href="/am-arch/assets/js/17.c1412e8f.js"><link rel="prefetch" href="/am-arch/assets/js/18.2bf38a43.js"><link rel="prefetch" href="/am-arch/assets/js/19.d66be9cb.js"><link rel="prefetch" href="/am-arch/assets/js/20.2d12a517.js"><link rel="prefetch" href="/am-arch/assets/js/21.4a5538a4.js"><link rel="prefetch" href="/am-arch/assets/js/22.b2655bc9.js"><link rel="prefetch" href="/am-arch/assets/js/23.f69f4766.js"><link rel="prefetch" href="/am-arch/assets/js/24.d9cb860d.js"><link rel="prefetch" href="/am-arch/assets/js/25.7a3200a9.js"><link rel="prefetch" href="/am-arch/assets/js/26.5cb3a254.js"><link rel="prefetch" href="/am-arch/assets/js/27.0c63f9e7.js"><link rel="prefetch" href="/am-arch/assets/js/28.58281d66.js"><link rel="prefetch" href="/am-arch/assets/js/29.164199d9.js"><link rel="prefetch" href="/am-arch/assets/js/3.0b98036c.js"><link rel="prefetch" href="/am-arch/assets/js/30.495713a6.js"><link rel="prefetch" href="/am-arch/assets/js/31.4507fc8d.js"><link rel="prefetch" href="/am-arch/assets/js/32.e2d5f511.js"><link rel="prefetch" href="/am-arch/assets/js/33.5a7d28a0.js"><link rel="prefetch" href="/am-arch/assets/js/34.24927452.js"><link rel="prefetch" href="/am-arch/assets/js/35.b946ec72.js"><link rel="prefetch" href="/am-arch/assets/js/36.3e0df84b.js"><link rel="prefetch" href="/am-arch/assets/js/37.baf5ac72.js"><link rel="prefetch" href="/am-arch/assets/js/38.924d0d58.js"><link rel="prefetch" href="/am-arch/assets/js/39.c9ada2db.js"><link rel="prefetch" href="/am-arch/assets/js/40.59ff4950.js"><link rel="prefetch" href="/am-arch/assets/js/41.e36e5e29.js"><link rel="prefetch" href="/am-arch/assets/js/42.8fbd702b.js"><link rel="prefetch" href="/am-arch/assets/js/43.682ed0be.js"><link rel="prefetch" href="/am-arch/assets/js/44.e96bd250.js"><link rel="prefetch" href="/am-arch/assets/js/45.e5548ca0.js"><link rel="prefetch" href="/am-arch/assets/js/46.eb3135d2.js"><link rel="prefetch" href="/am-arch/assets/js/47.75bfb6d8.js"><link rel="prefetch" href="/am-arch/assets/js/48.24475551.js"><link rel="prefetch" href="/am-arch/assets/js/49.4f9d97da.js"><link rel="prefetch" href="/am-arch/assets/js/5.612537aa.js"><link rel="prefetch" href="/am-arch/assets/js/50.9396ae6a.js"><link rel="prefetch" href="/am-arch/assets/js/51.0246b6e3.js"><link rel="prefetch" href="/am-arch/assets/js/52.b63d5ce3.js"><link rel="prefetch" href="/am-arch/assets/js/53.1f0c3f8c.js"><link rel="prefetch" href="/am-arch/assets/js/54.945e81a6.js"><link rel="prefetch" href="/am-arch/assets/js/55.7f8cfc43.js"><link rel="prefetch" href="/am-arch/assets/js/56.c5892f1b.js"><link rel="prefetch" href="/am-arch/assets/js/57.95dda11c.js"><link rel="prefetch" href="/am-arch/assets/js/58.5239fcca.js"><link rel="prefetch" href="/am-arch/assets/js/59.8c2edf4b.js"><link rel="prefetch" href="/am-arch/assets/js/6.744bf98a.js"><link rel="prefetch" href="/am-arch/assets/js/60.41a76796.js"><link rel="prefetch" href="/am-arch/assets/js/61.26101a83.js"><link rel="prefetch" href="/am-arch/assets/js/62.f17e7ccd.js"><link rel="prefetch" href="/am-arch/assets/js/63.26013c6d.js"><link rel="prefetch" href="/am-arch/assets/js/64.5a311c5f.js"><link rel="prefetch" href="/am-arch/assets/js/65.eb28022b.js"><link rel="prefetch" href="/am-arch/assets/js/7.fed2825e.js"><link rel="prefetch" href="/am-arch/assets/js/8.8c182984.js"><link rel="prefetch" href="/am-arch/assets/js/9.3fd7e149.js">
+    <link rel="stylesheet" href="/am-arch/assets/css/0.styles.cf1d3b34.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="global-layout"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/am-arch/" class="home-link router-link-active"><!----> <span class="site-name">HTDP1</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/am-arch/guide/" class="nav-link">
+  Guide
+</a></div><div class="nav-item"><a href="/am-arch/cloud/" class="nav-link">
+  Cloud
+</a></div><div class="nav-item"><a href="/am-arch/refarch/" class="nav-link">
+  Ref. Arch.
+</a></div><div class="nav-item"><a href="/am-arch/cloud-native-app/" class="nav-link">
+  Cloud.Native.App
+</a></div><div class="nav-item"><a href="/am-arch/machinelearning/" class="nav-link">
+  M / L
+</a></div><div class="nav-item"><a href="/am-arch/gitops/" class="nav-link router-link-active">
+  GitOps
+</a></div><div class="nav-item"><a href="/am-arch/multi-cloud/" class="nav-link">
+  Multi Cloud
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/am-arch/guide/" class="nav-link">
+  Guide
+</a></div><div class="nav-item"><a href="/am-arch/cloud/" class="nav-link">
+  Cloud
+</a></div><div class="nav-item"><a href="/am-arch/refarch/" class="nav-link">
+  Ref. Arch.
+</a></div><div class="nav-item"><a href="/am-arch/cloud-native-app/" class="nav-link">
+  Cloud.Native.App
+</a></div><div class="nav-item"><a href="/am-arch/machinelearning/" class="nav-link">
+  M / L
+</a></div><div class="nav-item"><a href="/am-arch/gitops/" class="nav-link router-link-active">
+  GitOps
+</a></div><div class="nav-item"><a href="/am-arch/multi-cloud/" class="nav-link">
+  Multi Cloud
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Introduction</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/am-arch/gitops/" aria-current="page" class="sidebar-link">Overview</a></li><li><a href="/am-arch/gitops/gitopsintro.html" class="sidebar-link">GitOps</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>FluxCD</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/am-arch/gitops/fluxintro.html" class="sidebar-link">Basics</a></li><li><a href="/am-arch/gitops/fluxcdv2.html" class="sidebar-link">Flux v2 with AWS Managed Services</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Flagger</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/am-arch/gitops/flaggerintro.html" class="sidebar-link">Basics</a></li><li><a href="/am-arch/gitops/flaggerdeploy.html" class="sidebar-link">Flagger on EKS App Mesh</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>ArgoCD</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/am-arch/gitops/argocdintro.html" class="sidebar-link">Basics</a></li><li><a href="/am-arch/gitops/argocddeploy.html" aria-current="page" class="active sidebar-link">ArgoCD 실습</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/am-arch/gitops/argocddeploy.html#jenkins-설치" class="sidebar-link">Jenkins 설치</a></li><li class="sidebar-sub-header"><a href="/am-arch/gitops/argocddeploy.html#argocd-설치" class="sidebar-link">ArgoCD 설치</a></li><li class="sidebar-sub-header"><a href="/am-arch/gitops/argocddeploy.html#argocd-cli" class="sidebar-link">ArgoCD CLI</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/am-arch/gitops/argocddeploy.html#접속" class="sidebar-link">접속</a></li></ul></li><li class="sidebar-sub-header"><a href="/am-arch/gitops/argocddeploy.html#argocd-설정" class="sidebar-link">ArgoCD 설정</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/am-arch/gitops/argocddeploy.html#둘러보기" class="sidebar-link">둘러보기</a></li><li class="sidebar-sub-header"><a href="/am-arch/gitops/argocddeploy.html#application-생성" class="sidebar-link">Application 생성</a></li><li class="sidebar-sub-header"><a href="/am-arch/gitops/argocddeploy.html#argocd-image-updater" class="sidebar-link">ArgoCD Image Updater</a></li></ul></li><li class="sidebar-sub-header"><a href="/am-arch/gitops/argocddeploy.html#argocd를-통한-hcp-ci-cd-개선" class="sidebar-link">ArgoCD를 통한 HCP CI/CD 개선</a></li></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="argocd-실습"><a href="#argocd-실습" class="header-anchor">#</a> ArgoCD 실습</h1> <p><img src="/am-arch/assets/img/argocd-flow.1fa6fa3f.png" alt="ArgoCD GitOps CD"></p> <ul><li>Jenkins 구성
+<ul><li>Jenkins 설치 및 Plugin setting</li> <li>Pipeline 구성(Github, Docker Hub 연동 등)</li></ul></li> <li>ArgoCD
+<ul><li>ArgoCD 설치</li> <li>ArgoCD CLI</li> <li>ArgoCD 설정(Project 및 Application 생성, ArgoCD Image Updater 설정)</li></ul></li></ul> <h2 id="jenkins-설치"><a href="#jenkins-설치" class="header-anchor">#</a> Jenkins 설치</h2> <ul><li>helm repo 추가</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>helm repo <span class="token function">add</span> jenkins https://charts.jenkins.io
+
+<span class="token comment"># Jenkins 외부 접속을 위해 Service Type을 LoadBalancer로 변경하고 설치</span>
+helm <span class="token function">install</span> <span class="token punctuation">[</span>RELEASE_NAME<span class="token punctuation">]</span> jenkins/jenkins
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><ul><li>Jenkins와 gitHub 연동
+<ul><li>GitHub에서 Credential 생성: Github Setting &gt; Developer settings 메뉴로 들어간 후에 아래와 같이 Personal access tokens 메뉴로 들어간다. 다음 우측 상단의 Generate new token 메뉴를 선택한다.</li> <li>Jenkins에서 GitHub 연결 설정: Jenkins &gt; Manage Jenkins &gt; Configure System 메뉴로 들어가면 GitHub 계정을 설정 추가</li></ul></li> <li>Jenkins와 Docker Hub 연동
+<ul><li>Jenkins &gt; Manage Jenkins &gt; Manage Credentials 메뉴에서 Docker hub 연동을 위한 'Username with password' 타입의 Credential을 추가</li></ul></li> <li>Pipeline 구성
+<ul><li>Dockerfile 예시</li></ul> <div class="language-dockerfile line-numbers-mode"><pre class="language-dockerfile"><code><span class="token comment"># 베이스 이미지 </span>
+<span class="token keyword">FROM</span> adoptopenjdk/openjdk11
+<span class="token comment"># temp 이미지에서 build/libs/*.jar파일을 app.jar로 복사</span>
+<span class="token keyword">COPY</span> build/libs/kiki.jar app.jar 
+
+<span class="token comment"># 컨테이너 8080 port 노출</span>
+<span class="token keyword">EXPOSE</span> 8080 
+<span class="token keyword">CMD</span> <span class="token punctuation">[</span><span class="token string">&quot;java&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;-jar&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;/app.jar&quot;</span><span class="token punctuation">]</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><ul><li>Jenkinsfile 예시</li></ul> <div class="language-groovy line-numbers-mode"><pre class="language-groovy"><code><span class="token function">podTemplate</span><span class="token punctuation">(</span>label<span class="token punctuation">:</span> <span class="token string">'docker-build'</span><span class="token punctuation">,</span> 
+containers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token function">containerTemplate</span><span class="token punctuation">(</span>
+    name<span class="token punctuation">:</span> <span class="token string">'git'</span><span class="token punctuation">,</span>
+    image<span class="token punctuation">:</span> <span class="token string">'alpine/git'</span><span class="token punctuation">,</span>
+    command<span class="token punctuation">:</span> <span class="token string">'cat'</span><span class="token punctuation">,</span>
+    ttyEnabled<span class="token punctuation">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">containerTemplate</span><span class="token punctuation">(</span>
+    name<span class="token punctuation">:</span> <span class="token string">'docker'</span><span class="token punctuation">,</span>
+    image<span class="token punctuation">:</span> <span class="token string">'docker'</span><span class="token punctuation">,</span>
+    command<span class="token punctuation">:</span> <span class="token string">'cat'</span><span class="token punctuation">,</span>
+    ttyEnabled<span class="token punctuation">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">containerTemplate</span><span class="token punctuation">(</span>
+        name<span class="token punctuation">:</span> <span class="token string">'gradle'</span><span class="token punctuation">,</span>
+        image<span class="token punctuation">:</span> <span class="token string">'gradle:7.1.0-jdk11'</span><span class="token punctuation">,</span>
+        command<span class="token punctuation">:</span> <span class="token string">'cat'</span><span class="token punctuation">,</span>
+        ttyEnabled<span class="token punctuation">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">)</span>
+<span class="token punctuation">]</span><span class="token punctuation">,</span>
+volumes<span class="token punctuation">:</span> <span class="token punctuation">[</span> 
+    <span class="token function">hostPathVolume</span><span class="token punctuation">(</span>mountPath<span class="token punctuation">:</span> <span class="token string">'/var/run/docker.sock'</span><span class="token punctuation">,</span> hostPath<span class="token punctuation">:</span> <span class="token string">'/var/run/docker.sock'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+<span class="token punctuation">]</span>
+<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">node</span><span class="token punctuation">(</span><span class="token string">'docker-build'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">def</span> dockerHubCred <span class="token operator">=</span> <span class="token string gstring">&quot;docker_hub_id&quot;</span>
+        <span class="token keyword">def</span> appImage
+        
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Checkout'</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            git <span class="token punctuation">(</span>
+                branch<span class="token punctuation">:</span> <span class="token string">'master'</span><span class="token punctuation">,</span>
+                credentialsId<span class="token punctuation">:</span> <span class="token string">'heyKim'</span><span class="token punctuation">,</span>
+                url<span class="token punctuation">:</span> <span class="token string">'https://github.com/heyKim/todo.git'</span>
+            <span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Test'</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token function">container</span><span class="token punctuation">(</span><span class="token string">'gradle'</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                script <span class="token punctuation">{</span>
+                    sh <span class="token string">'chmod 755 ./gradlew'</span>
+                    sh <span class="token string">'java -version'</span>
+                    sh <span class="token string">'printenv|sort'</span>
+                    <span class="token comment">// sh './gradlew test'</span>
+                    sh <span class="token string">'./gradlew build -x test'</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Build'</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token function">container</span><span class="token punctuation">(</span><span class="token string">'docker'</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                script <span class="token punctuation">{</span>
+                    appImage <span class="token operator">=</span> docker<span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token string gstring">&quot;jkk3366/jenkins&quot;</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Push'</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token function">container</span><span class="token punctuation">(</span><span class="token string">'docker'</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                script <span class="token punctuation">{</span>
+                    docker<span class="token punctuation">.</span><span class="token function">withRegistry</span><span class="token punctuation">(</span><span class="token string">'https://registry.hub.docker.com'</span><span class="token punctuation">,</span> dockerHubCred<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                        appImage<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token string gstring">&quot;<span class="token expression"><span class="token punctuation">$</span><span class="token punctuation">{</span>env<span class="token punctuation">.</span>BUILD_NUMBER<span class="token punctuation">}</span></span>&quot;</span><span class="token punctuation">)</span>
+                        appImage<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token string gstring">&quot;latest&quot;</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>   
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br></div></div></li></ul> <h2 id="argocd-설치"><a href="#argocd-설치" class="header-anchor">#</a> ArgoCD 설치</h2> <ul><li>helm repo 추가</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>helm repo <span class="token function">add</span> argo https://argoproj.github.io/argo-helm
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><ul><li>config 수정을 위해서 source 다운로드 및 소스 수정 후 argocd 설치</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># source 다운로드</span>
+helm fetch argo/argo-cd
+
+<span class="token comment"># source 수정</span>
+<span class="token comment"># argocd 서버를 외부에서 접속하기 위해서 Service Type만 ClusterIP에서 LoadBalancer로 변경해줌</span>
+
+<span class="token comment"># helm install 하여 argocd 설치</span>
+helm <span class="token function">install</span> <span class="token string">&quot;argo cd이름 지정&quot;</span> argo/argo-cd
+
+<span class="token comment"># 설치 시 수정한 values.yaml을 적용하고 싶을 때</span>
+helm <span class="token function">install</span> <span class="token string">&quot;argo cd이름 지정&quot;</span> argo/argo-cd -f ./values.yaml
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><ul><li>설치 후 패스워드 확인</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># secret 에서 패스워드 확인(id는 admin이 default)</span>
+kubectl -n argocd get secret argocd-initial-admin-secret -o <span class="token assign-left variable">jsonpath</span><span class="token operator">=</span><span class="token string">&quot;{.data.password}&quot;</span> <span class="token operator">|</span> base64 -d
+
+<span class="token comment"># `argocd-initial-admin-secret`는 password 변경 후에 namespace를 지워야한다고 함.(공홈 피셜)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h2 id="argocd-cli"><a href="#argocd-cli" class="header-anchor">#</a> ArgoCD CLI</h2> <h3 id="접속"><a href="#접속" class="header-anchor">#</a> 접속</h3> <p><img src="/am-arch/assets/img/argocd-cli-connect.1f2fe727.png" alt="ArgoCD 메인화면"></p> <h2 id="argocd-설정"><a href="#argocd-설정" class="header-anchor">#</a> ArgoCD 설정</h2> <h3 id="둘러보기"><a href="#둘러보기" class="header-anchor">#</a> 둘러보기</h3> <p><img src="/am-arch/assets/img/argocd-main.21f19e3a.png" alt="ArgoCD 메인화면"><br>
+ArgoCD는 <code>Application</code>라는 CRD(Custom Resource Definition)를 제공한다. Application은 Kubernetes resources 묶음으로 배포를 책임진다.</p> <h3 id="application-생성"><a href="#application-생성" class="header-anchor">#</a> Application 생성</h3> <p><img src="/am-arch/assets/img/argocd-application-create-general.785c92d8.png" alt="ArgoCD App생성1"><br> <img src="/am-arch/assets/img/argocd-application-create-source-destination.1e877edf.png" alt="ArgoCD App생성2"><br> <img src="/am-arch/assets/img/argocd-application-create-kustomize.804de525.png" alt="ArgoCD App생성3"></p> <ul><li>Application Name: App의 이름을 적는다.</li> <li>Project: 프로젝트를 선택하는 필드. 쿠버네티스의 namespace와 비슷한 개념으로 여러 App을 논리적인 project로 구분하여 관리할 수 있다.</li> <li>Sync Policy: Git 저장소의 변경 사항을 어떻게 sync할지 결정. Auto는 자동으로 Git 저장소의 변경사항을 운영에 반영하고 Manual은 사용자가 버튼 클릭 혹은 API를 통해 직접 운영 반영을 해야함.</li> <li>Repository URL: ArgoCD가 바라볼 Git 저장소를 의미</li> <li>Revision: Git의 어떤 revision (HEAD, master branch 등)을 바라 볼지 결정</li> <li>Path: Git 저장소에서 어떤 디렉토리를 바라 볼지 결정함. (dot(.)인 경우 root path를, 디렉토리 이름을 적으면 해당 디렉토리의 배포 정의서만 tracking 함)</li> <li>Cluster: 쿠버네티스의 어느 클러스터에 배포할지를 결정</li> <li>Namespace: 쿠버네티스 클러스터의 어느 네임스페이스에 배포할지를 결정</li> <li>Kubernetes manifests Tool 선택: Kubernetes manifest를 정의할 tool 을 선택하고 설정 정보를 입력한다.</li></ul> <p><img src="/am-arch/assets/img/argocd-application-after-creat.87d639d4.png" alt="ArgoCD App생성4"><br>
+ArgoCD Application 생성 후, 동기화 이전이라 <code>OutOfSync</code>상태</p> <p><img src="/am-arch/assets/img/argocd-application-deploy-change.50754889.png" alt="ArgoCD App생성5"><br>
+config repo에서 Deployment의 namespace을 변경하니 이를 감지하여 동기화가 필요한 상태임을 표시해줌</p> <h3 id="argocd-image-updater"><a href="#argocd-image-updater" class="header-anchor">#</a> ArgoCD Image Updater</h3> <ul><li>Argo CD로 관리되는 k8s workload의 container image를 자동으로 업데이트 해주는 기능.</li> <li>resouce yaml에 image 버전 등을 일일이 업데이트 할 필요없이 새로운 이미지의 업데이트를 자동으로 감지하여 k8s 워크로드에 적용해준다.</li> <li>Argo CD가 관리하는 Application 리소스에 annotation을 부여하여 설정한다.</li></ul> <blockquote><p><strong><em>NOTE:</em></strong>  아직 개발 중인 기능이다.</p></blockquote> <h4 id="argocd-image-updater-설정"><a href="#argocd-image-updater-설정" class="header-anchor">#</a> ArgoCD Image Updater 설정</h4> <ol><li>argocd-image-updater 설치</li></ol> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># argocd 가 설치된 k8s workload에 설치</span>
+<span class="token function">git</span> clone https://github.com/argoproj-labs/argocd-image-updater/blob/master/manifests/install.yaml
+
+<span class="token comment"># Apply the installation manifests¶</span>
+kubectl apply -n argocd -f manifests/install.yaml
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><ol start="2"><li>Docker Registry에 대한 Access 권한 부여</li> <li>ArgoCD Application에 annotation 추가<br>
+Auto Image Updater 설정을 하기 위해서는 annoatation을 추가 해주어야한다.<br>
+아래 command 로 annoation 추가해도 되고</li></ol> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>kubectl annotate app argocd-updater-test -n argocd<span class="token punctuation">\</span>
+    argocd-image-updater.argoproj.io/image-list<span class="token operator">=</span>registry-1.docker.io/jkk3366/jenkins <span class="token punctuation">\</span>
+    argocd-image-updater.argoproj.io/todo.force-update<span class="token operator">=</span>true <span class="token punctuation">\</span>
+    argocd-image-updater.argoproj.io/write-back-method<span class="token operator">=</span>git
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>ArgoCD UI에서 아래 annoation을 추가해주어도 된다.</p> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>argocd-image-updater.argoproj.io/image-list: jkk3366/jenkins
+argocd-image-updater.argoproj.io/todo.force-update: <span class="token boolean">true</span>
+argocd-image-updater.argoproj.io/write-back-method: <span class="token function">git</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h2 id="argocd를-통한-hcp-ci-cd-개선"><a href="#argocd를-통한-hcp-ci-cd-개선" class="header-anchor">#</a> ArgoCD를 통한 HCP CI/CD 개선</h2> <ol><li>간편한 Config 수정</li></ol> <ul><li>As-Is<br> <img src="/am-arch/assets/img/argocd-modify-config-asis.a4db8955.png" alt=""><br>
+설정 정보가 Docker Image 안에 포함되어 있어 properties가 정적으로 관리됨.<br>
+config가 application 소스와 분리되어 있지 않아 config 수정을 위해 빌드 과정을 거쳐야함.</li> <li>To-Be<br> <img src="/am-arch/assets/img/argocd-modify-config-tobe.a4e61172.png" alt=""><br>
+CI/CD를 분리하고, properties를 ConfigMap으로 생성하는 kustomize 기능을 활용하여 동적으로 관리.
+<ul><li>ConfigMap repository 예시.</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>├── kustomization.yaml
+└── prd
+    ├── backend001
+    │   ├── application-api.yml
+    │   ├── application-db.yml
+    │   └── application.yml
+    ├── backend002
+    │   ├── application-api.yml
+    │   ├── application-db.yml
+    │   └── application.yml
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><ul><li>Kustomization configMapGenerator 구성 예시</li></ul> <div class="language-yaml line-numbers-mode"><pre class="language-yaml"><code><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> kustomize.config.k8s.io/v1beta1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Kustomization
+
+<span class="token punctuation">...</span>
+
+<span class="token key atrule">configMapGenerator</span><span class="token punctuation">:</span>
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> account
+<span class="token key atrule">files</span><span class="token punctuation">:</span>
+<span class="token punctuation">-</span> ./prd/backend001/application.yml
+<span class="token punctuation">-</span> ./prd/backend001/application<span class="token punctuation">-</span>api.yml
+<span class="token punctuation">-</span> ./prd/backend001/application<span class="token punctuation">-</span>db.yml
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> apigateway
+<span class="token key atrule">files</span><span class="token punctuation">:</span>
+<span class="token punctuation">-</span> ./prd/backend002/application.yml
+<span class="token punctuation">-</span> ./prd/backend002/application<span class="token punctuation">-</span>api.yml
+<span class="token punctuation">-</span> ./prd/backend002/application<span class="token punctuation">-</span>db.yml
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div></li></ul> <ol start="2"><li>빌드없는 배포(CD) 가능</li></ol> <ul><li>As-Is<br> <img src="/am-arch/assets/img/argocd-cd-asis.ae8b1ccd.png" alt="argocd-cd-asis"><br>
+현재 모니터링 구축 시, filebeat, metricbeat, prometheus, elasticsearch 등을 <code>kubectl apply -f</code> or <code>helm install</code> 명령어를 통해 수동으로 설치하여 변경 관리와 버전 관리가 부재하고 Human error 발생이 쉬움</li> <li>To-Be<br>
+git repo에 정의한 상태와 클러스터가 동일하게 유지되어 관리가 용이함.</li></ul> <ol start="3"><li>Multi Cluster 관리 용이</li></ol> <ul><li><p>As-Is<br> <img src="/am-arch/assets/img/argocd-multi-cluster-asis.631038fc.png" alt=""><br>
+수백개의 클러스터에 metricbeat를 설치하려면 수동으로 수백번 설치해줘야하여 비효율적임</p></li> <li><p>To-Be<br> <img src="/am-arch/assets/img/argocd-multi-cluster-tobe.c7b27e12.png" alt=""><br>
+argocd를 사용하면 새로운 클러스터가 추가되더라도 간단하게 클러스터 설정만 추가해주면 별도의 처리 없이 멀티 클러스터에 동일한 형상을 유지할 수 있음.</p></li></ul> <ol start="4"><li>Helm Chart Repo 없이 helm 배포</li></ol> <ul><li>As-Is<br> <img src="/am-arch/assets/img/argocd-helm-deploy-asis.56df3882.png" alt=""><br>
+ICP Helm Chart Repo를 사용 중으로 ICP가 아닌 Native K8S Cluster에 helm 배포를 위한 대체 방안이 필요함.</li> <li>To-Be<br> <img src="/am-arch/assets/img/argocd-helm-deploy-tobe.6bfaa43f.png" alt=""><br>
+ArgoCD 기반 helm 배포를 통해 helm chart repo를 별도로 두지 않고 사용가능함.</li></ul></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/am-arch/gitops/argocdintro.html" class="prev">
+        Basics
+      </a></span> <!----></p></div> </main></div></div><div class="global-ui"></div></div>
+    <script src="/am-arch/assets/js/app.89e1056e.js" defer></script><script src="/am-arch/assets/js/2.158b03bb.js" defer></script><script src="/am-arch/assets/js/4.3bf6929e.js" defer></script>
+  </body>
+</html>

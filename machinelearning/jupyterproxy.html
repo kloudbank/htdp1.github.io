@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Jupyter Server Proxy | HTDP1</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="htdp1 github pages">
+    <meta name="theme-color" content="#3eaf7c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    
+    <link rel="preload" href="/am-arch/assets/css/0.styles.cf1d3b34.css" as="style"><link rel="preload" href="/am-arch/assets/js/app.89e1056e.js" as="script"><link rel="preload" href="/am-arch/assets/js/2.158b03bb.js" as="script"><link rel="preload" href="/am-arch/assets/js/12.784f5764.js" as="script"><link rel="prefetch" href="/am-arch/assets/js/10.f985dceb.js"><link rel="prefetch" href="/am-arch/assets/js/11.13a0885b.js"><link rel="prefetch" href="/am-arch/assets/js/13.0705463a.js"><link rel="prefetch" href="/am-arch/assets/js/14.edf1e9bf.js"><link rel="prefetch" href="/am-arch/assets/js/15.ecbe92b4.js"><link rel="prefetch" href="/am-arch/assets/js/16.b0e5273b.js"><link rel="prefetch" href="/am-arch/assets/js/17.c1412e8f.js"><link rel="prefetch" href="/am-arch/assets/js/18.2bf38a43.js"><link rel="prefetch" href="/am-arch/assets/js/19.d66be9cb.js"><link rel="prefetch" href="/am-arch/assets/js/20.2d12a517.js"><link rel="prefetch" href="/am-arch/assets/js/21.4a5538a4.js"><link rel="prefetch" href="/am-arch/assets/js/22.b2655bc9.js"><link rel="prefetch" href="/am-arch/assets/js/23.f69f4766.js"><link rel="prefetch" href="/am-arch/assets/js/24.d9cb860d.js"><link rel="prefetch" href="/am-arch/assets/js/25.7a3200a9.js"><link rel="prefetch" href="/am-arch/assets/js/26.5cb3a254.js"><link rel="prefetch" href="/am-arch/assets/js/27.0c63f9e7.js"><link rel="prefetch" href="/am-arch/assets/js/28.58281d66.js"><link rel="prefetch" href="/am-arch/assets/js/29.164199d9.js"><link rel="prefetch" href="/am-arch/assets/js/3.0b98036c.js"><link rel="prefetch" href="/am-arch/assets/js/30.495713a6.js"><link rel="prefetch" href="/am-arch/assets/js/31.4507fc8d.js"><link rel="prefetch" href="/am-arch/assets/js/32.e2d5f511.js"><link rel="prefetch" href="/am-arch/assets/js/33.5a7d28a0.js"><link rel="prefetch" href="/am-arch/assets/js/34.24927452.js"><link rel="prefetch" href="/am-arch/assets/js/35.b946ec72.js"><link rel="prefetch" href="/am-arch/assets/js/36.3e0df84b.js"><link rel="prefetch" href="/am-arch/assets/js/37.baf5ac72.js"><link rel="prefetch" href="/am-arch/assets/js/38.924d0d58.js"><link rel="prefetch" href="/am-arch/assets/js/39.c9ada2db.js"><link rel="prefetch" href="/am-arch/assets/js/4.3bf6929e.js"><link rel="prefetch" href="/am-arch/assets/js/40.59ff4950.js"><link rel="prefetch" href="/am-arch/assets/js/41.e36e5e29.js"><link rel="prefetch" href="/am-arch/assets/js/42.8fbd702b.js"><link rel="prefetch" href="/am-arch/assets/js/43.682ed0be.js"><link rel="prefetch" href="/am-arch/assets/js/44.e96bd250.js"><link rel="prefetch" href="/am-arch/assets/js/45.e5548ca0.js"><link rel="prefetch" href="/am-arch/assets/js/46.eb3135d2.js"><link rel="prefetch" href="/am-arch/assets/js/47.75bfb6d8.js"><link rel="prefetch" href="/am-arch/assets/js/48.24475551.js"><link rel="prefetch" href="/am-arch/assets/js/49.4f9d97da.js"><link rel="prefetch" href="/am-arch/assets/js/5.612537aa.js"><link rel="prefetch" href="/am-arch/assets/js/50.9396ae6a.js"><link rel="prefetch" href="/am-arch/assets/js/51.0246b6e3.js"><link rel="prefetch" href="/am-arch/assets/js/52.b63d5ce3.js"><link rel="prefetch" href="/am-arch/assets/js/53.1f0c3f8c.js"><link rel="prefetch" href="/am-arch/assets/js/54.945e81a6.js"><link rel="prefetch" href="/am-arch/assets/js/55.7f8cfc43.js"><link rel="prefetch" href="/am-arch/assets/js/56.c5892f1b.js"><link rel="prefetch" href="/am-arch/assets/js/57.95dda11c.js"><link rel="prefetch" href="/am-arch/assets/js/58.5239fcca.js"><link rel="prefetch" href="/am-arch/assets/js/59.8c2edf4b.js"><link rel="prefetch" href="/am-arch/assets/js/6.744bf98a.js"><link rel="prefetch" href="/am-arch/assets/js/60.41a76796.js"><link rel="prefetch" href="/am-arch/assets/js/61.26101a83.js"><link rel="prefetch" href="/am-arch/assets/js/62.f17e7ccd.js"><link rel="prefetch" href="/am-arch/assets/js/63.26013c6d.js"><link rel="prefetch" href="/am-arch/assets/js/64.5a311c5f.js"><link rel="prefetch" href="/am-arch/assets/js/65.eb28022b.js"><link rel="prefetch" href="/am-arch/assets/js/7.fed2825e.js"><link rel="prefetch" href="/am-arch/assets/js/8.8c182984.js"><link rel="prefetch" href="/am-arch/assets/js/9.3fd7e149.js">
+    <link rel="stylesheet" href="/am-arch/assets/css/0.styles.cf1d3b34.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="global-layout"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/am-arch/" class="home-link router-link-active"><!----> <span class="site-name">HTDP1</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/am-arch/guide/" class="nav-link">
+  Guide
+</a></div><div class="nav-item"><a href="/am-arch/cloud/" class="nav-link">
+  Cloud
+</a></div><div class="nav-item"><a href="/am-arch/refarch/" class="nav-link">
+  Ref. Arch.
+</a></div><div class="nav-item"><a href="/am-arch/cloud-native-app/" class="nav-link">
+  Cloud.Native.App
+</a></div><div class="nav-item"><a href="/am-arch/machinelearning/" class="nav-link router-link-active">
+  M / L
+</a></div><div class="nav-item"><a href="/am-arch/gitops/" class="nav-link">
+  GitOps
+</a></div><div class="nav-item"><a href="/am-arch/multi-cloud/" class="nav-link">
+  Multi Cloud
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/am-arch/guide/" class="nav-link">
+  Guide
+</a></div><div class="nav-item"><a href="/am-arch/cloud/" class="nav-link">
+  Cloud
+</a></div><div class="nav-item"><a href="/am-arch/refarch/" class="nav-link">
+  Ref. Arch.
+</a></div><div class="nav-item"><a href="/am-arch/cloud-native-app/" class="nav-link">
+  Cloud.Native.App
+</a></div><div class="nav-item"><a href="/am-arch/machinelearning/" class="nav-link router-link-active">
+  M / L
+</a></div><div class="nav-item"><a href="/am-arch/gitops/" class="nav-link">
+  GitOps
+</a></div><div class="nav-item"><a href="/am-arch/multi-cloud/" class="nav-link">
+  Multi Cloud
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Introduction</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/am-arch/machinelearning/" aria-current="page" class="sidebar-link">Overview</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Jupyter</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/am-arch/machinelearning/jupyterintro.html" class="sidebar-link">Basics</a></li><li><a href="/am-arch/machinelearning/jupyterserver.html" class="sidebar-link">Jupyter Server</a></li><li><a href="/am-arch/machinelearning/jupyterhub.html" class="sidebar-link">Jupyter Hub</a></li><li><a href="/am-arch/machinelearning/jupyterproxy.html" aria-current="page" class="active sidebar-link">Jupyter Server Proxy</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/am-arch/machinelearning/jupyterproxy.html#introduction" class="sidebar-link">Introduction</a></li><li class="sidebar-sub-header"><a href="/am-arch/machinelearning/jupyterproxy.html#setup-with-jupyter-hub" class="sidebar-link">Setup with Jupyter Hub</a></li><li class="sidebar-sub-header"><a href="/am-arch/machinelearning/jupyterproxy.html#customization" class="sidebar-link">Customization</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/am-arch/machinelearning/jupyterproxy.html#code-server-by-jupyter-proxy" class="sidebar-link">Code Server by Jupyter Proxy</a></li><li class="sidebar-sub-header"><a href="/am-arch/machinelearning/jupyterproxy.html#r-studio-by-jupyter-proxy" class="sidebar-link">R Studio by Jupyter Proxy</a></li></ul></li></ul></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Inference</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/am-arch/machinelearning/inferenceintro.html" class="sidebar-link">Inroduction</a></li><li><a href="/am-arch/machinelearning/inferencetriton.html" class="sidebar-link">Triton Inference Server</a></li><li><a href="/am-arch/machinelearning/inferencekfserving.html" class="sidebar-link">KFServing</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="jupyter-server-proxy"><a href="#jupyter-server-proxy" class="header-anchor">#</a> Jupyter Server Proxy</h1> <h2 id="introduction"><a href="#introduction" class="header-anchor">#</a> Introduction</h2> <p>Jupyter Server Proxy를 사용하여, Notebook 과 함께 임의의 외부 프로세스 (ex&gt; RStudio, VS Code etc.) 를 실행하고, 이에 대한 인증을 Notebook Server 가 대신 처리하여 Access 를 제어할 수 있다.</p> <p>Notebook / Lab 환경에 jupyter-server-proxy extension 을 설치를 통하여 proxy 활성화 가능하며, 각 extension 에서 proxy url 과 mapping 된 버튼을 선택하여 browser 를 통해 access 할 수 있다.</p> <ul><li>Jupyter Notebook Extension 에서 실행<br> <img src="https://jupyter-server-proxy.readthedocs.io/en/latest/_images/nbextension-tree.png" title="nbex-tree"></li> <li>Jupyter Hub Extension 에서 실행<br> <img src="https://jupyter-server-proxy.readthedocs.io/en/latest/_images/labextension-launcher.png" title="nbex-tree"></li></ul> <blockquote><p>Jupyter Server Proxy Docs 참조<br> <a href="https://jupyter-server-proxy.readthedocs.io/en/latest/index.html" target="_blank" rel="noopener noreferrer">https://jupyter-server-proxy.readthedocs.io/en/latest/index.html<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <blockquote><p>Running nonjupyter applications on JupyterHub with jupyter-server-proxy| JupyterCon 2020<br> <a href="https://www.youtube.com/watch?v=8tFLZWT0u2Y" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=8tFLZWT0u2Y<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <h2 id="setup-with-jupyter-hub"><a href="#setup-with-jupyter-hub" class="header-anchor">#</a> Setup with Jupyter Hub</h2> <p>JupyterHub를 사용하고 있고 해당 서버에서 port 8080 를 listening 하는 process 가 있다고 가정 할 때, Jupyter Hub URL 을 사용하여 port 8080 에서 실행되는 서비스에 access 가능. (ex&gt; myhub.org/hub/{user-redirect}/proxy/8080)</p> <p>Hub 에 login 되어 있는 특정 사용자에게 올바른 URL로 redirection 이 제공되고, default_url 설정을 통해서 proxy context URL 에 default access 도 가능. Hub 에 login 되지 않은 사용자가 로그인하지 않은 경우, login 인증 완료 한 후 redirection.</p> <ul><li>Architecture</li></ul> <img src="https://www.plantuml.com/plantuml/svg/RL6nRiCW5DpvYgTqQGVR6IEdYX95bQfMggfcw0pnK-F6vb5uD8aY_tlXsTcwm75t70Ui0slFiUzKEBRMQQzxs5FloA9bkAf1pRPTc_0CT82zG6MfGPWzlUw4n6D8HW2FUzRsgqlIItGNHW_FqOZb-n2DU03kDv4Fsqw7y92L9EX496duF-AD60tHKNBijBXbtKmxzBzfUlTqlaYiosZqVABPE5UxnNmn5-s4HZid9mwAoG4J66Ac7fesDsZ9gl6cKAoaUmrL6Yj9hNAGcdf3qT399fT8DNpW694php6WB_p434eiy5Zc7ULggW5tNMknDbt4PKPbeyC1coNZcOM5EhtA3rHf36gDjab_zGS0" alt="uml diagram"> <h2 id="customization"><a href="#customization" class="header-anchor">#</a> Customization</h2> <p>Code Server, R Studio 등 web application 으로 제공되는 서비스를, Jupyter Notebook 과 함께 구동하여 proxy 로 service 할 때 필요한 항목 확인.</p> <h3 id="code-server-by-jupyter-proxy"><a href="#code-server-by-jupyter-proxy" class="header-anchor">#</a> Code Server by Jupyter Proxy</h3> <ul><li>작업 내역
+<ul><li>jupyter notebook 기반 Code Server Base Image 생성</li> <li>vscode 설정 생성 및 COPY</li> <li>jupyter_notebook_config.py config 생성 및 COPY</li> <li>Jupyter Hub Profile 에, jupyter-code-server profile 및 kubespawner 설정</li></ul></li></ul> <blockquote><p>htdp1 Github Repository<br> <a href="https://github.com/htdp1/jupyter-k8s/tree/main/dev/jupyter-notebook/code-server" target="_blank" rel="noopener noreferrer">https://github.com/htdp1/jupyter-k8s/tree/main/dev/jupyter-notebook/code-server<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <h4 id="create-base-image"><a href="#create-base-image" class="header-anchor">#</a> Create Base Image</h4> <ul><li>Dockerfile 구성
+<ul><li>Jupyter minimal-notebook Official Image 기반 작업</li> <li>Conda 환경에서 jupyter-server-proxy package 설치</li> <li>serverextension 및 labextension 활성화</li> <li>Linux Code Server 설치</li> <li>vscode, jupyter configuration directory 복사</li></ul></li></ul> <div class="language-Dockerfile line-numbers-mode"><pre class="language-dockerfile"><code><span class="token comment"># Jupyter Official Image 활용</span>
+<span class="token keyword">ARG</span> BASE_CONTAINER=jupyter/minimal<span class="token punctuation">-</span>notebook
+<span class="token keyword">FROM</span> $BASE_CONTAINER
+
+<span class="token keyword">USER</span> $NB_UID
+
+<span class="token comment"># Jupyter Server Proxy 설치 및 extension 활성화</span>
+<span class="token keyword">RUN</span> <span class="token string">&quot;${CONDA_DIR}/bin/pip&quot;</span> install jupyter<span class="token punctuation">-</span>server<span class="token punctuation">-</span>proxy \ 
+  &amp;&amp; jupyter serverextension enable <span class="token punctuation">-</span><span class="token punctuation">-</span>sys<span class="token punctuation">-</span>prefix jupyter_server_proxy \
+  &amp;&amp; jupyter labextension install <span class="token punctuation">-</span><span class="token punctuation">-</span>no<span class="token punctuation">-</span>build @jupyterlab/server<span class="token punctuation">-</span>proxy
+
+<span class="token keyword">USER</span> root
+
+<span class="token comment"># Linux Code Server 설치</span>
+<span class="token keyword">ENV</span> CODESERVER_URL=<span class="token string">&quot;https://github.com/cdr/code-server/releases/download/v3.4.0/code-server-3.4.0-linux-amd64.tar.gz&quot;</span> \
+    CODESERVER=<span class="token string">&quot;code-server-3.4.0-linux-amd64&quot;</span>
+
+<span class="token keyword">RUN</span> wget $<span class="token punctuation">{</span>CODESERVER_URL<span class="token punctuation">}</span> &amp;&amp; \
+    tar <span class="token punctuation">-</span>xvzf $<span class="token punctuation">{</span>CODESERVER<span class="token punctuation">}</span>.tar.gz &amp;&amp; \
+    cp <span class="token punctuation">-</span>r $<span class="token punctuation">{</span>CODESERVER<span class="token punctuation">}</span> /usr/lib/code<span class="token punctuation">-</span>server &amp;&amp; \
+    ln <span class="token punctuation">-</span>s /usr/lib/code<span class="token punctuation">-</span>server/bin/code<span class="token punctuation">-</span>server /usr/bin/code<span class="token punctuation">-</span>server &amp;&amp; \
+    rm <span class="token punctuation">-</span>rf code<span class="token punctuation">-</span>server* &amp;&amp; \
+    rm <span class="token punctuation">-</span>rf /tmp/* &amp;&amp; \
+    rm <span class="token punctuation">-</span>rf $HOME/.cache &amp;&amp; \
+    rm <span class="token punctuation">-</span>rf $HOME/.node<span class="token punctuation">-</span>gyp &amp;&amp; \
+    fix<span class="token punctuation">-</span>permissions $CONDA_DIR &amp;&amp; \
+    fix<span class="token punctuation">-</span>permissions $HOME
+
+<span class="token keyword">WORKDIR</span>	$HOME
+
+<span class="token keyword">USER</span>	$NB_UID
+
+<span class="token comment"># 미리 생성해 놓은 configuration directory 복사</span>
+<span class="token keyword">COPY</span>	.jupyter /home/$NB_USER/.jupyter
+<span class="token keyword">COPY</span> 	.vscode /home/$NB_USER/.vscode
+
+<span class="token keyword">USER</span>	root
+<span class="token keyword">RUN</span>	fix<span class="token punctuation">-</span>permissions <span class="token string">&quot;/home/${NB_USER}/.vscode&quot;</span>
+
+<span class="token keyword">USER</span>	$NB_UID
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br></div></div><h4 id="jupyter-server-proxy-config"><a href="#jupyter-server-proxy-config" class="header-anchor">#</a> jupyter server proxy config</h4> <ul><li>jupyter_notebook_config.py 생성
+<ul><li>Jupyter Server Proxy 를 통하여, 특정 URL 에 대한 proxy 실행 command, launch_entry 등을 정의.</li> <li>Jupyter Hub 의 입장에서는 기본적으로 Jupyter Notebook 을 실행하는 개념이므로, NotebookApp Config 를 정의하고, proxy serverextension 설정은 ServerProxy Config 를 통해서 정의.</li></ul></li></ul> <div class="language-python line-numbers-mode"><pre class="language-python"><code><span class="token keyword">import</span>  os
+<span class="token keyword">import</span> shutil
+
+<span class="token comment"># Linux Code Server 실행 script 정의</span>
+<span class="token keyword">def</span> <span class="token function">_get_code_server_cmd</span><span class="token punctuation">(</span>port<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    executable <span class="token operator">=</span> <span class="token string">&quot;code-server&quot;</span>
+    <span class="token keyword">if</span> <span class="token keyword">not</span> shutil<span class="token punctuation">.</span>which<span class="token punctuation">(</span>executable<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">raise</span> FileNotFoundError<span class="token punctuation">(</span><span class="token string">&quot;Can not find code-server in PATH&quot;</span><span class="token punctuation">)</span>
+
+    <span class="token comment"># Start vscode in CODE_WORKINGDIR env variable if set</span>
+    <span class="token comment"># If not, start in 'current directory', which is $REPO_DIR in mybinder</span>
+    <span class="token comment"># but /home/jovyan (or equivalent) in JupyterHubs</span>
+    working_dir <span class="token operator">=</span> os<span class="token punctuation">.</span>getenv<span class="token punctuation">(</span><span class="token string">&quot;CODE_WORKINGDIR&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;.&quot;</span><span class="token punctuation">)</span>
+
+    extensions_dir <span class="token operator">=</span> os<span class="token punctuation">.</span>getenv<span class="token punctuation">(</span><span class="token string">&quot;CODE_EXTENSIONSDIR&quot;</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">)</span>
+    extra_extensions_dir <span class="token operator">=</span> os<span class="token punctuation">.</span>getenv<span class="token punctuation">(</span><span class="token string">&quot;CODE_EXTRA_EXTENSIONSDIR&quot;</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">)</span>
+
+    cmd <span class="token operator">=</span> <span class="token punctuation">[</span>
+        executable<span class="token punctuation">,</span>
+        <span class="token string">&quot;--auth&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;none&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;--disable-telemetry&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;--port=&quot;</span> <span class="token operator">+</span> <span class="token builtin">str</span><span class="token punctuation">(</span>port<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span>
+
+    <span class="token keyword">if</span> extensions_dir<span class="token punctuation">:</span>
+        cmd <span class="token operator">+=</span> <span class="token punctuation">[</span><span class="token string">&quot;--extensions-dir&quot;</span><span class="token punctuation">,</span> extensions_dir<span class="token punctuation">]</span>
+
+    <span class="token keyword">if</span> extra_extensions_dir<span class="token punctuation">:</span>
+        cmd <span class="token operator">+=</span> <span class="token punctuation">[</span><span class="token string">&quot;--extra-extensions-dir&quot;</span><span class="token punctuation">,</span> extra_extensions_dir<span class="token punctuation">]</span>
+
+    cmd<span class="token punctuation">.</span>append<span class="token punctuation">(</span>working_dir<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> cmd
+
+<span class="token comment"># Jupyter Notebook Config</span>
+c<span class="token punctuation">.</span>NotebookApp<span class="token punctuation">.</span>allow_root <span class="token operator">=</span> <span class="token boolean">True</span>
+c<span class="token punctuation">.</span>NotebookApp<span class="token punctuation">.</span>ip <span class="token operator">=</span> <span class="token string">'0.0.0.0'</span>
+c<span class="token punctuation">.</span>NotebookApp<span class="token punctuation">.</span>default_url <span class="token operator">=</span> <span class="token string">'/code-server/'</span>
+
+<span class="token comment"># Server Proxy Config</span>
+c<span class="token punctuation">.</span>ServerProxy<span class="token punctuation">.</span>servers <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment"># /code-server url 로 접근 시, server proxy 에서 아래 command 실행</span>
+  <span class="token string">'code-server'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">'command'</span><span class="token punctuation">:</span> _get_code_server_cmd<span class="token punctuation">,</span>
+    <span class="token string">'timeout'</span><span class="token punctuation">:</span> <span class="token number">20</span><span class="token punctuation">,</span>
+    <span class="token string">'launcher_entry'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">'title'</span><span class="token punctuation">:</span> <span class="token string">'VS Code IDE'</span><span class="token punctuation">,</span>
+      <span class="token string">'icon_path'</span><span class="token punctuation">:</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>
+                os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>dirname<span class="token punctuation">(</span>os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>abspath<span class="token punctuation">(</span>__file__<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">&quot;icons&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;code-server.svg&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br></div></div><h4 id="jupyter-hub-config-설정"><a href="#jupyter-hub-config-설정" class="header-anchor">#</a> Jupyter Hub Config 설정</h4> <p>Jupyter Hub config.yaml 에 profile 추가 및 kubespawner 설정</p> <ul><li>config.yaml 구성 내역</li></ul> <div class="language-yaml line-numbers-mode"><pre class="language-yaml"><code><span class="token punctuation">...</span>
+
+    <span class="token punctuation">-</span> <span class="token key atrule">display_name</span><span class="token punctuation">:</span> <span class="token string">&quot;Jupyter Code Server&quot;</span>
+      <span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">&quot;jupyter server proxy vscode&quot;</span>
+      <span class="token key atrule">kubespawner_override</span><span class="token punctuation">:</span>
+        <span class="token key atrule">cpu_limit</span><span class="token punctuation">:</span> <span class="token number">1</span>
+        <span class="token key atrule">cpu_guarantee</span><span class="token punctuation">:</span> <span class="token number">0.5</span>
+        <span class="token key atrule">mem_limit</span><span class="token punctuation">:</span> 2G
+        <span class="token key atrule">mem_guarantee</span><span class="token punctuation">:</span> 512M
+        <span class="token key atrule">args</span><span class="token punctuation">:</span> 
+          <span class="token punctuation">-</span> <span class="token string">&quot;--allow-root&quot;</span>
+        <span class="token comment"># jupyter notebook 기반 Code Server Base Image</span>
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> htdp1/jupyter<span class="token punctuation">-</span>code<span class="token punctuation">-</span>server<span class="token punctuation">:</span>latest
+        <span class="token key atrule">image_pull_secrets</span><span class="token punctuation">:</span> docker<span class="token punctuation">-</span>hub<span class="token punctuation">-</span>noisonnoiton
+        <span class="token key atrule">default_url</span><span class="token punctuation">:</span> /code<span class="token punctuation">-</span>server/
+        <span class="token key atrule">volume_mounts</span><span class="token punctuation">:</span>
+          <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> jupyter<span class="token punctuation">-</span>code<span class="token punctuation">-</span>server
+            <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /home/jovyan
+        <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+          <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> jupyter<span class="token punctuation">-</span>code<span class="token punctuation">-</span>server
+            <span class="token key atrule">persistentVolumeClaim</span><span class="token punctuation">:</span>
+              <span class="token key atrule">claimName</span><span class="token punctuation">:</span> jupyter<span class="token punctuation">-</span>code<span class="token punctuation">-</span>server
+
+<span class="token punctuation">...</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br></div></div><h4 id="jupyter-code-server-에서-web-app-개발"><a href="#jupyter-code-server-에서-web-app-개발" class="header-anchor">#</a> Jupyter Code Server 에서 Web App. 개발</h4> <p>위와 같이 생성된 Jupyter Code Server 에서 Web App. 개발 시, proxy 를 통하여 특정 Port 의 Web Service 를 URL 을 통하여 브라우저에서 호출할 수 있다.</p> <ul><li>flask python code example</li></ul> <div class="language-python line-numbers-mode"><pre class="language-python"><code><span class="token keyword">from</span> flask <span class="token keyword">import</span> Flask
+app <span class="token operator">=</span> Flask<span class="token punctuation">(</span>__name__<span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@app<span class="token punctuation">.</span>route</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">bonjour_world</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token string">'Bonjour,,!!!'</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    app<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><ul><li>Jupyter Code Server 에서 실행</li></ul> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code>$ python flask/bonjour.py 
+ * Serving Flask app <span class="token string">&quot;bonjour&quot;</span> <span class="token punctuation">(</span>lazy loading<span class="token punctuation">)</span>
+ * Environment: production
+   WARNING: This is a development server. Do not use it <span class="token keyword">in</span> a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://127.0.0.1:5000/ <span class="token punctuation">(</span>Press CTRL+C to quit<span class="token punctuation">)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p><img src="/am-arch/assets/img/jupyter-code-server-webapp.3b89b5b4.png" alt=""></p> <ul><li>5000 번 port 를 URL 에 명시하여, Web Browser 에서 Jupyter Server Proxy 를 통하여 호출<br>
+: ex&gt; myhub.org/hub/{user-redirect}/proxy/5000<br> <img src="/am-arch/assets/img/jupyter-server-proxy-5000.86d12f9f.png" alt=""></li></ul> <h3 id="r-studio-by-jupyter-proxy"><a href="#r-studio-by-jupyter-proxy" class="header-anchor">#</a> R Studio by Jupyter Proxy</h3> <p>R Studio 의 경우, Jupyter 에서 오픈소스로 제공하는 jupyter-rsession-proxy package 가 존재하여, 별도의 notebook config 설정 작업이 필요 없음.</p> <ul><li>작업 내역
+<ul><li>jupyter notebook 기반 R Studio Base Image 생성</li> <li>Base Image 에 jupyter-rsession-proxy package 설치</li> <li>Jupyter Hub Profile 에, jupyter-code-server profile 및 kubespawner 설정</li></ul></li></ul> <blockquote><p>htdp1 Github Repository<br> <a href="https://github.com/htdp1/jupyter-k8s/tree/main/dev/jupyter-notebook/rstudio" target="_blank" rel="noopener noreferrer">https://github.com/htdp1/jupyter-k8s/tree/main/dev/jupyter-notebook/rstudio<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <h4 id="create-base-image-2"><a href="#create-base-image-2" class="header-anchor">#</a> Create Base Image</h4> <ul><li>Dockerfile 구성
+<ul><li>Jupyter minimal-notebook Official Image 기반 작업</li> <li>Conda 환경에서 <u>jupyter-rsession-proxy</u> package 설치</li> <li>R Studio 설치</li></ul></li></ul> <div class="language-Dockerfile line-numbers-mode"><pre class="language-dockerfile"><code><span class="token keyword">ARG</span> BASE_CONTAINER=jupyter/minimal<span class="token punctuation">-</span>notebook
+<span class="token keyword">FROM</span> $BASE_CONTAINER
+
+
+<span class="token keyword">USER</span> root
+
+<span class="token keyword">RUN</span> <span class="token string">&quot;${CONDA_DIR}/bin/pip&quot;</span> install jupyter<span class="token punctuation">-</span>rsession<span class="token punctuation">-</span>proxy &amp;&amp; \
+    jupyter labextension install <span class="token punctuation">-</span><span class="token punctuation">-</span>no<span class="token punctuation">-</span>build @jupyterlab/server<span class="token punctuation">-</span>proxy
+
+<span class="token keyword">ENV</span> RSTUDIO_URL=<span class="token string">&quot;https://download2.rstudio.org/server/trusty/amd64/rstudio-server-1.2.5019-amd64.deb&quot;</span>
+<span class="token keyword">ENV</span> RSTUDIO=<span class="token string">&quot;rstudio-server-1.2.5019-amd64.deb&quot;</span>
+
+<span class="token keyword">RUN</span> echo <span class="token string">&quot;deb http://security.ubuntu.com/ubuntu xenial-security main&quot;</span> <span class="token punctuation">&gt;</span><span class="token punctuation">&gt;</span> /etc/apt/sources.list
+
+<span class="token comment"># install rstudio-server</span>
+<span class="token keyword">RUN</span> apt<span class="token punctuation">-</span>get update &amp;&amp; \
+    apt<span class="token punctuation">-</span>get <span class="token punctuation">-</span>y install libssl1.0.0 libssl<span class="token punctuation">-</span>dev &amp;&amp; \
+    cd /lib/x86_64<span class="token punctuation">-</span>linux<span class="token punctuation">-</span>gnu &amp;&amp; ln <span class="token punctuation">-</span>s libssl.so.1.0.0 libssl.so.10 &amp;&amp;  ln <span class="token punctuation">-</span>s libcrypto.so.1.0.0 libcrypto.so.10  &amp;&amp; \
+    cd /tmp/ &amp;&amp; wget $<span class="token punctuation">{</span>RSTUDIO_URL<span class="token punctuation">}</span> <span class="token punctuation">-</span><span class="token punctuation">-</span>no<span class="token punctuation">-</span>check<span class="token punctuation">-</span>certificate &amp;&amp; \
+    apt<span class="token punctuation">-</span>get install <span class="token punctuation">-</span>y /tmp/$<span class="token punctuation">{</span>RSTUDIO<span class="token punctuation">}</span> &amp;&amp; \
+    rm /tmp/$<span class="token punctuation">{</span>RSTUDIO<span class="token punctuation">}</span> &amp;&amp; \
+    apt<span class="token punctuation">-</span>get clean &amp;&amp; rm <span class="token punctuation">-</span>rf /var/lib/apt/lists/*
+
+<span class="token keyword">ENV</span> PATH=$PATH<span class="token punctuation">:</span>/usr/lib/rstudio<span class="token punctuation">-</span>server/bin
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div><h4 id="jupyter-rsesssion-proxy"><a href="#jupyter-rsesssion-proxy" class="header-anchor">#</a> jupyter-rsesssion-proxy</h4> <ul><li><p>jupyter-rsession-proxy package 확인 내역</p> <ul><li>package 에 R Studio 실행에 필요한 rstudio-server, rsession 실행 script 가 정의되어 있음.</li> <li>/rstudio url 로 접근 시 처리되는, ServerProxy Config 가 미리 정의되어 있어, 별도의 notebook config 설정이 필요 없음.</li></ul></li> <li><p>package setup.py</p></li></ul> <div class="language-python line-numbers-mode"><pre class="language-python"><code><span class="token keyword">import</span> setuptools
+
+setuptools<span class="token punctuation">.</span>setup<span class="token punctuation">(</span>
+    name<span class="token operator">=</span><span class="token string">&quot;jupyter-rsession-proxy&quot;</span><span class="token punctuation">,</span>
+    version<span class="token operator">=</span><span class="token string">'1.2'</span><span class="token punctuation">,</span>
+    url<span class="token operator">=</span><span class="token string">&quot;https://github.com/jupyterhub/jupyter-rsession-proxy&quot;</span><span class="token punctuation">,</span>
+    author<span class="token operator">=</span><span class="token string">&quot;Ryan Lovett &amp; Yuvi Panda&quot;</span><span class="token punctuation">,</span>
+    description<span class="token operator">=</span><span class="token string">&quot;Jupyter extension to proxy RStudio&quot;</span><span class="token punctuation">,</span>
+    packages<span class="token operator">=</span>setuptools<span class="token punctuation">.</span>find_packages<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+	keywords<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'Jupyter'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+	classifiers<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'Framework :: Jupyter'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    install_requires<span class="token operator">=</span><span class="token punctuation">[</span>
+        <span class="token string">'jupyter-server-proxy'</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token comment"># package 실행 entrypoint</span>
+    entry_points<span class="token operator">=</span><span class="token punctuation">{</span>
+        <span class="token string">'jupyter_serverproxy_servers'</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+            <span class="token comment"># /rstudio 처리 및 command mapping</span>
+            <span class="token string">'rstudio = jupyter_rsession_proxy:setup_rserver'</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    package_data<span class="token operator">=</span><span class="token punctuation">{</span>
+        <span class="token string">'jupyter_rsession_proxy'</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'icons/rstudio.svg'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div><blockquote><p>jupyter-rsession-proxy Github Repository 참조<br> <a href="https://github.com/jupyterhub/jupyter-rsession-proxy" target="_blank" rel="noopener noreferrer">https://github.com/jupyterhub/jupyter-rsession-proxy<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <h4 id="jupyter-hub-config-설정-2"><a href="#jupyter-hub-config-설정-2" class="header-anchor">#</a> Jupyter Hub Config 설정</h4> <p>Jupyter Hub config.yaml 에 profile 추가 및 kubespawner 설정</p> <ul><li>config.yaml 구성 내역</li></ul> <div class="language-yaml line-numbers-mode"><pre class="language-yaml"><code><span class="token punctuation">...</span>
+
+    <span class="token punctuation">-</span> <span class="token key atrule">display_name</span><span class="token punctuation">:</span> <span class="token string">&quot;Jupyter R Studio&quot;</span>
+      <span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">&quot;jupyter server proxy rsession&quot;</span>
+      <span class="token key atrule">kubespawner_override</span><span class="token punctuation">:</span>
+        <span class="token key atrule">cpu_limit</span><span class="token punctuation">:</span> <span class="token number">1</span>
+        <span class="token key atrule">cpu_guarantee</span><span class="token punctuation">:</span> <span class="token number">0.5</span>
+        <span class="token key atrule">mem_limit</span><span class="token punctuation">:</span> 2G
+        <span class="token key atrule">mem_guarantee</span><span class="token punctuation">:</span> 512M
+        <span class="token key atrule">args</span><span class="token punctuation">:</span> 
+          <span class="token punctuation">-</span> <span class="token string">&quot;--allow-root&quot;</span>
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> htdp1/jupyter<span class="token punctuation">-</span>rstudio<span class="token punctuation">:</span>latest
+        <span class="token key atrule">image_pull_secrets</span><span class="token punctuation">:</span> docker<span class="token punctuation">-</span>hub<span class="token punctuation">-</span>noisonnoiton
+        <span class="token key atrule">default_url</span><span class="token punctuation">:</span> /rstudio/
+        <span class="token comment"># jupyter notebook 기반 Code Server Base Image</span>
+        <span class="token key atrule">volume_mounts</span><span class="token punctuation">:</span>
+          <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> jupyter<span class="token punctuation">-</span>rstudio
+            <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /home/jovyan
+        <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+          <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> jupyter<span class="token punctuation">-</span>rstudio
+            <span class="token key atrule">persistentVolumeClaim</span><span class="token punctuation">:</span>
+              <span class="token key atrule">claimName</span><span class="token punctuation">:</span> jupyter<span class="token punctuation">-</span>rstudio
+
+<span class="token punctuation">...</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br></div></div><ul><li>접속 화면<br> <img src="/am-arch/assets/img/jupyter-rstudio.244bde99.png" alt=""></li></ul></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/am-arch/machinelearning/jupyterhub.html" class="prev">
+        Jupyter Hub
+      </a></span> <span class="next"><a href="/am-arch/machinelearning/inferenceintro.html">
+        Inroduction
+      </a>
+      →
+    </span></p></div> </main></div></div><div class="global-ui"></div></div>
+    <script src="/am-arch/assets/js/app.89e1056e.js" defer></script><script src="/am-arch/assets/js/2.158b03bb.js" defer></script><script src="/am-arch/assets/js/12.784f5764.js" defer></script>
+  </body>
+</html>

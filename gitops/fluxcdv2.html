@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Flux v2 with AWS Managed Services | HTDP1</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="htdp1 github pages">
+    <meta name="theme-color" content="#3eaf7c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    
+    <link rel="preload" href="/am-arch/assets/css/0.styles.cf1d3b34.css" as="style"><link rel="preload" href="/am-arch/assets/js/app.89e1056e.js" as="script"><link rel="preload" href="/am-arch/assets/js/2.158b03bb.js" as="script"><link rel="preload" href="/am-arch/assets/js/11.13a0885b.js" as="script"><link rel="prefetch" href="/am-arch/assets/js/10.f985dceb.js"><link rel="prefetch" href="/am-arch/assets/js/12.784f5764.js"><link rel="prefetch" href="/am-arch/assets/js/13.0705463a.js"><link rel="prefetch" href="/am-arch/assets/js/14.edf1e9bf.js"><link rel="prefetch" href="/am-arch/assets/js/15.ecbe92b4.js"><link rel="prefetch" href="/am-arch/assets/js/16.b0e5273b.js"><link rel="prefetch" href="/am-arch/assets/js/17.c1412e8f.js"><link rel="prefetch" href="/am-arch/assets/js/18.2bf38a43.js"><link rel="prefetch" href="/am-arch/assets/js/19.d66be9cb.js"><link rel="prefetch" href="/am-arch/assets/js/20.2d12a517.js"><link rel="prefetch" href="/am-arch/assets/js/21.4a5538a4.js"><link rel="prefetch" href="/am-arch/assets/js/22.b2655bc9.js"><link rel="prefetch" href="/am-arch/assets/js/23.f69f4766.js"><link rel="prefetch" href="/am-arch/assets/js/24.d9cb860d.js"><link rel="prefetch" href="/am-arch/assets/js/25.7a3200a9.js"><link rel="prefetch" href="/am-arch/assets/js/26.5cb3a254.js"><link rel="prefetch" href="/am-arch/assets/js/27.0c63f9e7.js"><link rel="prefetch" href="/am-arch/assets/js/28.58281d66.js"><link rel="prefetch" href="/am-arch/assets/js/29.164199d9.js"><link rel="prefetch" href="/am-arch/assets/js/3.0b98036c.js"><link rel="prefetch" href="/am-arch/assets/js/30.495713a6.js"><link rel="prefetch" href="/am-arch/assets/js/31.4507fc8d.js"><link rel="prefetch" href="/am-arch/assets/js/32.e2d5f511.js"><link rel="prefetch" href="/am-arch/assets/js/33.5a7d28a0.js"><link rel="prefetch" href="/am-arch/assets/js/34.24927452.js"><link rel="prefetch" href="/am-arch/assets/js/35.b946ec72.js"><link rel="prefetch" href="/am-arch/assets/js/36.3e0df84b.js"><link rel="prefetch" href="/am-arch/assets/js/37.baf5ac72.js"><link rel="prefetch" href="/am-arch/assets/js/38.924d0d58.js"><link rel="prefetch" href="/am-arch/assets/js/39.c9ada2db.js"><link rel="prefetch" href="/am-arch/assets/js/4.3bf6929e.js"><link rel="prefetch" href="/am-arch/assets/js/40.59ff4950.js"><link rel="prefetch" href="/am-arch/assets/js/41.e36e5e29.js"><link rel="prefetch" href="/am-arch/assets/js/42.8fbd702b.js"><link rel="prefetch" href="/am-arch/assets/js/43.682ed0be.js"><link rel="prefetch" href="/am-arch/assets/js/44.e96bd250.js"><link rel="prefetch" href="/am-arch/assets/js/45.e5548ca0.js"><link rel="prefetch" href="/am-arch/assets/js/46.eb3135d2.js"><link rel="prefetch" href="/am-arch/assets/js/47.75bfb6d8.js"><link rel="prefetch" href="/am-arch/assets/js/48.24475551.js"><link rel="prefetch" href="/am-arch/assets/js/49.4f9d97da.js"><link rel="prefetch" href="/am-arch/assets/js/5.612537aa.js"><link rel="prefetch" href="/am-arch/assets/js/50.9396ae6a.js"><link rel="prefetch" href="/am-arch/assets/js/51.0246b6e3.js"><link rel="prefetch" href="/am-arch/assets/js/52.b63d5ce3.js"><link rel="prefetch" href="/am-arch/assets/js/53.1f0c3f8c.js"><link rel="prefetch" href="/am-arch/assets/js/54.945e81a6.js"><link rel="prefetch" href="/am-arch/assets/js/55.7f8cfc43.js"><link rel="prefetch" href="/am-arch/assets/js/56.c5892f1b.js"><link rel="prefetch" href="/am-arch/assets/js/57.95dda11c.js"><link rel="prefetch" href="/am-arch/assets/js/58.5239fcca.js"><link rel="prefetch" href="/am-arch/assets/js/59.8c2edf4b.js"><link rel="prefetch" href="/am-arch/assets/js/6.744bf98a.js"><link rel="prefetch" href="/am-arch/assets/js/60.41a76796.js"><link rel="prefetch" href="/am-arch/assets/js/61.26101a83.js"><link rel="prefetch" href="/am-arch/assets/js/62.f17e7ccd.js"><link rel="prefetch" href="/am-arch/assets/js/63.26013c6d.js"><link rel="prefetch" href="/am-arch/assets/js/64.5a311c5f.js"><link rel="prefetch" href="/am-arch/assets/js/65.eb28022b.js"><link rel="prefetch" href="/am-arch/assets/js/7.fed2825e.js"><link rel="prefetch" href="/am-arch/assets/js/8.8c182984.js"><link rel="prefetch" href="/am-arch/assets/js/9.3fd7e149.js">
+    <link rel="stylesheet" href="/am-arch/assets/css/0.styles.cf1d3b34.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="global-layout"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/am-arch/" class="home-link router-link-active"><!----> <span class="site-name">HTDP1</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/am-arch/guide/" class="nav-link">
+  Guide
+</a></div><div class="nav-item"><a href="/am-arch/cloud/" class="nav-link">
+  Cloud
+</a></div><div class="nav-item"><a href="/am-arch/refarch/" class="nav-link">
+  Ref. Arch.
+</a></div><div class="nav-item"><a href="/am-arch/cloud-native-app/" class="nav-link">
+  Cloud.Native.App
+</a></div><div class="nav-item"><a href="/am-arch/machinelearning/" class="nav-link">
+  M / L
+</a></div><div class="nav-item"><a href="/am-arch/gitops/" class="nav-link router-link-active">
+  GitOps
+</a></div><div class="nav-item"><a href="/am-arch/multi-cloud/" class="nav-link">
+  Multi Cloud
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/am-arch/guide/" class="nav-link">
+  Guide
+</a></div><div class="nav-item"><a href="/am-arch/cloud/" class="nav-link">
+  Cloud
+</a></div><div class="nav-item"><a href="/am-arch/refarch/" class="nav-link">
+  Ref. Arch.
+</a></div><div class="nav-item"><a href="/am-arch/cloud-native-app/" class="nav-link">
+  Cloud.Native.App
+</a></div><div class="nav-item"><a href="/am-arch/machinelearning/" class="nav-link">
+  M / L
+</a></div><div class="nav-item"><a href="/am-arch/gitops/" class="nav-link router-link-active">
+  GitOps
+</a></div><div class="nav-item"><a href="/am-arch/multi-cloud/" class="nav-link">
+  Multi Cloud
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Introduction</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/am-arch/gitops/" aria-current="page" class="sidebar-link">Overview</a></li><li><a href="/am-arch/gitops/gitopsintro.html" class="sidebar-link">GitOps</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>FluxCD</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/am-arch/gitops/fluxintro.html" class="sidebar-link">Basics</a></li><li><a href="/am-arch/gitops/fluxcdv2.html" aria-current="page" class="active sidebar-link">Flux v2 with AWS Managed Services</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/am-arch/gitops/fluxcdv2.html#prerequisite" class="sidebar-link">Prerequisite</a></li><li class="sidebar-sub-header"><a href="/am-arch/gitops/fluxcdv2.html#quick-start" class="sidebar-link">Quick Start</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/am-arch/gitops/fluxcdv2.html#bootstrap" class="sidebar-link">Bootstrap</a></li><li class="sidebar-sub-header"><a href="/am-arch/gitops/fluxcdv2.html#source-reconciliation" class="sidebar-link">Source &amp; reconciliation</a></li><li class="sidebar-sub-header"><a href="/am-arch/gitops/fluxcdv2.html#deploy-test" class="sidebar-link">Deploy Test</a></li></ul></li><li class="sidebar-sub-header"><a href="/am-arch/gitops/fluxcdv2.html#ci-cd-automation" class="sidebar-link">CI/CD Automation</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/am-arch/gitops/fluxcdv2.html#imagerepository" class="sidebar-link">ImageRepository</a></li><li class="sidebar-sub-header"><a href="/am-arch/gitops/fluxcdv2.html#imagepolicy" class="sidebar-link">ImagePolicy</a></li><li class="sidebar-sub-header"><a href="/am-arch/gitops/fluxcdv2.html#imageupdateautomation" class="sidebar-link">ImageUpdateAutomation</a></li></ul></li><li class="sidebar-sub-header"><a href="/am-arch/gitops/fluxcdv2.html#monitoring" class="sidebar-link">Monitoring</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/am-arch/gitops/fluxcdv2.html#flux-monitoring-resource" class="sidebar-link">Flux Monitoring Resource</a></li><li class="sidebar-sub-header"><a href="/am-arch/gitops/fluxcdv2.html#flux-dashboards" class="sidebar-link">Flux Dashboards</a></li></ul></li></ul></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Flagger</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/am-arch/gitops/flaggerintro.html" class="sidebar-link">Basics</a></li><li><a href="/am-arch/gitops/flaggerdeploy.html" class="sidebar-link">Flagger on EKS App Mesh</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>ArgoCD</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/am-arch/gitops/argocdintro.html" class="sidebar-link">Basics</a></li><li><a href="/am-arch/gitops/argocddeploy.html" class="sidebar-link">ArgoCD 실습</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="flux-v2-with-aws-managed-services"><a href="#flux-v2-with-aws-managed-services" class="header-anchor">#</a> Flux v2 with AWS Managed Services</h1> <p>Flux v2 는 2020년 7월에 최초 release 되었으며, 현재는 참고 reference 가 그다지 많지는 않다. v1 과 v2 의 차이점을 공식 문서에서는 아래와 같이 간단하게 얘기하고 있다.</p> <blockquote><p>Flux v1 is a monolithic do-it-all operator; Flux v2 separates the functionalities into specialized controllers, collectively called the GitOps Toolkit.</p></blockquote> <p>manifest 선언 형식, 기본 namespace 변경, 분리되어 배포되는 GOTK component 등으로 인하여, v1 의 reference 를 참고하여 작업하는 것은 매우 어렵다. <u><em>새로 처음부터 구성하는 것이 낫다.</em></u></p> <p>AWS Managed Service 로 제공되는 CI Pipeline 을 사용하여 Docker image 를 build 하고, FluxCD 를 활용하여 Amazon EKS cluster 에 자동으로 배포하는 CD 구성을 작업하였다.</p> <ul><li>구성 Architecture</li></ul> <p><img src="/am-arch/assets/img/flux-eks-architecture.85c5e83e.png" alt=""></p> <h2 id="prerequisite"><a href="#prerequisite" class="header-anchor">#</a> Prerequisite</h2> <ul><li>사전에 구성한 Amazon EKS cluster</li> <li>사전에 구성한 ECR</li> <li>사전에 구성한 AWS Code Pipeline (CodeCommit + CodeBuild)</li> <li>Flux CLI 설치
+<ul><li>flux 설치 후, cluster 및 kubectl 등의 version 충족 여부 확인</li></ul></li></ul> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code>$ flux --version
+
+flux version <span class="token number">0.14</span>.2
+
+$ flux check --pre
+
+► checking prerequisites
+✔ kubectl <span class="token number">1.21</span>.1 <span class="token operator">&gt;</span><span class="token operator">=</span><span class="token number">1.18</span>.0-0
+✔ Kubernetes <span class="token number">1.19</span>.6-eks-49a6c0 <span class="token operator">&gt;</span><span class="token operator">=</span><span class="token number">1.16</span>.0-0
+✔ prerequisites checks passed
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h2 id="quick-start"><a href="#quick-start" class="header-anchor">#</a> Quick Start</h2> <p>Flux CLI bootstrap 을 실행하여, flux-system namespace 에 flux v2 controller 를 배포.</p> <h3 id="bootstrap"><a href="#bootstrap" class="header-anchor">#</a> Bootstrap</h3> <p>public 저장소인 github 를 사용하여 bootstrap 하는 가이드가 주로 많이 있으나, generic 한 git 저장소를 통한 배포 테스트를 위해서 <u>AWS CodeCommit</u> 에 repository 를 생성하였다.   bootstrap 실행 시, ssh 혹은 https 를 통하여 해당 repository 에 flux v2 manifest 를 push 하고, reconciliation 을 실행한다.</p> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code>flux bootstrap <span class="token function">git</span> <span class="token punctuation">\</span>
+--url<span class="token operator">=</span><span class="token operator">&lt;</span>git repository url<span class="token operator">&gt;</span> <span class="token punctuation">\</span>
+--username<span class="token operator">=</span><span class="token operator">&lt;</span>username<span class="token operator">&gt;</span> <span class="token punctuation">\</span>
+--password<span class="token operator">=</span><span class="token operator">&lt;</span>password<span class="token operator">&gt;</span> <span class="token punctuation">\</span>
+--token-auth<span class="token operator">=</span>true <span class="token punctuation">\</span>
+--path<span class="token operator">=</span>clusters/my-cluster
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>설치 진행 순서는 대략 아래와 같다.</p> <ol><li>flux manitfest 를 생성하여 git repository 에 push</li> <li>reconcile 을 실행하여, cluster 에 flux gotk component 배포</li> <li>GitRepository source 생성 및 인증 secret 등을 생성</li> <li>Kustomize reconciliation 생성</li> <li>git repository 에 push 후, reconcile 실행하여 custom resource 생성</li></ol> <ul><li>git repository manifest 생성 내역<br>
+: 설치 후, 아래와 같은 manifest 가 git repository 에 push 된 것을 확인할 수 있다.</li></ul> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code>./clusters/
+└── eks <span class="token comment"># &lt;- path=clusters/eks</span>
+    └── flux-system              <span class="token comment"># &lt;- namespace dir generated by bootstrap</span>
+        ├── gotk-components.yaml <span class="token comment"># &lt;- gotk component manifest</span>
+        ├── gotk-sync.yaml       <span class="token comment"># &lt;- GitRepository, Kustomization manifest</span>
+        └── kustomization.yaml   <span class="token comment"># &lt;- 위 yaml 을 kustomize 로 실행하기 위한, kustomization (kustomize API)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><ul><li>gotk component 생성 내역<br>
+: 위에 생성된 gotk-components.yaml 에 정의된 내역을 그대로 생성한다.</li></ul> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code>$ kubectl get po -n flux-system
+
+NAME                                          READY   STATUS      RESTARTS   AGE
+helm-controller-5fc96c6bcf-drrfq              <span class="token number">1</span>/1     Running     <span class="token number">0</span>          8d
+image-automation-controller-bb685fd95-f5wsp   <span class="token number">1</span>/1     Running     <span class="token number">0</span>          19d
+image-reflector-controller-58c57b8f7d-fmnj2   <span class="token number">1</span>/1     Running     <span class="token number">0</span>          8d
+kustomize-controller-7844d96565-5m2x9         <span class="token number">1</span>/1     Running     <span class="token number">0</span>          19d
+notification-controller-7c9d5cdc4c-gkwkc      <span class="token number">1</span>/1     Running     <span class="token number">0</span>          19d
+source-controller-655c987dff-pz9df            <span class="token number">1</span>/1     Running     <span class="token number">0</span>          8d
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h3 id="source-reconciliation"><a href="#source-reconciliation" class="header-anchor">#</a> Source &amp; reconciliation</h3> <p>bootstrap 의 결과로 생성된 manifest 중, gotk-sync.yaml 에는 GitRepository 와 Kustomization 이 정의되어 있다.<br>
+설치 과정에서 parameter 로 입력한 접속 정보를 가지고 secret 을 생성하여, git repository access 를 위해 사용한다.</p> <ul><li>gotk-sync.yaml</li></ul> <div class="language-yaml line-numbers-mode"><pre class="language-yaml"><code><span class="token punctuation">---</span>
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> source.toolkit.fluxcd.io/v1beta1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> GitRepository
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> flux<span class="token punctuation">-</span>system
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> flux<span class="token punctuation">-</span>system
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">interval</span><span class="token punctuation">:</span> 1m0s
+  <span class="token key atrule">ref</span><span class="token punctuation">:</span>
+    <span class="token key atrule">branch</span><span class="token punctuation">:</span> eks
+  <span class="token key atrule">secretRef</span><span class="token punctuation">:</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> flux<span class="token punctuation">-</span>system
+  <span class="token key atrule">url</span><span class="token punctuation">:</span> &lt;git repository url<span class="token punctuation">&gt;</span>
+<span class="token punctuation">---</span>
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> kustomize.toolkit.fluxcd.io/v1beta1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Kustomization
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> flux<span class="token punctuation">-</span>system
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> flux<span class="token punctuation">-</span>system
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">interval</span><span class="token punctuation">:</span> 3m0s
+  <span class="token key atrule">path</span><span class="token punctuation">:</span> ./clusters/eks
+  <span class="token key atrule">prune</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">sourceRef</span><span class="token punctuation">:</span>
+    <span class="token key atrule">kind</span><span class="token punctuation">:</span> GitRepository
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> flux<span class="token punctuation">-</span>system
+  <span class="token key atrule">validation</span><span class="token punctuation">:</span> client
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br></div></div><ul><li>flux source, reconciliation 생성 내역<br>
+: gotk-sync.yaml 에 정의된 내역이며, flux resource 는 flux CLI 를 통해 조회할 수도 있다. flux-system 이라는 name 으로 공통으로 생성된다.</li></ul> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code>$ flux get <span class="token builtin class-name">source</span> all
+
+NAME                     	READY	MESSAGE                                                        	REVISION                                     	SUSPENDED
+gitrepository/flux-system	True 	Fetched revision: eks/9e7e6e799fd7450c20fe6b99e606d4d2d725efb5 	eks/9e7e6e799fd7450c20fe6b99e606d4d2d725efb5 	False
+
+$ flux get kustomizations
+
+NAME            	READY	MESSAGE                                                        	REVISION                                     	SUSPENDED
+flux-system     	True 	Applied revision: eks/9e7e6e799fd7450c20fe6b99e606d4d2d725efb5 	eks/9e7e6e799fd7450c20fe6b99e606d4d2d725efb5 	False
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h3 id="deploy-test"><a href="#deploy-test" class="header-anchor">#</a> Deploy Test</h3> <p>path 로 지정한 directory 아래에, k8s object manifest 를 유형별로 정의하여, git repository 에 push 하였다.<br>
+모두 정상적으로 배포가 완료되었다.</p> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code>├── clusters
+│   └── eks
+│       ├── flux-system
+│       │   ├── gotk-components.yaml
+│       │   ├── gotk-sync.yaml
+│       │   └── kustomization.yaml
+│       └── shop                  <span class="token comment"># &lt;- directory 를 생성하고, 관련 yaml 을 생성</span>
+│           ├── ecr-job.yml
+│           ├── shop-configmap.yml <span class="token comment"># app. config</span>
+│           ├── shop-deployment.yml <span class="token comment"># app. deployment</span>
+│           ├── shop-ingress.yml <span class="token comment"># app. ingress</span>
+│           ├── shop-policy.yml
+│           ├── shop-registry.yml
+│           ├── shop-service.yml <span class="token comment"># app. service</span>
+│           └── update-policy.yml
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p><s>특이 사항으로, k8s API 로 정의된 yaml 들만 Kustomization reconciliation 에 의해 apply / patch / delete 가 실행이 된다.<br>
+예를 들면, 위 파일 중 update-policy.yml 은 fluxcd API 중 ImageUpdateAutomation manifest 인데, 이 파일을 수정해서 push 하면, 자동으로 reconciliation 이 이루어지지 않는다.<br> <u><em>즉, FluxCD 의 설정 자체에 영향을 주는 yml 파일을, git repository 에서 관리하더라도, 소스코드 push 후 flux CLI 를 통해 reconcile 명령을 실행해 주어야 실제로 배포가 실행된다.</em></u></s></p> <p>아래와 같이, fluxcd kustomization 을 source 인 git repository 기반으로 reconcile 하겠다는 command 실행을 하면 수동 반영이 가능하다.</p> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code>$ flux reconcile kustomization flux-system --with-source
+
+► annotating GitRepository flux-system <span class="token keyword">in</span> flux-system namespace
+✔ GitRepository annotated
+◎ waiting <span class="token keyword">for</span> GitRepository reconciliation
+✔ GitRepository reconciliation completed
+✔ fetched revision eks/9e7e6e799fd7450c20fe6b99e606d4d2d725efb5
+► annotating Kustomization flux-system <span class="token keyword">in</span> flux-system namespace
+✔ Kustomization annotated
+◎ waiting <span class="token keyword">for</span> Kustomization reconciliation
+✔ Kustomization reconciliation completed
+✔ applied revision eks/9e7e6e799fd7450c20fe6b99e606d4d2d725efb5
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><h2 id="ci-cd-automation"><a href="#ci-cd-automation" class="header-anchor">#</a> CI/CD Automation</h2> <p>현재 구성된 환경에서는 k8s manifest 를 관리하는 별도의 git repository 를 생성하여, FluxCD 가 repository 의 변경을 감지하여 k8s object 를 변경하고 있다.<br>
+AWS Managed Service 를 활용하여, source code 빌드 및 docker image build / push 후, 자동으로 git repository 의 deployment image tag 를 수정하여, 이를 통해 FluxCD 의 reconciliation 이 실행될 수 있도록 구성 및 테스트한 내역이다.</p> <ul><li>CI/CD workflow
+<ul><li>DEV: Local code 수정 및 git repository commit and push.</li> <li>CI: maven source code build, docker image build.</li> <li>CI: timestamp 기반 image tagging 및 push.</li> <li>CD: Flux 의 image scanning 을 통하여, image 관리 정책에 따른 최신 image metadata 조회. (Image reflector controller)</li> <li>CD: git repository 의 deployment manifest 의 image tag 를 최신으로 수정. (Image automation controller)</li> <li>CD: k8s cluster 에 배포 (Flux Git to cluster reconciliation)</li></ul></li></ul> <blockquote><p>FluxCD Guide 참조<br> <a href="https://fluxcd.io/docs/guides/image-update/" target="_blank" rel="noopener noreferrer">https://fluxcd.io/docs/guides/image-update/<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <p>작업을 위해, image 관련 gotk API resource 를 cluster 에 생성하여 관리한다.</p> <hr> <p>| <small>Amazon ECR 을 활용하기 위해서, IAM Role for Service Account 설정 및 ECR credential 갱신을 위한 cronjob 등을 생성하는 과정이 필요했으며, 생략,,,</small></p> <hr> <h3 id="imagerepository"><a href="#imagerepository" class="header-anchor">#</a> ImageRepository</h3> <p>위에서 배포한 application 은 container 7 개로 구성되어 있어, ECR 에 총 7개의 Repository 가 생성되어 있었으며, 해당 image 기반으로 7개의 deployment 가 생성되어 있는 상태이다.</p> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code>$ kubectl get deploy
+
+NAME            READY   UP-TO-DATE   AVAILABLE   AGE
+account         <span class="token number">1</span>/1     <span class="token number">1</span>            <span class="token number">1</span>           36d
+apigateway      <span class="token number">0</span>/0     <span class="token number">0</span>            <span class="token number">0</span>           36d
+bff             <span class="token number">1</span>/1     <span class="token number">1</span>            <span class="token number">1</span>           36d
+cart            <span class="token number">1</span>/1     <span class="token number">1</span>            <span class="token number">1</span>           36d
+order           <span class="token number">1</span>/1     <span class="token number">1</span>            <span class="token number">1</span>           36d
+payment         <span class="token number">1</span>/1     <span class="token number">1</span>            <span class="token number">1</span>           36d
+product         <span class="token number">1</span>/1     <span class="token number">1</span>            <span class="token number">1</span>           36d
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><ul><li>ImageRepository manifest 예시<br>
+: 아래와 같은 ImageRepository 를 repository 별로 모두 생성하여, Image reflector controller 가 image 를 scanning 할 수 있도록 credential 등이 정상적으로 설정되어야, ImageRepository 도 정상적으로 생성된다.</li></ul> <div class="language-yaml line-numbers-mode"><pre class="language-yaml"><code><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> image.toolkit.fluxcd.io/v1alpha1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ImageRepository
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> account
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> flux<span class="token punctuation">-</span>system
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">secretRef</span><span class="token punctuation">:</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> ecr<span class="token punctuation">-</span>credentials <span class="token comment"># cronjob 을 통해 갱신되는 ECR credential</span>
+  <span class="token key atrule">image</span><span class="token punctuation">:</span> &lt;image repository url<span class="token punctuation">&gt;</span>
+  <span class="token key atrule">interval</span><span class="token punctuation">:</span> 1m0s
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><ul><li>ImageRepository resource 생성 내역<br>
+: flux CLI 혹은 kubectl 로 조회 가능하며, repository 별로 생성된 모든 tag 를 설정된 interval 에 따라 scan 한다. repository 별 scan 을 suspend 하여 관리 가능.</li></ul> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code>$ flux get images repository
+
+NAME      	READY	MESSAGE                       	LAST SCAN                	SUSPENDED
+account   	True 	successful scan, found <span class="token number">9</span> tags 	<span class="token number">2021</span>-06-12T08:59:27+09:00	False
+apigateway	True 	successful scan, found <span class="token number">5</span> tags 	<span class="token number">2021</span>-06-12T08:59:28+09:00	False
+bff       	True 	successful scan, found <span class="token number">21</span> tags	<span class="token number">2021</span>-06-12T08:59:27+09:00	False
+cart      	True 	successful scan, found <span class="token number">6</span> tags 	<span class="token number">2021</span>-06-12T08:59:27+09:00	False
+order     	True 	successful scan, found <span class="token number">7</span> tags 	<span class="token number">2021</span>-06-12T08:59:27+09:00	False
+payment   	True 	successful scan, found <span class="token number">6</span> tags 	<span class="token number">2021</span>-06-12T08:59:27+09:00	False
+product   	True 	successful scan, found <span class="token number">6</span> tags 	<span class="token number">2021</span>-06-12T08:59:27+09:00	False
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h3 id="imagepolicy"><a href="#imagepolicy" class="header-anchor">#</a> ImagePolicy</h3> <p>Image update automation 을 위해, 반영하기 위한 image tag 를 가져오기 위한 정책을 생성한다.<br>
+아래와 같은 다양한 설정이 가능하며, 아래에서는 timestamp 기준으로 생성된 최신 version 의 tag 를 가져오기 위해 아래와 같이 alphabetical policy 를 설정했다.</p> <ul><li>Image Policy List
+<ul><li>SemVer: semantic version 및 연산자 사용을 지원한다. range, in 등의 제약조건 설정 가능. (ex&gt; range: '&gt;=1.0.0', range: '1.9.x')</li> <li>Alphabetical: 알파벳순 및 오름차순/내림차순 선택 및 tag 를 sorting 하여, 가장 마지막에 조회되는 tag 를 가져온다.</li> <li>Numerical: 모든 숫자가 숫자로 정렬이 가능하면 오름차순/내림차순 선택 및 tag 를 sorting 하여, 가장 마지막에 조회되는 tag 를 가져온다.</li></ul></li></ul> <blockquote><p>Image Policy 관련 정책, 공식 docs 참조<br> <a href="https://fluxcd.io/docs/components/image/imagepolicies/" target="_blank" rel="noopener noreferrer">https://fluxcd.io/docs/components/image/imagepolicies/<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <ul><li>ImagePolicy manifest 예시<br>
+: repository 별 policy 를 각각 생성했다.</li></ul> <div class="language-yaml line-numbers-mode"><pre class="language-yaml"><code><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> image.toolkit.fluxcd.io/v1alpha1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ImagePolicy
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> account
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> flux<span class="token punctuation">-</span>system
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">imageRepositoryRef</span><span class="token punctuation">:</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> account
+  <span class="token key atrule">policy</span><span class="token punctuation">:</span>
+    <span class="token key atrule">alphabetical</span><span class="token punctuation">:</span> <span class="token comment"># 문자열 오름차순으로 최신 이미지를 정리하는 정책을 적용.</span>
+      <span class="token key atrule">order</span><span class="token punctuation">:</span> asc
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><ul><li>ImagePolicy resource 생성 내역<br>
+: flux CLI 혹은 kubectl 로 조회 가능. 현재 Latest Image 로 Policy 에서 가져온 latest tag 를 확인할 수 있다.</li></ul> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code>$ flux get images policy
+
+NAME      	READY	MESSAGE                                                                         LATEST IMAGE
+account   	True 	Latest image tag <span class="token keyword">for</span> <span class="token string">'&lt;ecr-domain&gt;/shop/account'</span> resolved to: <span class="token number">20210608052721</span>   	<span class="token operator">&lt;</span>ecr-domain<span class="token operator">&gt;</span>/shop/account:20210608052721
+apigateway	True 	Latest image tag <span class="token keyword">for</span> <span class="token string">'&lt;ecr-domain&gt;/shop/apigateway'</span> resolved to: <span class="token number">20210608010319</span>	<span class="token operator">&lt;</span>ecr-domain<span class="token operator">&gt;</span>/shop/apigateway:20210608010319
+bff       	True 	Latest image tag <span class="token keyword">for</span> <span class="token string">'&lt;ecr-domain&gt;/shop/bff'</span> resolved to: <span class="token number">20210608024231</span>       	<span class="token operator">&lt;</span>ecr-domain<span class="token operator">&gt;</span>/shop/bff:20210608024231
+cart      	True 	Latest image tag <span class="token keyword">for</span> <span class="token string">'&lt;ecr-domain&gt;/shop/cart'</span> resolved to: <span class="token number">20210608054357</span>      	<span class="token operator">&lt;</span>ecr-domain<span class="token operator">&gt;</span>/shop/cart:20210608054357
+order     	True 	Latest image tag <span class="token keyword">for</span> <span class="token string">'&lt;ecr-domain&gt;/shop/order'</span> resolved to: <span class="token number">20210608071228</span>     	<span class="token operator">&lt;</span>ecr-domain<span class="token operator">&gt;</span>/shop/order:20210608071228
+payment   	True 	Latest image tag <span class="token keyword">for</span> <span class="token string">'&lt;ecr-domain&gt;/shop/payment'</span> resolved to: <span class="token number">20210608071556</span>   	<span class="token operator">&lt;</span>ecr-domain<span class="token operator">&gt;</span>/shop/payment:20210608071556
+product   	True 	Latest image tag <span class="token keyword">for</span> <span class="token string">'&lt;ecr-domain&gt;/shop/product'</span> resolved to: <span class="token number">20210608071959</span>   	<span class="token operator">&lt;</span>ecr-domain<span class="token operator">&gt;</span>/shop/product:20210608071959
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h3 id="imageupdateautomation"><a href="#imageupdateautomation" class="header-anchor">#</a> ImageUpdateAutomation</h3> <p>Image scan 및 latest tag 정책 적용 후에, ImageUpdateAutomation resource 를 생성한다.<br>
+flux-system 의 k8s manifest git repository 의 image tag 를 관리하는 manifest 를 찾아서 tag 명을 latest tag 로 업데이트.</p> <ul><li>ImageUpdateAutomation manifest 예시<br>
+: ImageUpdateAutomation 은 하나만 생성하면 된다. image update 의 전체 process suspend 가능.</li></ul> <div class="language-yaml line-numbers-mode"><pre class="language-yaml"><code><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> image.toolkit.fluxcd.io/v1alpha2
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ImageUpdateAutomation
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> flux<span class="token punctuation">-</span>system
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> flux<span class="token punctuation">-</span>system
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">sourceRef</span><span class="token punctuation">:</span>
+    <span class="token key atrule">kind</span><span class="token punctuation">:</span> GitRepository
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> flux<span class="token punctuation">-</span>system <span class="token comment"># flux system 을 설치하면서 생성한, k8s manifest 관리를 위한 GitRepository Resource</span>
+  <span class="token key atrule">interval</span><span class="token punctuation">:</span> 1m
+  <span class="token key atrule">update</span><span class="token punctuation">:</span>
+    <span class="token key atrule">strategy</span><span class="token punctuation">:</span> Setters
+    <span class="token key atrule">path</span><span class="token punctuation">:</span> ./clusters/eks
+  <span class="token key atrule">git</span><span class="token punctuation">:</span>
+    <span class="token key atrule">checkout</span><span class="token punctuation">:</span>
+      <span class="token key atrule">ref</span><span class="token punctuation">:</span>
+        <span class="token key atrule">branch</span><span class="token punctuation">:</span> eks <span class="token comment"># checkout 할 branch 설정</span>
+    <span class="token key atrule">commit</span><span class="token punctuation">:</span>
+      <span class="token key atrule">author</span><span class="token punctuation">:</span>
+        <span class="token key atrule">name</span><span class="token punctuation">:</span> fluxbot
+        <span class="token key atrule">email</span><span class="token punctuation">:</span> fluxbot@example.com
+      <span class="token key atrule">messageTemplate</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+        An automated update from FluxBot
+        [ci skip]</span>
+    <span class="token key atrule">push</span><span class="token punctuation">:</span>
+      <span class="token key atrule">branch</span><span class="token punctuation">:</span> eks
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br></div></div><ul><li>ImageUpdateAutomation resource 생성 내역<br>
+: GitRepository 에 최근 commit message 등 조회 가능.</li></ul> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code>$ flux get images update
+
+NAME       	READY	MESSAGE                                                     	LAST RUN                 	SUSPENDED
+flux-system	True 	no updates made<span class="token punctuation">;</span> last commit 515a681 at <span class="token number">2021</span>-06-08T07:23:03Z	<span class="token number">2021</span>-06-12T09:22:02+09:00	False
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h4 id="deployment-marker-추가"><a href="#deployment-marker-추가" class="header-anchor">#</a> | Deployment Marker 추가</h4> <p><b><u><em>마지막으로, Image Update 정책을 사용하겠다는 것을 flux 에서 찾아서 업데이트할 수 있게, marker 추가 필요.</em></u></b><br>
+아래의 예시 처럼, image name 옆에,</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># {&quot;$imagepolicy&quot;: &quot;flux-system:&lt;policy-name&gt;&quot;}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>위와 같은 marker 를 추가해주어야 한다. <em>주석 아님.</em></p> <div class="language-yaml line-numbers-mode"><pre class="language-yaml"><code><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> account
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> shop
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">app</span><span class="token punctuation">:</span> account
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+      <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+        <span class="token key atrule">app</span><span class="token punctuation">:</span> account
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> account
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> &lt;ecr<span class="token punctuation">-</span>domain<span class="token punctuation">&gt;</span><span class="token punctuation">:</span><span class="token number">20210608052721</span> <span class="token comment"># {&quot;$imagepolicy&quot;: &quot;flux-system:account&quot;}</span>
+
+<span class="token punctuation">...</span>
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><h4 id="flux-bot-이-수정한-source-commit-이력"><a href="#flux-bot-이-수정한-source-commit-이력" class="header-anchor">#</a> flux-bot 이 수정한 source commit 이력</h4> <p>image tag만 찾아서 변경하고, 이를 flux 의 Kustomization 이 reconcile 실행하여 k8s cluster 에 변경된 spec 의 deployment 를 배포.</p> <div class="language-git line-numbers-mode"><pre class="language-git"><code>diff --git a/clusters/eks/shop/shop-deployment.yml b/clusters/eks/shop/shop-deployment.yml
+index 5d947df..74f8196 100644
+<span class="token deleted">--- a/clusters/eks/shop/shop-deployment.yml</span>
+<span class="token inserted">+++ b/clusters/eks/shop/shop-deployment.yml</span>
+@@ -248,7 +248,7 @@ spec:
+     spec:
+       containers:
+       - name: product
+<span class="token deleted">-        image: 170247361816.dkr.ecr.ap-northeast-2.amazonaws.com/shop/product:20210608071959 # {&quot;$imagepolicy&quot;: &quot;flux-system:product&quot;}</span>
+<span class="token inserted">+        image: 170247361816.dkr.ecr.ap-northeast-2.amazonaws.com/shop/product:20210608041922 # {&quot;$imagepolicy&quot;: &quot;flux-system:product&quot;}</span>
+         ports:
+         - containerPort: 8184
+         resources:
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><h2 id="monitoring"><a href="#monitoring" class="header-anchor">#</a> Monitoring</h2> <p>Flux는 kube-prometheus-stack 을 사용하여, 아래와 같은 기본적인 monitoring manifest 를 github main 저장소를 통해 제공한다.</p> <ul><li><p>기본 제공 monitoring manifest</p> <ul><li>Prometheus Operator -Kubernetes에서 Prometheus 클러스터 관리</li> <li>Prometheus - Flux 컨트롤러 및 Kubernetes API에서 메트릭 수집</li> <li>Grafana Dashbards -Flux 컨트롤 플레인 리소스 사용량 및 조정 통계를 표시합니다.</li> <li>kube-state-metrics - Kubernetes 객체의 상태에 대한 메트릭을 생성합니다.</li></ul></li> <li><p>flux v2 github 의 monitoring manifest 참조<br>
+: 정의된 kustomize 로 prometheus / grafana 를 배포하였으며, 기본 dashboard 가 포함되어 있다.<br> <a href="https://github.com/fluxcd/flux2/tree/main/manifests/monitoring" target="_blank" rel="noopener noreferrer">https://github.com/fluxcd/flux2/tree/main/manifests/monitoring<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></li></ul> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code><span class="token operator">&gt;</span> <span class="token builtin class-name">cd</span> ./flux2/tree/main/manifests/monitoring
+<span class="token operator">&gt;</span> tree grafana prometheus kustomization.yaml    
+grafana
+├── dashboards
+│   ├── cluster.json
+│   └── control-plane.json
+├── datasources.yaml
+├── deployment.yaml
+├── kustomization.yaml
+├── providers.yaml
+└── service.yaml
+prometheus
+├── account.yaml
+├── deployment.yaml
+├── kustomization.yaml
+├── prometheus.yml
+├── rbac.yaml
+└── service.yaml
+kustomization.yaml
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><h3 id="flux-monitoring-resource"><a href="#flux-monitoring-resource" class="header-anchor">#</a> Flux Monitoring Resource</h3> <p>FluxCD 는 monitoring stack 설치를 flux resource 생성을 통해 설치하도록 가이드 함.<br>
+fluxv2 의 Github main repository 를 GitRepository resource 로 생성하고, monitoring 을 배포하기 위한 Kustomization resource 를 생성.</p> <hr> <p>| <small>전체 monitoring stack 이 아닌, 필요에 따른 prometheus 와 grafana 만 별도로 설치하였음.</small></p> <hr> <ul><li>flux source 및 reconciliation 생성<br>
+: Github main 저장소를 source 로 생성하고, source 의 monitoring directory 에 있는 kustomization.yaml 기반으로 reconciliation 을 생성.</li></ul> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code><span class="token operator">&gt;</span> flux create <span class="token builtin class-name">source</span> <span class="token function">git</span> monitoring <span class="token punctuation">\</span>
+  --interval<span class="token operator">=</span>30m <span class="token punctuation">\</span>
+  --url<span class="token operator">=</span>https://github.com/fluxcd/flux2 <span class="token punctuation">\</span>
+  --branch<span class="token operator">=</span>main
+
+<span class="token operator">&gt;</span> flux create kustomization monitoring-stack <span class="token punctuation">\</span>
+  --interval<span class="token operator">=</span>1h <span class="token punctuation">\</span>
+  --prune<span class="token operator">=</span>true <span class="token punctuation">\</span>
+  --source<span class="token operator">=</span>monitoring <span class="token punctuation">\</span>
+  --path<span class="token operator">=</span><span class="token string">&quot;./manifests/monitoring&quot;</span> <span class="token comment"># prometheus / grafana 배포를 위한 kustomize manifest path.</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><ul><li>flux resource 생성 내역<br>
+: application manifest 관련 source / reconciliation 외에 추가로 monitoring 관련 resource 가 생성되었음.</li></ul> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code><span class="token operator">&gt;</span> flux get <span class="token builtin class-name">source</span> <span class="token function">git</span>
+NAME       	READY	MESSAGE                                                        	REVISION                                     	SUSPENDED
+flux-system	True 	Fetched revision: eks/08231b0c6993577d71af7f0ac069381684d43697 	eks/08231b0c6993577d71af7f0ac069381684d43697 	False
+monitoring 	True 	Fetched revision: main/fd364828a120421b9a2ca169c4284d78eeb38d16	main/fd364828a120421b9a2ca169c4284d78eeb38d16	False
+
+<span class="token operator">&gt;</span> flux get kustomization
+NAME            	READY	MESSAGE                                                        	REVISION                                     	SUSPENDED
+flux-system     	True 	Applied revision: eks/08231b0c6993577d71af7f0ac069381684d43697 	eks/08231b0c6993577d71af7f0ac069381684d43697 	False
+monitoring-stack	True 	Applied revision: main/fd364828a120421b9a2ca169c4284d78eeb38d16	main/fd364828a120421b9a2ca169c4284d78eeb38d16	False
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h3 id="flux-dashboards"><a href="#flux-dashboards" class="header-anchor">#</a> Flux Dashboards</h3> <p>FluxCD 에서 제공하는 monitoring dashboard.</p> <hr> <p>| <small>기본 제공 dashboard 에는, ImageRepository 및 ImageUpdateAutomation 관련 monitoring 은 없음.</small><br>
+| <small>또한, monitoring 과 연계 하여, FluxCD Alert 및 Notification 기능과의 연계도 가능할 것으로 보임,,,</small></p> <hr> <ul><li>Flux Cluster Status<br>
+: FluxCD 에서 생성한 custrom resource monitoring
+<ul><li>reconciliations / sources 의 list-up 및 상태</li> <li>reconciliatino, soure acquisition 의 수행 시간</li></ul></li></ul> <p><img src="/am-arch/assets/img/flux-dashboard-cluster.740e3ec5.png" alt=""></p> <ul><li>Flux Control Plane<br>
+: FluxCD control plane 으로 생성된, k8s object monitoring
+<ul><li>Flux Controller 상태 및 자원 사용율 조회</li> <li>Controller 의 Kubernetes API request 상태 확인</li> <li>reconciliation request 상태 확인 (Kustomization, HelmRelease)</li></ul></li></ul> <p><img src="/am-arch/assets/img/flux-dashboard-control-plane.be1bf7ee.png" alt=""></p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/am-arch/gitops/fluxintro.html" class="prev">
+        Basics
+      </a></span> <span class="next"><a href="/am-arch/gitops/flaggerintro.html">
+        Basics
+      </a>
+      →
+    </span></p></div> </main></div></div><div class="global-ui"></div></div>
+    <script src="/am-arch/assets/js/app.89e1056e.js" defer></script><script src="/am-arch/assets/js/2.158b03bb.js" defer></script><script src="/am-arch/assets/js/11.13a0885b.js" defer></script>
+  </body>
+</html>
