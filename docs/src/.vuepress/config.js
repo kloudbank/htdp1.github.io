@@ -3,6 +3,7 @@
 module.exports = {
   title: "HTDP1",
   description: "htdp1 github pages",
+  base: "/am-arch/",
 
   head: [
     ["meta", { name: "theme-color", content: "#3eaf7c" }],
