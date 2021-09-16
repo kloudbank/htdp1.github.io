@@ -16,8 +16,6 @@
 
 @startuml
 
-title "Site A"
-
 [기존컴포넌트] as old
 [신규컴포넌트] as new #orange
 old -[hidden]d-> new
@@ -63,8 +61,6 @@ rectangle "site A" as a {
 - Monitoring/Alert 컴포넌트는 long-terms 와 short-terms 를 구분함
 
 @startuml
-
-title "Site B"
 
 [기존컴포넌트] as old
 [신규컴포넌트] as new #orange
