@@ -14,15 +14,6 @@
 - Docker registry 로 Harbor 를 사용함
 - Task 기반 비동기 처리를 위해 TaskAgent, NotifyAgent 를 사용함 
 
-### Site B
-- Control Plane, Data Plane 으로 구분
-- Platform Plane 과의 통신을 TaskRunner 를 이용
-- Docker registry 로 Harbor 사용
-- Gitee 는 사용자 git repository 로 사용됨
-- Platform 에서 배포에 사용되는 source 는 Bitbucket 을 사용함
-- Cluster 컴포넌트 관리를 위해 ArgoCD 를 사용함
-- Monitoring/Alert 컴포넌트는 long-terms 와 short-terms 를 구분함
-
 @startuml
 
 title "Site A"
@@ -61,6 +52,15 @@ rectangle "site A" as a {
 }
 
 @enduml
+
+### Site B
+- Control Plane, Data Plane 으로 구분
+- Platform Plane 과의 통신을 TaskRunner 를 이용
+- Docker registry 로 Harbor 사용
+- Gitee 는 사용자 git repository 로 사용됨
+- Platform 에서 배포에 사용되는 source 는 Bitbucket 을 사용함
+- Cluster 컴포넌트 관리를 위해 ArgoCD 를 사용함
+- Monitoring/Alert 컴포넌트는 long-terms 와 short-terms 를 구분함
 
 @startuml
 
