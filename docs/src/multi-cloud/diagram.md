@@ -6,11 +6,13 @@
     - DWP 에서 Cluster Resource 제어시 Task Runner 를 적용한다.
     - DWP 에서 Cluster Resource 제어시 async, non-block 을 적용한다.
     - DWP 에서 Cluster Resource 제어시 status monitoring 을 적용한다.
-    - Access Log 를 Application 외부에서 처리한다.
+    - Access Log 를 Application 외부에서 처리하거나 최소한 Redis 직접 접속은 제거한다
 
 ## Deployment Diagram
 ### Site A
 - Site B 에서 사용하는 컴포넌트만 표시함
+- Docker registry 로 Harbor 를 사용함
+- Task 기반 비동기 처리를 위해 TaskAgent, NotifyAgent 를 사용함 
 
 @startuml
 
@@ -19,6 +21,7 @@ title "Site A"
 [기존컴포넌트] as old
 [신규컴포넌트] as new #orange
 old -[hidden]d-> new
+
 rectangle "Common Service" as a_comm {
     [SSO] as a_comm_sso
     [Cube] as a_comm_cube
@@ -57,7 +60,12 @@ hcp_cicd -[hidden]d- hcp
 
 ### Site B
 - Control Plane, Data Plane 으로 구분
-- Platform Plane 과의 통신을 TaskAgent 와 TaskRunner 를 이용하는 방안
+- Platform Plane 과의 통신을 TaskRunner 를 이용
+- Docker registry 로 Harbor 사용
+- Gitee 는 사용자 git repository 로 사용됨
+- Platform 에서 배포에 사용되는 source 는 Bitbucket 을 사용함
+- Cluster 컴포넌트 관리를 위해 ArgoCD 를 사용함
+- Monitoring/Alert 컴포넌트는 long-terms 와 short-terms 를 구분함
 
 @startuml
 
