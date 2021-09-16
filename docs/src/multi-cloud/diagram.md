@@ -42,7 +42,7 @@ rectangle "site A" as a {
             hcp_portal_wp -- hcp_portal_rediswp
             hcp_portal_dwp -- hcp_portal_redisdwp
         }
-        rectangle "Agent Service" as hcp_agent {
+        rectangle "Task Service" as hcp_agent {
             [TaskAgent] as hcp_agent_taskagent #orange
             [NotifyAgent] as hcp_agent_notifyagent #orange
         }
@@ -97,9 +97,6 @@ node "Control Plane" as bcp {
 old -[hidden]d-> new
 
 node "Data Plane" as bdp {
-    rectangle "Task Service" as bdp_task {
-        [ArgoCD] as bdp_argocd #orange
-    }
     rectangle "Biz" as bdp_biz {
         [A-Biz-App.-Backend] as bdp_biza
         [B-Biz-App.-Backend] as bdp_bizb
@@ -131,26 +128,34 @@ Actor Manager
 box "site A CI/CD"
     participant Bitbucket
 end box
-box "site B control/data plane"
+box "site B control plane"
     participant "ArgoCD-Dashboard" as argocddash
     participant ArgoCD
-    participant k8s
+    participant k8s_control
+end box
+box "site B data plane"
+    participant k8s_data
 end box
 
 autonumber 1-1
     Manager -> Bitbucket : git push yml
 autonumber 2-1
+    Manager -> argocddash : create project
+    Manager -> argocddash : create cluster
+    Manager -> argocddash : create repository
     Manager -> argocddash : create application
-    argocddash -> ArgoCD : create application
 autonumber 3-1
     Manager -> argocddash : sync yml
     argocddash -> ArgoCD : sync yml
     ArgoCD -> Bitbucket : checkout yml
-    ArgoCD -> k8s : check diff
-    ArgoCD -> k8s : deploy
+    ArgoCD -> k8s_control : check diff
+    ArgoCD -> k8s_control : deploy
+    ArgoCD -> Bitbucket : checkout yml
+    ArgoCD -> k8s_data : check diff
+    ArgoCD -> k8s_data : deploy
 autonumber 4-1
     Manager -> argocddash : monitoring
-    ArgoCD -> argocddash : server-sent-event
+    ArgoCD --> argocddash : stream: server-sent-event
 
 @enduml
 
@@ -224,29 +229,21 @@ box "site A"
     participant TaskAgent
     participant "Bitbucket\n(source)" as source
     participant "Bitbucket\n(yaml)" as yaml
-end box
-box "site B - control plane"
-    participant TaskRunner
-    participant ArgoCD
-    participant Harbor
+    participant Jira
 end box
 
 autonumber 1-1
 User -> DWP : create app.
 DWP -\ TaskAgent : run task
-TaskAgent -\ TaskRunner : run task
+activate TaskAgent
+TaskAgent -> source : checkout source template
+TaskAgent -> source : create repository
+TaskAgent -> source : push source
+TaskAgent -> yaml : checkout yaml template
+TaskAgent -> yaml : create repository
+TaskAgent -> yaml : push yaml
+TaskAgent -> Jira : create jira project
 TaskAgent --\ NotifyAgent : send notify
-NotifyAgent --\ CUBE : send message
-
-autonumber 2-1
-TaskRunner -> source : checkout source template
-TaskRunner -> source : push source
-TaskRunner -> yaml : checkout yaml template
-TaskRunner -> yaml : push yaml
-TaskRunner -> TaskRunner : create pipeline
-TaskRunner -> ArgoCD : create app.(/w data plane)
-TaskRunner -> Harbor : create docker repository
-TaskRunner --> NotifyAgent : send notify
 NotifyAgent --\ CUBE : send message
 
 autonumber 2-1
@@ -266,14 +263,14 @@ skinparam BoxPadding 5
 title "App. CI"
 
 actor User
-box "site A"
+box "site A - platform plane"
     participant DWP
     participant CUBE
     participant NotifyAgent
     participant TaskAgent
     participant "Bitbucket\n(source)" as source
 end box
-box "site B"
+box "site B - control plane"
     participant TaskRunner
     participant Nexus
     participant Harbor
@@ -286,16 +283,13 @@ note left : CI
 DWP -\ TaskAgent : run task
 TaskAgent -> TaskAgent : discovery taskrunner
 TaskAgent -\ TaskRunner : run task
-TaskAgent --\ NotifyAgent : send notify
-NotifyAgent --\ CUBE : send message
-
-autonumber 2-1
-TaskRunner -> TaskRunner : run task
+activate TaskRunner
 TaskRunner -> source : checkout source
+TaskRunner -> TaskRunner : build application
 TaskRunner -> Nexus : download libs
-TaskRunner -> TaskRunner : app. build
-TaskRunner -> TaskRunner : docker build
+TaskRunner -> TaskRunner : build dockerfile
 TaskRunner -> Harbor : push docker image
+Harbor -\ Harbor : scan docker image
 TaskRunner -> SonarQube : test source
 TaskRunner --\ NotifyAgent : send notify
 NotifyAgent --\ CUBE : send message
@@ -317,7 +311,7 @@ skinparam BoxPadding 5
 title "App. CD"
 
 actor User
-box "site A"
+box "site A - platform plane"
     participant DWP
     participant CUBE
     participant NotifyAgent
@@ -329,33 +323,28 @@ box "site B - control plane"
     participant ArgoCD
     participant Harbor
 end box
-
 box "site B - data plane"
-participant k8s
+    participant k8s
 end box
 
 autonumber 1-1
 User -> DWP : run CD
-note left : CD
 DWP -\ TaskAgent : run task
 TaskAgent -> TaskAgent : discovery taskrunner
 TaskAgent -\ TaskRunner : run task
-TaskAgent --\ NotifyAgent : notify status
-NotifyAgent --\ CUBE : send message
-
-autonumber 2-1
+activate TaskRunner
 TaskRunner -> yaml : checkout yaml
 TaskRunner -> TaskRunner : modify yaml
 TaskRunner -> yaml : push yaml
+TaskRunner -> ArgoCD : if not exists app. then \n   create app.
 TaskRunner -\ ArgoCD : run deploy
+ArgoCD -> yaml : chcekout yaml
+ArgoCD -> k8s : diff yaml
+ArgoCD -\ k8s : deploy yaml
+k8s -\ k8s : run deploy/pod
+k8s -\ Harbor : pull docker image
 TaskRunner --\ NotifyAgent : notify status
 NotifyAgent --\ CUBE : send message
-
-autonumber 3-1
-ArgoCD -> yaml : chcekout yaml
-note right : sync yaml
-ArgoCD -\ k8s : deploy yaml
-k8s -> Harbor : pull docker image
 
 autonumber 4-1
 User -> DWP : view status
@@ -364,6 +353,82 @@ User -> DWP : view status
 
 
 ## ETC
+- TaskRunner 로 사용 가능한 Open Source 정리
+
+### Argo Workflow
+
+@startuml
+
+scale 1
+skinparam ParticipantPadding 5
+skinparam BoxPadding 5
+title "Argo Workflow"
+
+agent TaskAgent
+rectangle ArgoWorkflow {
+    collections Workflow
+    agent WorkflowTemplate
+}
+rectangle k8s {
+    collections pod
+}
+
+TaskAgent -r- WorkflowTemplate : run workflow
+WorkflowTemplate -d- Workflow : create workflow
+Workflow -r- pod : create/run pod
+
+@enduml
+
+### Argo Event
+
+@startuml
+
+scale 1
+skinparam ParticipantPadding 5
+skinparam BoxPadding 5
+title "Argo Event"
+
+object DWP
+object Redis
+package ArgoEvent {
+    object AgroResource
+    object ArgoSensor
+    object ArgoTrigger
+}
+package ArgoWorkflow {
+    object ArgoWorkflow
+}
+
+DWP -d- Redis : message
+Redis -d- AgroResource : listner
+AgroResource -r- ArgoSensor
+ArgoSensor -r- ArgoTrigger
+ArgoTrigger -d- ArgoWorkflow
+
+@enduml
+
+@startuml
+
+scale 1
+skinparam ParticipantPadding 5
+skinparam BoxPadding 5
+title "Argo Event"
+
+participant DWP
+participant Redis
+participant AgroResource
+participant ArgoSensor
+participant ArgoTrigger
+participant ArgoWorkflow
+
+DWP -> Redis : task message
+Redis -> AgroResource : listner
+AgroResource -> ArgoSensor : sensor
+ArgoSensor -> ArgoTrigger : trigger
+ArgoTrigger -> ArgoWorkflow : run
+
+@enduml
+
 ### Tekton
 
 @startuml
@@ -391,54 +456,3 @@ PipelineRun -u-* Pipeline
 TaskRun -u-* Task
 
 @enduml
-
-### Argo
-
-@startuml
-
-scale 1
-skinparam ParticipantPadding 5
-skinparam BoxPadding 5
-title "Argo"
-
-object DWP
-object Redis
-package ArgoEvent {
-    object AgroResource
-    object ArgoSensor
-    object ArgoTrigger
-}
-package ArgoWorkflow {
-    object ArgoWorkflow
-}
-
-DWP -d- Redis : message
-Redis -d- AgroResource : listner
-AgroResource -r- ArgoSensor
-ArgoSensor -r- ArgoTrigger
-ArgoTrigger -d- ArgoWorkflow
-
-@enduml
-
-@startuml
-
-scale 1
-skinparam ParticipantPadding 5
-skinparam BoxPadding 5
-title "Argo"
-
-participant DWP
-participant Redis
-participant AgroResource
-participant ArgoSensor
-participant ArgoTrigger
-participant ArgoWorkflow
-
-DWP -> Redis : task message
-Redis -> AgroResource : listner
-AgroResource -> ArgoSensor : sensor
-ArgoSensor -> ArgoTrigger : trigger
-ArgoTrigger -> ArgoWorkflow : run
-
-@enduml
-
