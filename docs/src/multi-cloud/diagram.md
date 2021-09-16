@@ -104,15 +104,6 @@ node "Control Plane" as bcp {
     bcp_cicd -[hidden]d- bcp_managed
     bcp_common -[hidden]d- bcp_mon
 }
-
-@enduml
-
-@startuml
-
-[기존컴포넌트] as old
-[신규컴포넌트] as new #orange
-old -[hidden]d-> new
-
 node "Data Plane" as bdp {
     rectangle "Task Service" as bdp_task {
         [ArgoCD] as bdp_argocd #orange
@@ -134,6 +125,7 @@ node "Data Plane" as bdp {
     }
     bdp_task -[hidden]d- bdp_mon
 }
+bcp -[hidden]d- bdp
 
 @enduml
 
@@ -141,6 +133,7 @@ node "Data Plane" as bdp {
 - Cluster 를 새로 구축하는 경우 절차를 기술함
 - Site Cluster 정보를 관리하는 TaskAgent 가 필요함
 - Site Cluster 에 설치될 컴포넌트는 ArgoCD 로 관리함
+- 배포 상태 관리는 ArgoCD Dashboard 를 사용함
 
 @startuml
 
@@ -150,15 +143,29 @@ skinparam BoxPadding 5
 title "Cluster Management"
 
 Actor Manager
-participant Bitbucket
-box "control plane"
+box "site A CI/CD"
+    participant Bitbucket
+end box
+box "site B control/data plane"
+    participant "ArgoCD-Dashboard" as argocddash
     participant ArgoCD
     participant k8s
 end box
 
-Manager -> Bitbucket : git push yml
-ArgoCD -> Bitbucket : checkout yml
-ArgoCD -> k8s : deploy
+autonumber 1-1
+    Manager -> Bitbucket : git push yml
+autonumber 2-1
+    Manager -> argocddash : create application
+    argocddash -> ArgoCD : create application
+autonumber 3-1
+    Manager -> argocddash : sync yml
+    argocddash -> ArgoCD : sync yml
+    ArgoCD -> Bitbucket : checkout yml
+    ArgoCD -> k8s : check diff
+    ArgoCD -> k8s : deploy
+autonumber 4-1
+    Manager -> argocddash : monitoring
+    ArgoCD -> argocddash : server-sent-event
 
 @enduml
 
