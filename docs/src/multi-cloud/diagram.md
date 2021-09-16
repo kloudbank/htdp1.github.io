@@ -14,50 +14,6 @@
 - Docker registry 로 Harbor 를 사용함
 - Task 기반 비동기 처리를 위해 TaskAgent, NotifyAgent 를 사용함 
 
-@startuml
-
-title "Site A"
-
-[기존컴포넌트] as old
-[신규컴포넌트] as new #orange
-old -[hidden]d-> new
-
-rectangle "Common Service" as a_comm {
-    [SSO] as a_comm_sso
-    [Cube] as a_comm_cube
-    [CDN] as a_comm_cnd
-    [SMTP] as a_comm_smtp
-    a_comm_sso -[hidden]r- a_comm_cube
-    a_comm_cube -[hidden]r- a_comm_cnd
-    a_comm_cnd -[hidden]r- a_comm_smtp
-}
-rectangle "CI/CD" as hcp_cicd {
-    [Nexus] as hcp_cicd_nexus
-    [Bitbucket] as hcp_cicd_bitbucket
-    [Jira] as hcp_cicd_jira
-    [Harbor] as hcp_cicd_harbor #orange
-    hcp_cicd_bitbucket -[hidden]r- hcp_cicd_harbor
-    hcp_cicd_bitbucket -[hidden]r- hcp_cicd_jira
-}
-node "Platfrom Plane" as hcp {
-    rectangle "Portal" as hcp_portal {
-        [WP] as hcp_portal_wp
-        [DWP] as hcp_portal_dwp
-        [Redis-WP] as hcp_portal_rediswp
-        [Redis-DWP] as hcp_portal_redisdwp
-        hcp_portal_wp -d-* hcp_portal_rediswp
-        hcp_portal_dwp -d-* hcp_portal_redisdwp
-    }
-    rectangle "Agent Service" as hcp_agent {
-        [TaskAgent] as hcp_agent_taskagent #orange
-        [NotifyAgent] as hcp_agent_notifyagent #orange
-    }
-}
-a_comm -[hidden]d- hcp_cicd
-hcp_cicd -[hidden]d- hcp
-
-@enduml
-
 ### Site B
 - Control Plane, Data Plane 으로 구분
 - Platform Plane 과의 통신을 TaskRunner 를 이용
@@ -66,6 +22,45 @@ hcp_cicd -[hidden]d- hcp
 - Platform 에서 배포에 사용되는 source 는 Bitbucket 을 사용함
 - Cluster 컴포넌트 관리를 위해 ArgoCD 를 사용함
 - Monitoring/Alert 컴포넌트는 long-terms 와 short-terms 를 구분함
+
+@startuml
+
+title "Site A"
+
+[기존컴포넌트] as old
+[신규컴포넌트] as new #orange
+old -[hidden]d-> new
+
+rectangle "site A" as a {
+    rectangle "Common Service" as a_comm {
+        [SSO] as a_comm_sso
+        [Cube] as a_comm_cube
+        [CDN] as a_comm_cnd
+        [SMTP] as a_comm_smtp
+    }
+    rectangle "CI/CD" as hcp_cicd {
+        [Nexus] as hcp_cicd_nexus
+        [Bitbucket] as hcp_cicd_bitbucket
+        [Jira] as hcp_cicd_jira
+        [Harbor] as hcp_cicd_harbor #orange
+    }
+    node "Platfrom Plane" as hcp {
+        rectangle "Portal" as hcp_portal {
+            [WP] as hcp_portal_wp
+            [DWP] as hcp_portal_dwp
+            [Redis-WP] as hcp_portal_rediswp
+            [Redis-DWP] as hcp_portal_redisdwp
+            hcp_portal_wp -- hcp_portal_rediswp
+            hcp_portal_dwp -- hcp_portal_redisdwp
+        }
+        rectangle "Agent Service" as hcp_agent {
+            [TaskAgent] as hcp_agent_taskagent #orange
+            [NotifyAgent] as hcp_agent_notifyagent #orange
+        }
+    }
+}
+
+@enduml
 
 @startuml
 
@@ -79,31 +74,32 @@ node "Control Plane" as bcp {
     rectangle "Task Service" as bcp_cicd {
         [TaskRunner] as bcp_taskruuner #orange
         [ArgoCD] as bcp_argocd #orange
-        bcp_taskruuner -[hidden]r- bcp_argocd
     }
     rectangle "CI/CD Service" as bcp_common {
         [Gitee] as gitee #orange
         [Nexus] as nexus
         [SonarQube] as sonarqube
         [Harbor] as harbor #orange
-        nexus -[hidden]r- sonarqube
-        sonarqube -[hidden]r- harbor
-        harbor -[hidden]r- gitee
     }
     rectangle "Monitoring/Alert" as bcp_mon {
         [Elastic-Search\n(long-terms)] as bcp_mon_elk
         [Grafana\n(long-terms)] as bcp_mon_grafana
         [Kibana\n(long-terms)] as bcp_mon_kibana
         [Prometheus\n(long-terms)] as bcp_mon_prometheus
-        bcp_mon_elk -[hidden]r- bcp_mon_grafana
     }
     rectangle "Managed Service" as bcp_managed {
         [Redis] as bcp_mananged_redis
     }
-    bcp_cicd -[hidden]d- bcp_common
-    bcp_cicd -[hidden]d- bcp_managed
-    bcp_common -[hidden]d- bcp_mon
 }
+
+@enduml
+
+@startuml
+
+[기존컴포넌트] as old
+[신규컴포넌트] as new #orange
+old -[hidden]d-> new
+
 node "Data Plane" as bdp {
     rectangle "Task Service" as bdp_task {
         [ArgoCD] as bdp_argocd #orange
@@ -118,14 +114,8 @@ node "Data Plane" as bdp {
         [Kibana\n(short-terms)] as bdp_mon_kibana
         [Prometheus\n(short-terms)] as bdp_mon_prometheus
         [loki\n(short-terms)] as dbp_mon_loki #orange
-        bdp_mon_elk -[hidden]r- bdp_mon_grafana
-        bdp_mon_grafana -[hidden]r- bdp_mon_kibana
-        bdp_mon_kibana -[hidden]r- bdp_mon_prometheus
-        bdp_mon_prometheus -[hidden]r- dbp_mon_loki
     }
-    bdp_task -[hidden]d- bdp_mon
 }
-bcp -[hidden]d- bdp
 
 @enduml
 
